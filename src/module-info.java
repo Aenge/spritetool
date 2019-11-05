@@ -2,7 +2,8 @@ module OpenRSC.Sprite.Tool {
     requires javafx.fxml;
     requires javafx.controls;
     requires com.jfoenix;
-    exports com.SpriteTool;
+    requires fontawesomefx;
+    opens com.SpriteTool.PopMenu;
     opens com.SpriteTool.Splash;
     opens com.SpriteTool;
 }

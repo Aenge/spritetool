@@ -1,5 +1,7 @@
 package com.SpriteTool.Splash;
 
+import com.SpriteTool.Model.Workspace;
+import com.SpriteTool.SpriteTool;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,8 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
+    private SpriteTool spriteTool;
+
     @FXML
     private StackPane rootPane;
 
@@ -30,7 +34,7 @@ public class Controller implements Initializable {
         @Override
         public void run() {
             try {
-                Thread.sleep(1);
+                Thread.sleep(3000);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -38,11 +42,8 @@ public class Controller implements Initializable {
                             Stage primaryStage = (Stage) rootPane.getScene().getWindow();
                             Stage newStage = new Stage();
 
-                            URL url = new File("src/com/SpriteTool/SpriteTool.fxml").toURI().toURL();
-                            Parent root = FXMLLoader.load(url);
-
                             newStage.setTitle("OpenRSC Sprite Tool");
-                            newStage.setScene(new Scene(root, 600, 600));
+                            newStage.setScene(new Scene(spriteTool.mainRoot, 600, 600));
 
                             while (primaryStage.getOpacity() > 0.1) {
                                 Thread.sleep(75);
@@ -52,8 +53,7 @@ public class Controller implements Initializable {
                             newStage.show();
                             primaryStage.hide();
 
-                        } catch (IOException a) {
-                            a.printStackTrace();
+                            spriteTool.setPrimaryStage(newStage);
                         } catch (InterruptedException b) {
                             b.printStackTrace();
                         }
@@ -67,4 +67,5 @@ public class Controller implements Initializable {
 
     }
 
+    public void setSpriteTool(SpriteTool ref) { this.spriteTool = ref; }
 }

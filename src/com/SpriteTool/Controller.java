@@ -1,20 +1,23 @@
 package com.SpriteTool;
 
-import com.jfoenix.controls.JFXButton;
+import com.SpriteTool.Model.Workspace;
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXDrawersStack;
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
-import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXHamburger;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 public class Controller implements Initializable {
+
+    private SpriteTool spriteTool;
 
     @FXML
     private JFXHamburger hamburger;
@@ -25,15 +28,26 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //--------- HAMBURGER
-        HamburgerSlideCloseTransition transition = new HamburgerSlideCloseTransition(hamburger);
+        HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
         transition.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            transition.setRate(transition.getRate() * -1);
-            transition.play();
-
             drawer.toggle();
         });
-        //--------- DRAWER
+
+        //--------- PopMenu
+        drawer.setOnDrawerClosing(event -> {
+            transition.setRate(-1.0);
+            transition.play();
+
+        });
+        drawer.setOnDrawerOpening(event -> {
+            transition.setRate(1.0);
+            transition.play();
+        });
     }
 
+    public void setSpriteTool(SpriteTool spriteTool) {
+        this.spriteTool = spriteTool;
+        drawer.setSidePane(spriteTool.menuRoot);
+    }
 }

@@ -1,5 +1,6 @@
 package com.SpriteTool;
 
+import com.SpriteTool.Model.Workspace;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,12 +12,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Splash/Splash.fxml"));
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setScene(new Scene(root, 675, 400));
-        primaryStage.show();
+        SpriteTool spriteTool = new SpriteTool(primaryStage);
+        spriteTool.start();
     }
-
 
     public static void main(String[] args) {
         launch(args);
