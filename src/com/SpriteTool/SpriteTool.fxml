@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="609.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SpriteTool.Controller">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="583.0" prefWidth="675.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ListView layoutX="14.0" layoutY="16.0" prefHeight="160.0" prefWidth="127.0" />
+            <ListView layoutX="14.0" layoutY="192.0" prefHeight="376.0" prefWidth="127.0" />
+            <JFXDrawer fx:id="drawer" direction="RIGHT" layoutX="442.0" prefHeight="610.0" prefWidth="159.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <JFXHamburger fx:id="hamburger" layoutX="558.0" layoutY="14.0" AnchorPane.rightAnchor="13.999999999999979" AnchorPane.topAnchor="14.0" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

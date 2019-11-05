@@ -1,1 +1,0 @@
-OpenRSC Sprite Tool
