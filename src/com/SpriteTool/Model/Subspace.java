@@ -1,7 +1,4 @@
 package com.SpriteTool.Model;
-
-import javafx.scene.control.Alert;
-
 import java.io.File;
 import java.nio.file.Path;
 

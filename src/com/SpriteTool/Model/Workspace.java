@@ -36,5 +36,9 @@ public class Workspace {
 
     public Path getHome() { return this.home; }
     public String getName() { return this.name; }
+
+    public List<Subspace> getSubspaces() {
+        return this.subspaces;
+    }
 }
 

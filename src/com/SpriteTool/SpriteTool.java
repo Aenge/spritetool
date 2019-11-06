@@ -1,5 +1,6 @@
 package com.SpriteTool;
 
+import com.SpriteTool.Model.Subspace;
 import com.SpriteTool.Model.Workspace;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -61,7 +62,6 @@ public class SpriteTool {
     }
 
     public void loadWorkspace() {
-
         getMainController().closeDrawer();
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -79,10 +79,24 @@ public class SpriteTool {
         }
 
         this.workspace = new Workspace(selectedDirectory.toPath());
+        displayWorkspace();
+    }
+
+    private void displayWorkspace() {
+        if (this.workspace == null) {
+            LOGGER.info("Tried to display a null workspace.");
+            return;
+        }
+
+        for (Subspace subspace : this.workspace.getSubspaces()) {
+            mainController.listSubspace(subspace);
+        }
     }
 
     public void setPrimaryStage(Stage stage) { this.primaryStage = stage; }
+    public Stage getPrimaryStage() { return this.primaryStage; }
 
+    public Workspace getWorkspace() { return this.workspace; }
     public Parent getSplashRoot() { return this.splashRoot; }
     public Parent getMainRoot() { return this.mainRoot; }
     public GridPane getMenuRoot() { return this.menuRoot; }

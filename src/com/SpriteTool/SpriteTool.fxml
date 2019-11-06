@@ -2,12 +2,16 @@
 
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SpriteTool.Controller">
    <children>
       <JFXDrawer fx:id="drawer" direction="RIGHT" layoutX="537.0" prefHeight="142.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <JFXHamburger fx:id="hamburger" layoutX="557.0" layoutY="14.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <JFXListView fx:id="l_subspaces" depth="1" layoutX="14.0" layoutY="366.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <JFXListView layoutX="29.0" layoutY="30.0" prefHeight="335.0" prefWidth="134.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <Canvas fx:id="mainCanvas" height="300.0" layoutX="160.0" layoutY="10.0" width="300.0" />
    </children>
 </AnchorPane>
