@@ -1,8 +1,6 @@
 package com.SpriteTool.Model;
 
-import javafx.scene.control.Alert;
-
-import java.io.File;
+import com.SpriteTool.IO.WorkspaceReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,33 +10,31 @@ public class Workspace {
     private Path home;
     private String name;
 
-    List<Subspace> subspaces = new ArrayList<Subspace>();
+    private List<Subspace> subspaces = new ArrayList<Subspace>();
+    private Subspace activeSubspace;
 
     public Workspace(Path directory) {
         this.home = directory;
         this.name = directory.getFileName().toString();
-        fillWorkspace();
+        WorkspaceReader.loadWS(this);
     }
-
-    private void fillWorkspace() {
-        File[] directories = new File(getHome().toUri()).listFiles(File::isDirectory);
-
-        if (directories == null || directories.length == 0) {
-            new Alert(Alert.AlertType.ERROR, "The chosen directory is not a valid workspace.").showAndWait();
-            return;
-        }
-
-        for (File dir : directories) {
-            subspaces.add(new Subspace(dir.toPath()));
-        }
-    }
-
 
     public Path getHome() { return this.home; }
     public String getName() { return this.name; }
 
     public List<Subspace> getSubspaces() {
         return this.subspaces;
+    }
+
+    public Subspace getActiveSubspace() { return this.activeSubspace; }
+
+    public Subspace getSubspaceByName(String name) {
+        for (Subspace subspace : getSubspaces()) {
+            if (subspace.getName().equalsIgnoreCase(name))
+                return subspace;
+        }
+
+        return null;
     }
 }
 

@@ -1,24 +1,22 @@
 package com.SpriteTool.Model;
-import java.io.File;
+import com.SpriteTool.IO.WorkspaceReader;
+
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Subspace {
 
     private Path path;
+    private List<Entry> entryList = new ArrayList<Entry>();
+    private List<FileInfoPair> infoList = new ArrayList<FileInfoPair>();
 
     public Subspace(Path path) {
         this.path = path;
-        fillSubspace();
+        WorkspaceReader.loadSS(this);
     }
 
     public Path getPath() { return this.path; }
     public String getName() { return this.path.getFileName().toString(); }
-
-    private void fillSubspace() {
-        File[] files = new File(getPath().toUri()).listFiles(File::isFile);
-
-        if (files == null) {
-            return;
-        }
-    }
+    public List<Entry> getEntryList() { return entryList; }
 }

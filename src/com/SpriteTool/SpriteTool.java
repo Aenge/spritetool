@@ -1,6 +1,4 @@
 package com.SpriteTool;
-
-import com.SpriteTool.Model.Subspace;
 import com.SpriteTool.Model.Workspace;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -88,9 +86,7 @@ public class SpriteTool {
             return;
         }
 
-        for (Subspace subspace : this.workspace.getSubspaces()) {
-            mainController.listSubspace(subspace);
-        }
+        mainController.populateSubspaceList(this.workspace);
     }
 
     public void setPrimaryStage(Stage stage) { this.primaryStage = stage; }

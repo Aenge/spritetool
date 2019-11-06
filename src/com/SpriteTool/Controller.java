@@ -1,27 +1,21 @@
 package com.SpriteTool;
+import com.SpriteTool.Model.Entry;
 import com.SpriteTool.Model.Subspace;
+import com.SpriteTool.Model.Workspace;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.io.File;
 import java.net.URL;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 
 public class Controller implements Initializable {
@@ -36,6 +30,9 @@ public class Controller implements Initializable {
 
     @FXML
     private JFXListView l_subspaces;
+
+    @FXML
+    private JFXListView l_entries;
 
     @FXML
     private Canvas mainCanvas;
@@ -62,6 +59,20 @@ public class Controller implements Initializable {
             if (popup != null)
                 popup.show(spriteTool.getPrimaryStage(),event.getX() + l_subspaces.getLayoutX(), event.getY() + l_subspaces.getLayoutY(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
+        l_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldString, String newString) {
+
+                Subspace subspace = spriteTool.getWorkspace().getSubspaceByName(newString);
+                if (subspace == null)
+                    return;
+
+                populateEntryList(subspace);
+            }
+        });
+
+        //---------- entry list
+
     }
 
     //------------------ private methods
@@ -90,8 +101,18 @@ public class Controller implements Initializable {
     public void closeDrawer() { this.drawer.close(); }
     public void openDrawer() { this.drawer.open(); }
 
-    public void listSubspace(Subspace subspace) {
-        this.l_subspaces.getItems().add(subspace.getName());
+    public void populateSubspaceList(Workspace ws) {
+        this.l_subspaces.getItems().clear();
+        for (Subspace subspace : ws.getSubspaces()) {
+            this.l_subspaces.getItems().add(subspace.getName());
+        }
+    }
+
+    public void populateEntryList(Subspace ss) {
+        this.l_entries.getItems().clear();
+        for (Entry entry : ss.getEntryList()) {
+            this.l_entries.getItems().add(entry.getFile().getName());
+        }
     }
 
     public JFXPopup buildSubspaceMenu() {
