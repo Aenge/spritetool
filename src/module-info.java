@@ -3,6 +3,8 @@ module OpenRSC.Sprite.Tool {
     requires javafx.controls;
     requires com.jfoenix;
     requires fontawesomefx;
+    requires log4j.api;
+    requires log4j.core;
     opens com.SpriteTool.PopMenu;
     opens com.SpriteTool.Splash;
     opens com.SpriteTool;

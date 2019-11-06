@@ -36,7 +36,7 @@ public class Controller implements Initializable {
                             Stage newStage = new Stage();
 
                             newStage.setTitle("OpenRSC Sprite Tool");
-                            newStage.setScene(new Scene(spriteTool.mainRoot, 600, 600));
+                            newStage.setScene(new Scene(spriteTool.getMainRoot(), 600, 600));
 
                             while (primaryStage.getOpacity() > 0.1) {
                                 Thread.sleep(75);

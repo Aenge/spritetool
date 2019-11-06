@@ -23,25 +23,35 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //--------- HAMBURGER
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
-        transition.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             drawer.toggle();
         });
 
         //--------- PopMenu
         drawer.setOnDrawerClosing(event -> {
-            transition.setRate(-1.0);
-            transition.play();
+            closeHamburger(transition);
 
         });
         drawer.setOnDrawerOpening(event -> {
-            transition.setRate(1.0);
-            transition.play();
+            openHamburger(transition);
         });
     }
 
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
-        drawer.setSidePane(spriteTool.menuRoot);
+        drawer.setSidePane(spriteTool.getMenuRoot());
+    }
+
+    public void closeDrawer() { this.drawer.close(); }
+    public void openDrawer() { this.drawer.open();
+    }
+    private void openHamburger(HamburgerNextArrowBasicTransition transition) {
+        transition.setRate(1.0);
+        transition.play();
+    }
+
+    private void closeHamburger(HamburgerNextArrowBasicTransition transition) {
+        transition.setRate(-1.0);
+        transition.play();
     }
 }

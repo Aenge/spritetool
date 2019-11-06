@@ -1,24 +1,33 @@
 package com.SpriteTool;
 
+import com.SpriteTool.Model.Workspace;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
 import java.io.IOException;
 
 public class SpriteTool {
 
-    private String name = "Boogers";
-    public Stage primaryStage;
+    private static final Logger LOGGER = LogManager.getLogger();
 
-    public Parent splashRoot;
-    public com.SpriteTool.Splash.Controller splashController;
-    public GridPane menuRoot;
-    public com.SpriteTool.PopMenu.Controller menuController;
-    public Parent mainRoot;
-    public com.SpriteTool.Controller mainController;
+    private Stage primaryStage;
+    private Workspace workspace;
+
+    private Parent splashRoot;
+    private com.SpriteTool.Splash.Controller splashController;
+    private GridPane menuRoot;
+    private com.SpriteTool.PopMenu.Controller menuController;
+    private Parent mainRoot;
+    private com.SpriteTool.Controller mainController;
+
 
     public SpriteTool(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -27,11 +36,11 @@ public class SpriteTool {
 
     public void start() {
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setScene(new Scene(this.splashRoot, 675, 400));
+        primaryStage.setScene(new Scene(getSplashRoot(), 675, 400));
         primaryStage.show();
     }
 
-    public void initLoaders() {
+    private void initLoaders() {
         try {
             FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("Splash/Splash.fxml"));
             FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("PopMenu/PopMenu.fxml"));
@@ -46,16 +55,38 @@ public class SpriteTool {
             this.menuController.setSpriteTool(this);
             this.mainController.setSpriteTool(this);
         } catch (IOException a) {
-            a.printStackTrace();
+            LOGGER.catching(a);
         }
 
     }
 
-    public String getName() { return this.name; }
-
     public void loadWorkspace() {
-        System.out.print(this.getName());
+
+        getMainController().closeDrawer();
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(primaryStage);
+
+        //Check if they closed the dialog without choosing
+        if (selectedDirectory == null) {
+            return;
+        }
+
+        //Check if the path exists
+        if (!selectedDirectory.exists()) {
+            LOGGER.info("Invalid directory chosen");
+            return;
+        }
+
+        this.workspace = new Workspace(selectedDirectory.toPath());
     }
 
     public void setPrimaryStage(Stage stage) { this.primaryStage = stage; }
+
+    public Parent getSplashRoot() { return this.splashRoot; }
+    public Parent getMainRoot() { return this.mainRoot; }
+    public GridPane getMenuRoot() { return this.menuRoot; }
+    public com.SpriteTool.Splash.Controller getSplashController() { return this.splashController; }
+    public com.SpriteTool.PopMenu.Controller getMenuController() { return this.menuController; }
+    public com.SpriteTool.Controller getMainController() { return this.mainController; }
 }
