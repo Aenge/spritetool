@@ -27,32 +27,22 @@ public class Controller implements Initializable {
         @Override
         public void run() {
             try {
-                Thread.sleep(3);
+                Thread.sleep(3000);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             Stage primaryStage = spriteTool.getPrimaryStage();
-                            Stage newStage = new Stage();
-
-                            newStage.setTitle("OpenRSC Sprite Tool");
-                            Scene scene = new Scene(spriteTool.getMainRoot(), 600, 700);
-
-                            newStage.setScene(scene);
 
                             while (primaryStage.getOpacity() > 0.1) {
                                 Thread.sleep(75);
                                 primaryStage.setOpacity(primaryStage.getOpacity() - 0.1);
                             }
 
-                            newStage.show();
-                            primaryStage.hide();
-
-                            spriteTool.setPrimaryStage(newStage);
+                            spriteTool.closeSplash();
                         } catch (InterruptedException b) {
                             b.printStackTrace();
                         }
-
                     }
                 });
             } catch (InterruptedException a) {

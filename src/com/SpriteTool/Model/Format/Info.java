@@ -1,14 +1,8 @@
-package com.SpriteTool.Model;
+package com.SpriteTool.Model.Format;
 
-import com.SpriteTool.IO.InfoReader;
+import com.SpriteTool.Model.Entry;
 
-import java.io.File;
-import java.nio.file.Path;
-
-public class FileInfoPair {
-    private Path path;
-    private String name;
-
+public class Info {
     private Entry.TYPE type;
     private int entryID;
     private int frameCount;
@@ -18,17 +12,6 @@ public class FileInfoPair {
     private int boundwidth;
     private int boundheight;
 
-    public FileInfoPair(Path path, String name) {
-        this.path = path;
-        this.name = name;
-        InfoReader.read(this);
-        System.out.print("EntryID: " + entryID + "\nType: " + type.getValue());
-    }
-
-    public Path getPath() { return this.path; }
-    public String getName() { return this.name; }
-    public File getInfoFile() { return new File(path.toString(),name + ".info"); }
-    public File getPngFile() { return new File(path.toString(),name + ".png"); }
     public Entry.TYPE getType() { return this.type; }
     public void setType(Entry.TYPE type) { this.type = type; }
     public void setEntryID(int id) { this.entryID = id; }

@@ -4,18 +4,19 @@ import com.SpriteTool.Model.Subspace;
 import com.SpriteTool.Model.Workspace;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 
 public class Controller implements Initializable {
@@ -35,7 +36,8 @@ public class Controller implements Initializable {
     private JFXListView l_entries;
 
     @FXML
-    private Canvas mainCanvas;
+    private AnchorPane anchorPane;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //--------- HAMBURGER
@@ -45,6 +47,9 @@ public class Controller implements Initializable {
         });
 
         //--------- DRAWER
+
+        FXMLLoader menuLoader = new FXMLLoader();
+
         drawer.setOnDrawerClosing(event -> {
             closeHamburger(transition);
 
@@ -87,21 +92,23 @@ public class Controller implements Initializable {
     }
 
     //------------------- public methods
-    public void setSpriteTool(SpriteTool spriteTool) {
+    void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
         drawer.setSidePane(spriteTool.getMenuRoot());
+        /*
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
         File newfile = new File("file:\\C:\\Users\\Scott\\Documents\\workspace\\Textures\\3239.png");
         if (newfile.exists())
             System.out.print("nice");
         Image image = new Image(newfile.getPath());
         gc.drawImage(image, 10, 10, 90, 90);
+         */
     }
 
-    public void closeDrawer() { this.drawer.close(); }
-    public void openDrawer() { this.drawer.open(); }
+    void closeDrawer() { this.drawer.close(); }
+    void openDrawer() { this.drawer.open(); }
 
-    public void populateSubspaceList(Workspace ws) {
+    void populateSubspaceList(Workspace ws) {
         this.l_subspaces.getItems().clear();
         for (Subspace subspace : ws.getSubspaces()) {
             this.l_subspaces.getItems().add(subspace.getName());
@@ -109,14 +116,14 @@ public class Controller implements Initializable {
         this.l_subspaces.getSelectionModel().selectFirst();
     }
 
-    public void populateEntryList(Subspace ss) {
+    private void populateEntryList(Subspace ss) {
         this.l_entries.getItems().clear();
         for (Entry entry : ss.getEntryList()) {
-            this.l_entries.getItems().add("booga");
+            this.l_entries.getItems().add(entry);
         }
     }
 
-    public JFXPopup buildSubspaceMenu() {
+    private JFXPopup buildSubspaceMenu() {
         JFXPopup popup = new JFXPopup();
         return null;
     }

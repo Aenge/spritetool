@@ -1,11 +1,8 @@
 package com.SpriteTool.Model;
 
+import com.SpriteTool.Model.Format.Animation;
 import com.SpriteTool.Model.Format.Sprite;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 
 public class Entry {
 
@@ -25,13 +22,28 @@ public class Entry {
     }
 
     private TYPE type;
-    private List<File> fileList;
+    private Sprite sprite;
+    private Animation animation;
 
-    public Entry(FileInfoPair pair) {
-        this.type = pair.getType();
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
+    public Entry(Sprite sprite) {
+        this.type = TYPE.SPRITE;
+        this.sprite = sprite;
     }
 
     public boolean isAnimation() { return this.type == TYPE.ANIMATION; }
     public boolean isSprite() { return this.type == TYPE.SPRITE; }
 
+    public String getName() {
+        if (isSprite())
+            return this.sprite.getName();
+        else if (isAnimation())
+            return this.animation.getName();
+
+        return null;
+    }
 }

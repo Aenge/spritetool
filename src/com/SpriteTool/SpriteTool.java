@@ -1,9 +1,11 @@
 package com.SpriteTool;
+import com.SpriteTool.IO.WorkspaceReader;
 import com.SpriteTool.Model.Workspace;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,7 +24,7 @@ public class SpriteTool {
 
     private Parent splashRoot;
     private com.SpriteTool.Splash.Controller splashController;
-    private GridPane menuRoot;
+    private VBox menuRoot;
     private com.SpriteTool.PopMenu.Controller menuController;
     private Parent mainRoot;
     private com.SpriteTool.Controller mainController;
@@ -59,6 +61,19 @@ public class SpriteTool {
 
     }
 
+    public void closeSplash() {
+        Stage newStage = new Stage();
+        newStage.setTitle("OpenRSC Sprite Tool");
+
+        Scene scene = new Scene(this.mainRoot, 800, 500);
+        newStage.setScene(scene);
+
+        newStage.show();
+        primaryStage.hide();
+
+        setPrimaryStage(newStage);
+    }
+
     public void loadWorkspace() {
         getMainController().closeDrawer();
 
@@ -76,16 +91,15 @@ public class SpriteTool {
             return;
         }
 
-        this.workspace = new Workspace(selectedDirectory.toPath());
-        displayWorkspace();
-    }
+        WorkspaceReader reader = new WorkspaceReader();
+        this.workspace = reader.loadWorkspace(selectedDirectory.toPath());
 
-    private void displayWorkspace() {
         if (this.workspace == null) {
-            LOGGER.info("Tried to display a null workspace.");
+            LOGGER.info("Failed to load workspace.");
             return;
         }
 
+        //Display the workspace
         mainController.populateSubspaceList(this.workspace);
     }
 
@@ -95,7 +109,7 @@ public class SpriteTool {
     public Workspace getWorkspace() { return this.workspace; }
     public Parent getSplashRoot() { return this.splashRoot; }
     public Parent getMainRoot() { return this.mainRoot; }
-    public GridPane getMenuRoot() { return this.menuRoot; }
+    public VBox getMenuRoot() { return this.menuRoot; }
     public com.SpriteTool.Splash.Controller getSplashController() { return this.splashController; }
     public com.SpriteTool.PopMenu.Controller getMenuController() { return this.menuController; }
     public com.SpriteTool.Controller getMainController() { return this.mainController; }

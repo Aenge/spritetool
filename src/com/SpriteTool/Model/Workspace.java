@@ -1,6 +1,5 @@
 package com.SpriteTool.Model;
 
-import com.SpriteTool.IO.WorkspaceReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ public class Workspace {
     public Workspace(Path directory) {
         this.home = directory;
         this.name = directory.getFileName().toString();
-        WorkspaceReader.loadWS(this);
     }
 
     public Path getHome() { return this.home; }
