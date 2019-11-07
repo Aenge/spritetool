@@ -24,8 +24,8 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //----- BUTTON OPEN WORKSPACE
-        //b_OpenWorkspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN, "30px"));
-        //b_OpenWorkspace.setContentDisplay(ContentDisplay.TOP);
+        b_OpenWorkspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN, "30px"));
+        b_OpenWorkspace.setContentDisplay(ContentDisplay.TOP);
     }
 
     public void b_OpenWorkSpace_Click() {

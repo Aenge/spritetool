@@ -47,9 +47,6 @@ public class Controller implements Initializable {
         });
 
         //--------- DRAWER
-
-        FXMLLoader menuLoader = new FXMLLoader();
-
         drawer.setOnDrawerClosing(event -> {
             closeHamburger(transition);
 

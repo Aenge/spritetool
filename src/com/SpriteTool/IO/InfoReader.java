@@ -5,14 +5,10 @@ import com.SpriteTool.Model.Entry;
 import com.SpriteTool.Model.Format.Info;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 
 public class InfoReader {
-    private Logger LOGGER = LogManager.getLogger();
-
     public Info read(File infoFile) {
         try {
             Info ret = new Info();
@@ -32,7 +28,7 @@ public class InfoReader {
             }
 
         } catch (IOException a) {
-            LOGGER.catching(a);
+            a.printStackTrace();
         }
 
         return null;

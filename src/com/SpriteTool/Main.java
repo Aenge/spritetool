@@ -1,16 +1,9 @@
 package com.SpriteTool;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
-public class Main extends Application {
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        SpriteTool spriteTool = new SpriteTool(primaryStage);
-        spriteTool.start();
-    }
+public class Main{
 
     public static void main(String[] args) {
-        launch(args);
+        SpriteTool spriteTool = new SpriteTool();
+        spriteTool.go(args);
     }
 }

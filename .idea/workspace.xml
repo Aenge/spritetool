@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="OpenRSC Sprite Tool:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-api-2.8.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-core-2.8.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/IO/ImageReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/IO/ImageReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/IO/InfoReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/IO/InfoReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/IO/WorkspaceReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/IO/WorkspaceReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Model/Entry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Model/Entry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Model/FileInfoPair.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Animation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Animation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Sprite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Model/Subspace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Model/Subspace.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Model/Workspace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Model/Workspace.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/PopMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/PopMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/SpriteTool/Splash/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/SpriteTool/Splash/Controller.java" afterDir="false" />
@@ -78,10 +82,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Splash/Controller.java">
+        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/ImageReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+            <state relative-caret-position="136">
+              <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -90,19 +94,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Info.java">
+        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/InfoReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Controller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="96" column="8" lean-forward="true" selection-start-line="96" selection-start-column="8" selection-end-line="96" selection-end-column="8" />
+            <state relative-caret-position="408">
+              <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -111,39 +106,52 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.fxml">
+        <entry file="file://$PROJECT_DIR$/src/module-info.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+            <state>
+              <caret column="28" selection-start-column="28" selection-end-column="28" />
             </state>
           </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/WorkspaceReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1156">
+              <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1479">
+              <caret line="102" column="28" selection-start-line="102" selection-start-column="28" selection-end-line="102" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.java">
+        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Render/ClientRenderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="46" column="99" lean-forward="true" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="99" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/PopMenu/Controller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#860#861#0" expanded="true" />
-                <element signature="e#902#903#0" expanded="true" />
-                <element signature="e#958#959#0" expanded="true" />
-                <element signature="e#1002#1003#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="664">
+              <caret line="341" column="5" selection-start-line="341" selection-start-column="5" selection-end-line="341" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -168,6 +176,9 @@
       <find>+</find>
       <find>loadws</find>
       <find>loadss</find>
+      <find>root</find>
+      <find>log4j</find>
+      <find>logger</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -183,34 +194,37 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Splash.fxml" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/PopMenu.fxml" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/PopMenu.fxml" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/Main.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Splash/Splash.fxml" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/style.css" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Info.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Animation.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/FileInfoPair.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Info.java" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/IO/InfoReader.java" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Sprite.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Entry.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Subspace.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Workspace.java" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/IO/WorkspaceReader.java" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/Splash/Controller.java" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.java" />
-        <option value="$PROJECT_DIR$/src/module-info.java" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.fxml" />
-        <option value="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/Controller.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/Splash/Controller.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/PopMenu.fxml" />
         <option value="$PROJECT_DIR$/src/com/SpriteTool/Controller.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/PopMenu/Controller.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Sprite.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/IO/Archive/ImageData.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/IO/WorkspaceReader.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/IO/ImageReader.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/IO/InfoReader.java" />
+        <option value="$PROJECT_DIR$/src/module-info.java" />
+        <option value="$PROJECT_DIR$/src/com/SpriteTool/Render/ClientRenderer.java" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="636" />
-    <option name="y" value="10" />
-    <option name="width" value="1129" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="1130" />
     <option name="height" value="1090" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -224,6 +238,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -234,11 +250,6 @@
             <path>
               <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
               <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -252,21 +263,12 @@
               <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="SpriteTool" type="462c0819:PsiDirectoryNode" />
-              <item name="PopMenu" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="SpriteTool" type="462c0819:PsiDirectoryNode" />
-              <item name="Splash" type="462c0819:PsiDirectoryNode" />
+              <item name="Render" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -281,7 +283,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/com/SpriteTool/Splash" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -399,8 +401,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.16912752" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.17315437" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -434,41 +437,6 @@
       <window_info anchor="right" id="Palette&#9;" order="9" />
       <window_info anchor="right" id="Theme Preview" order="10" />
     </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.27181208" />
-      <window_info id="Structure" order="1" weight="0.25" />
-      <window_info id="Favorites" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="Image Layers" order="4" />
-      <window_info id="UI Designer" order="5" />
-      <window_info id="Capture Tool" order="6" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3847185" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.29490617" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Application Servers" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Problems" order="9" />
-      <window_info anchor="bottom" id="Changes" order="10" />
-      <window_info anchor="bottom" id="Profiler" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.3297587" />
-      <window_info anchor="bottom" id="Terminal" order="14" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="JetGradle" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Palette" order="5" />
-      <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="right" id="Maven" order="7" />
-      <window_info anchor="right" id="Capture Analysis" order="8" />
-      <window_info anchor="right" id="Palette&#9;" order="9" />
-      <window_info anchor="right" id="Theme Preview" order="10" />
-    </layout-to-restore>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
@@ -519,16 +487,6 @@
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.fxml.jar!/javafx/fxml/FXMLLoader.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
@@ -550,13 +508,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/ImageReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
@@ -571,27 +522,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/FileInfoPair.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Sprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="36" selection-start-column="36" selection-end-column="36" />
-          <folding>
-            <element signature="e#197#198#0" expanded="true" />
-            <element signature="e#243#244#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/FileInfoPair.java" />
     <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/Entry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -600,24 +531,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#825#826#0" expanded="true" />
             <element signature="e#846#847#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/InfoReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-119">
-          <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/WorkspaceReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1275">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1618#1626#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -646,52 +559,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/PopMenu/PopMenu.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="102">
+          <caret line="6" column="13" lean-forward="true" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="17" />
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/module-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="35" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+          <caret line="7" column="264" selection-start-line="7" selection-start-column="264" selection-end-line="7" selection-end-column="264" />
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/PopMenu/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#860#861#0" expanded="true" />
-            <element signature="e#902#903#0" expanded="true" />
-            <element signature="e#958#959#0" expanded="true" />
-            <element signature="e#1002#1003#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Splash/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+        <state relative-caret-position="315">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -700,8 +585,107 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="96" column="8" lean-forward="true" selection-start-line="96" selection-start-column="8" selection-end-line="96" selection-end-column="8" />
+        <state relative-caret-position="187">
+          <caret line="48" column="26" selection-start-line="48" selection-start-column="26" selection-end-line="48" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Splash/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Info.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Model/Format/Sprite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="49" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/Archive/ImageData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.graphics.jar!/com/sun/javafx/application/PlatformImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="200" selection-start-line="200" selection-end-line="200" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.graphics.jar!/com/sun/javafx/tk/Toolkit.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="190" selection-start-line="190" selection-end-line="190" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.graphics.jar!/com/sun/javafx/tk/quantum/QuantumToolkit.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="259" selection-start-line="259" selection-end-line="259" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.graphics.jar!/com/sun/javafx/tk/quantum/QuantumRenderer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="177" selection-start-line="177" selection-end-line="177" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/ImageReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/InfoReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/module-info.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="28" selection-start-column="28" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/IO/WorkspaceReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1156">
+          <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -710,11 +694,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/SpriteTool.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="46" column="99" lean-forward="true" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="99" />
+        <state relative-caret-position="1479">
+          <caret line="102" column="28" selection-start-line="102" selection-start-column="28" selection-end-line="102" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/SpriteTool/Render/ClientRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="664">
+          <caret line="341" column="5" selection-start-line="341" selection-start-column="5" selection-end-line="341" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -724,6 +722,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>OpenRSC Sprite Tool:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -758,6 +757,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
+          <last-edited>12</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -774,7 +774,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

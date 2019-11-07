@@ -9,7 +9,7 @@
    <children>
       <JFXListView fx:id="l_subspaces" depth="1" layoutX="14.0" layoutY="366.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <JFXListView fx:id="l_entries" layoutX="29.0" layoutY="30.0" prefHeight="335.0" prefWidth="134.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="250.0" direction="RIGHT" layoutX="487.0" layoutY="48.0" prefHeight="296.0" prefWidth="100.0" AnchorPane.bottomAnchor="56.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
       <JFXHamburger fx:id="hamburger" layoutX="557.0" layoutY="14.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <JFXDrawer fx:id="drawer" layoutX="326.0" layoutY="78.0" prefHeight="212.0" prefWidth="102.0" />
    </children>
 </AnchorPane>

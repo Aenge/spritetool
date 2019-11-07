@@ -1,6 +1,7 @@
 package com.SpriteTool;
 import com.SpriteTool.IO.WorkspaceReader;
 import com.SpriteTool.Model.Workspace;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,15 +10,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 
-public class SpriteTool {
+public class SpriteTool extends Application {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        //SpriteTool spriteTool = new SpriteTool(primaryStage);
+        //spriteTool.start();
+        this.primaryStage = primaryStage;
+        initLoaders();
+        start();
+    }
 
     private Stage primaryStage;
     private Workspace workspace;
@@ -29,10 +35,8 @@ public class SpriteTool {
     private Parent mainRoot;
     private com.SpriteTool.Controller mainController;
 
-
-    public SpriteTool(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        initLoaders();
+    public void go(String[] args) {
+        launch(args);
     }
 
     public void start() {
@@ -49,6 +53,7 @@ public class SpriteTool {
             this.splashRoot = splashLoader.load();
             this.menuRoot = menuLoader.load();
             this.mainRoot = mainLoader.load();
+            this.menuRoot.setStyle("-fx-background-color: #3C3C3C");
             this.splashController = splashLoader.getController();
             this.menuController = menuLoader.getController();
             this.mainController = mainLoader.getController();
@@ -56,7 +61,7 @@ public class SpriteTool {
             this.menuController.setSpriteTool(this);
             this.mainController.setSpriteTool(this);
         } catch (IOException a) {
-            LOGGER.catching(a);
+            a.printStackTrace();
         }
 
     }
@@ -87,7 +92,7 @@ public class SpriteTool {
 
         //Check if the path exists
         if (!selectedDirectory.exists()) {
-            LOGGER.info("Invalid directory chosen");
+            System.out.print("Invalid directory.");
             return;
         }
 
@@ -95,7 +100,7 @@ public class SpriteTool {
         this.workspace = reader.loadWorkspace(selectedDirectory.toPath());
 
         if (this.workspace == null) {
-            LOGGER.info("Failed to load workspace.");
+            System.out.print("Failed to load workspace.");
             return;
         }
 

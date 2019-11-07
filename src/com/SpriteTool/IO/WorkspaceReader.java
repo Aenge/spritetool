@@ -6,8 +6,6 @@ import com.SpriteTool.Model.Format.Sprite;
 import com.SpriteTool.Model.Subspace;
 import com.SpriteTool.Model.Workspace;
 import javafx.scene.control.Alert;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -16,8 +14,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class WorkspaceReader {
-
-    private Logger LOGGER = LogManager.getLogger();
 
     public Workspace loadWorkspace(Path path) {
         Workspace ws = new Workspace(path);
@@ -81,7 +77,7 @@ public class WorkspaceReader {
             File pngFile = new File(ss.getPath().toString(), pair + ".png");
             if (!infoFile.exists()
                 || !pngFile.exists()) {
-                LOGGER.info("An expected file did not exist.");
+                System.out.print("An expected file did not exist.");
                 return null;
             }
 
