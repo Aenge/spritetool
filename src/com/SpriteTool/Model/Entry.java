@@ -4,32 +4,34 @@ import com.SpriteTool.Model.Format.Sprite;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class Entry {
 
     public enum TYPE {
-        SPRITE,
-        ANIMATION;
+        SPRITE(1),
+        ANIMATION(2);
+        private int value;
+        TYPE(int value) { this.value = value; }
+        public int getValue() { return this.value; }
+        public static TYPE get(int id) {
+            for (TYPE type : EnumSet.allOf(TYPE.class)) {
+                if (type.getValue() == id)
+                    return type;
+            }
+            return null;
+        }
     }
 
     private TYPE type;
-    private List<Sprite> spriteList = new ArrayList<Sprite>();
     private List<File> fileList;
 
-    public Entry(File file) {
-        this.type = TYPE.SPRITE;
-        fileList = new ArrayList<File>();
-        fileList.add(file);
-    }
-
-    public Entry(List<File> files) {
-        this.type = TYPE.ANIMATION;
-        fileList = files;
+    public Entry(FileInfoPair pair) {
+        this.type = pair.getType();
     }
 
     public boolean isAnimation() { return this.type == TYPE.ANIMATION; }
     public boolean isSprite() { return this.type == TYPE.SPRITE; }
-    public List<Sprite> getSprites() { return this.spriteList; }
-    public File getFile() { return fileList.get(0); }
+
 }

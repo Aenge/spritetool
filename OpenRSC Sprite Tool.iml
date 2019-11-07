@@ -12,5 +12,10 @@
     <orderEntry type="library" name="jfoenix-9.0.9" level="application" />
     <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
     <orderEntry type="library" name="Logger" level="project" />
+    <orderEntry type="library" name="json" level="project" />
+    <orderEntry type="library" name="json (2)" level="project" />
+    <orderEntry type="library" name="jackson" level="project" />
+    <orderEntry type="library" name="jacskondata" level="project" />
+    <orderEntry type="library" name="jacks0n" level="project" />
   </component>
 </module>

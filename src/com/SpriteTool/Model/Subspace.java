@@ -9,7 +9,7 @@ public class Subspace {
 
     private Path path;
     private List<Entry> entryList = new ArrayList<Entry>();
-    private List<FileInfoPair> infoList = new ArrayList<FileInfoPair>();
+    private List<FileInfoPair> pairList = new ArrayList<FileInfoPair>();
 
     public Subspace(Path path) {
         this.path = path;
@@ -19,4 +19,5 @@ public class Subspace {
     public Path getPath() { return this.path; }
     public String getName() { return this.path.getFileName().toString(); }
     public List<Entry> getEntryList() { return entryList; }
+    public List<FileInfoPair> getPairList() { return this.pairList; }
 }

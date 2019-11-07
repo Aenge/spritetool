@@ -106,12 +106,13 @@ public class Controller implements Initializable {
         for (Subspace subspace : ws.getSubspaces()) {
             this.l_subspaces.getItems().add(subspace.getName());
         }
+        this.l_subspaces.getSelectionModel().selectFirst();
     }
 
     public void populateEntryList(Subspace ss) {
         this.l_entries.getItems().clear();
         for (Entry entry : ss.getEntryList()) {
-            this.l_entries.getItems().add(entry.getFile().getName());
+            this.l_entries.getItems().add("booga");
         }
     }
 
