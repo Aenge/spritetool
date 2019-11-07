@@ -1,9 +1,8 @@
-/*
-package com.SpriteTool.Render;
+package com.OpenRSC.Render;
 
-import com.SpriteTool.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Sprite;
 
-public class ClientRenderer {
+public class SpriteRenderer {
 
     public final void drawSpriteClipping(Sprite e, int x, int y, int width, int height, int colorMask, int colorMask2, int blueMask,
                                          boolean mirrorX, int topPixelSkew, int dummy, int colourTransform) {
@@ -18,8 +17,8 @@ public class ClientRenderer {
                     colorMask = 0xFFFFFF;
                 }
 
-                int spriteWidth = e.getWidth();
-                int spriteHeight = e.getHeight();
+                int spriteWidth = e.getData().getWidth();
+                int spriteHeight = e.getData().getHeight();
                 int srcStartX = 0;
                 int srcStartY = 0;
                 int destFirstColumn = topPixelSkew << 16;
@@ -28,21 +27,21 @@ public class ClientRenderer {
                 int destColumnSkewPerRow = -(topPixelSkew << 16) / height;
                 int destRowHead;
                 int skipEveryOther;
-                if (e.requiresShift()) {
-                    destRowHead = e.getSomething1();
-                    skipEveryOther = e.getSomething2();
+                if (e.getInfo().getUseShift()) {
+                    destRowHead = e.getInfo().getBoundWidth();
+                    skipEveryOther = e.getInfo().getBoundHeight();
                     if (destRowHead == 0 || skipEveryOther == 0) {
                         return;
                     }
 
                     scaleX = (destRowHead << 16) / width;
                     scaleY = (skipEveryOther << 16) / height;
-                    int var21 = e.getXShift();
+                    int var21 = e.getInfo().getOffsetX();
                     if (mirrorX) {
-                        var21 = destRowHead - e.getWidth() - var21;
+                        var21 = destRowHead - e.getData().getWidth() - var21;
                     }
 
-                    int var22 = e.getYShift();
+                    int var22 = e.getInfo().getOffsetY();
                     x += (destRowHead + var21 * width - 1) / destRowHead;
                     int var23 = (var22 * height + skipEveryOther - 1) / skipEveryOther;
                     if (var21 * width % destRowHead != 0) {
@@ -55,8 +54,8 @@ public class ClientRenderer {
                         srcStartY = (skipEveryOther - height * var22 % skipEveryOther << 16) / height;
                     }
 
-                    width = (scaleX + ((e.getWidth() << 16) - (srcStartX + 1))) / scaleX;
-                    height = ((e.getHeight() << 16) - srcStartY - (1 - scaleY)) / scaleY;
+                    width = (scaleX + ((e.getData().getWidth() << 16) - (srcStartX + 1))) / scaleX;
+                    height = ((e.getData().getHeight() << 16) - srcStartY - (1 - scaleY)) / scaleY;
                 }
 
                 destRowHead = this.width2 * y;
@@ -194,7 +193,7 @@ public class ClientRenderer {
 											+ ((backgroundR * newR >> 8) << 16);
 								} else {
 									dest[destRowHead + j] = newColor;
-								}*//*
+								}*/
 
                             }
 
@@ -314,7 +313,7 @@ public class ClientRenderer {
                                                 ((spriteB + canvasB) >> 8);
                                 dest[var32 + destRowHead] = finalColour;
 
-								*/
+
 /*if (spritePixelR == spritePixelG && spritePixelB == spritePixelG) {
 									dest[var32 + destRowHead] = (spritePixelB * mask1B >> 8) + (mask1G * spritePixelG >> 8 << 8)
 											+ (spritePixelR * mask1R >> 8 << 16);
@@ -323,7 +322,7 @@ public class ClientRenderer {
 											+ (spritePixelG * mask2G >> 8 << 8);
 								} else {
 									dest[var32 + destRowHead] = spritePixel;
-								}*//*
+								}*/
 
                             }
 
@@ -350,4 +349,3 @@ public class ClientRenderer {
         }
     }
 }
-*/

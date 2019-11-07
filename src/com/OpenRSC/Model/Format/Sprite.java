@@ -9,7 +9,8 @@ public class Sprite {
 
     private String name;
     private Info info;
-    private ImageData imageData;
+    private ImageData data;
+
     public Sprite(File imageFile, Info info) {
         this.name = imageFile.getName();
         this.info = info;
@@ -20,6 +21,9 @@ public class Sprite {
 
     public void loadImageData(File file) {
         ImageReader imageReader = new ImageReader();
-        this.imageData  = imageReader.read(file);
+        this.data  = imageReader.read(file);
     }
+
+    public Info getInfo() { return this.info; }
+    public ImageData getData() { return this.data; }
 }
