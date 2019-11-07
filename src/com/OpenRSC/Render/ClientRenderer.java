@@ -1,6 +1,10 @@
+/*
 package com.SpriteTool.Render;
 
+import com.SpriteTool.Model.Format.Sprite;
+
 public class ClientRenderer {
+
     public final void drawSpriteClipping(Sprite e, int x, int y, int width, int height, int colorMask, int colorMask2, int blueMask,
                                          boolean mirrorX, int topPixelSkew, int dummy, int colourTransform) {
         try {
@@ -182,13 +186,16 @@ public class ClientRenderer {
                                                 ((spriteB + canvasB) >> 8);
                                 dest[destRowHead + j] = finalColour;
 
-								/*// Are we a grey?
+								*/
+/*//*
+/ Are we a grey?
 								if (newR == newG && newB == newG) {
 									dest[destRowHead + j] = (newB * backgroundB >> 8) + ((backgroundG * newG >> 8) << 8)
 											+ ((backgroundR * newR >> 8) << 16);
 								} else {
 									dest[destRowHead + j] = newColor;
-								}*/
+								}*//*
+
                             }
 
                             srcStartX += scaleX;
@@ -307,7 +314,8 @@ public class ClientRenderer {
                                                 ((spriteB + canvasB) >> 8);
                                 dest[var32 + destRowHead] = finalColour;
 
-								/*if (spritePixelR == spritePixelG && spritePixelB == spritePixelG) {
+								*/
+/*if (spritePixelR == spritePixelG && spritePixelB == spritePixelG) {
 									dest[var32 + destRowHead] = (spritePixelB * mask1B >> 8) + (mask1G * spritePixelG >> 8 << 8)
 											+ (spritePixelR * mask1R >> 8 << 16);
 								} else if (spritePixelR == 255 && spritePixelG == spritePixelB) {
@@ -315,7 +323,8 @@ public class ClientRenderer {
 											+ (spritePixelG * mask2G >> 8 << 8);
 								} else {
 									dest[var32 + destRowHead] = spritePixel;
-								}*/
+								}*//*
+
                             }
 
                             srcStartX += scaleX;
@@ -341,3 +350,4 @@ public class ClientRenderer {
         }
     }
 }
+*/

@@ -1,6 +1,6 @@
-package com.SpriteTool.IO;
+package com.OpenRSC.IO;
 
-import com.SpriteTool.IO.Archive.ImageData;
+import com.OpenRSC.IO.Archive.ImageData;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelReader;

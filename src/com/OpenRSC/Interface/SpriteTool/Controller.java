@@ -1,22 +1,19 @@
-package com.SpriteTool;
-import com.SpriteTool.Model.Entry;
-import com.SpriteTool.Model.Subspace;
-import com.SpriteTool.Model.Workspace;
+package com.OpenRSC.Interface.SpriteTool;
+import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Subspace;
+import com.OpenRSC.Model.Workspace;
+import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 
 
 public class Controller implements Initializable {
@@ -88,8 +85,20 @@ public class Controller implements Initializable {
         transition.play();
     }
 
+    private void populateEntryList(Subspace ss) {
+        this.l_entries.getItems().clear();
+        for (Entry entry : ss.getEntryList()) {
+            this.l_entries.getItems().add(entry);
+        }
+    }
+
+    private JFXPopup buildSubspaceMenu() {
+        JFXPopup popup = new JFXPopup();
+        return null;
+    }
+
     //------------------- public methods
-    void setSpriteTool(SpriteTool spriteTool) {
+    public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
         drawer.setSidePane(spriteTool.getMenuRoot());
         /*
@@ -102,10 +111,10 @@ public class Controller implements Initializable {
          */
     }
 
-    void closeDrawer() { this.drawer.close(); }
-    void openDrawer() { this.drawer.open(); }
+    public void closeDrawer() { this.drawer.close(); }
+    public void openDrawer() { this.drawer.open(); }
 
-    void populateSubspaceList(Workspace ws) {
+    public void populateSubspaceList(Workspace ws) {
         this.l_subspaces.getItems().clear();
         for (Subspace subspace : ws.getSubspaces()) {
             this.l_subspaces.getItems().add(subspace.getName());
@@ -113,15 +122,4 @@ public class Controller implements Initializable {
         this.l_subspaces.getSelectionModel().selectFirst();
     }
 
-    private void populateEntryList(Subspace ss) {
-        this.l_entries.getItems().clear();
-        for (Entry entry : ss.getEntryList()) {
-            this.l_entries.getItems().add(entry);
-        }
-    }
-
-    private JFXPopup buildSubspaceMenu() {
-        JFXPopup popup = new JFXPopup();
-        return null;
-    }
 }

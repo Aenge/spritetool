@@ -1,4 +1,4 @@
-package com.SpriteTool.IO.Archive;
+package com.OpenRSC.IO.Archive;
 
 public class ImageData {
     private int width;

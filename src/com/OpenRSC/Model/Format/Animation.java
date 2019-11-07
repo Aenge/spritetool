@@ -1,4 +1,4 @@
-package com.SpriteTool.Model.Format;
+package com.OpenRSC.Model.Format;
 
 public class Animation {
 

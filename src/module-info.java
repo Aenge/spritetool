@@ -6,7 +6,8 @@ module OpenRSC.Sprite.Tool {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.annotation;
-    opens com.SpriteTool.PopMenu;
-    opens com.SpriteTool.Splash;
-    opens com.SpriteTool;
+    opens com.OpenRSC.Interface.PopMenu;
+    opens com.OpenRSC.Interface.Splash;
+    opens com.OpenRSC.Interface.SpriteTool;
+    opens com.OpenRSC;
 }

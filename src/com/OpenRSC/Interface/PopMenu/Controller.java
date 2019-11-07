@@ -1,5 +1,5 @@
-package com.SpriteTool.PopMenu;
-import com.SpriteTool.SpriteTool;
+package com.OpenRSC.Interface.PopMenu;
+import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;

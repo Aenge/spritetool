@@ -1,7 +1,7 @@
-package com.SpriteTool.Model.Format;
+package com.OpenRSC.Model.Format;
 
-import com.SpriteTool.IO.Archive.ImageData;
-import com.SpriteTool.IO.ImageReader;
+import com.OpenRSC.IO.Archive.ImageData;
+import com.OpenRSC.IO.ImageReader;
 
 import java.io.File;
 

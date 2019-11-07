@@ -1,4 +1,4 @@
-package com.SpriteTool.Model;
+package com.OpenRSC.Model;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

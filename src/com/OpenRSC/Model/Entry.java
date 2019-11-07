@@ -1,7 +1,7 @@
-package com.SpriteTool.Model;
+package com.OpenRSC.Model;
 
-import com.SpriteTool.Model.Format.Animation;
-import com.SpriteTool.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Animation;
+import com.OpenRSC.Model.Format.Sprite;
 import java.util.EnumSet;
 
 public class Entry {

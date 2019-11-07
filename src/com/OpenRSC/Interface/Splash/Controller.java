@@ -1,10 +1,9 @@
-package com.SpriteTool.Splash;
+package com.OpenRSC.Interface.Splash;
 
-import com.SpriteTool.SpriteTool;
+import com.OpenRSC.SpriteTool;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.net.URL;

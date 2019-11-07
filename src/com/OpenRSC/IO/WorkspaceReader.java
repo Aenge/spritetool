@@ -1,10 +1,10 @@
-package com.SpriteTool.IO;
+package com.OpenRSC.IO;
 
-import com.SpriteTool.Model.Entry;
-import com.SpriteTool.Model.Format.Info;
-import com.SpriteTool.Model.Format.Sprite;
-import com.SpriteTool.Model.Subspace;
-import com.SpriteTool.Model.Workspace;
+import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Format.Info;
+import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Model.Subspace;
+import com.OpenRSC.Model.Workspace;
 import javafx.scene.control.Alert;
 
 import java.io.File;

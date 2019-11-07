@@ -1,4 +1,4 @@
-package com.SpriteTool;
+package com.OpenRSC;
 
 public class Main{
 

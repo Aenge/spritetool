@@ -1,8 +1,8 @@
-package com.SpriteTool.IO;
+package com.OpenRSC.IO;
 
-import com.SpriteTool.Model.Entry;
+import com.OpenRSC.Model.Entry;
 
-import com.SpriteTool.Model.Format.Info;
+import com.OpenRSC.Model.Format.Info;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;

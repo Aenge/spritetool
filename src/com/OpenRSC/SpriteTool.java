@@ -1,11 +1,11 @@
-package com.SpriteTool;
-import com.SpriteTool.IO.WorkspaceReader;
-import com.SpriteTool.Model.Workspace;
+package com.OpenRSC;
+import com.OpenRSC.IO.WorkspaceReader;
+import com.OpenRSC.Interface.SpriteTool.Controller;
+import com.OpenRSC.Model.Workspace;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -29,11 +29,11 @@ public class SpriteTool extends Application {
     private Workspace workspace;
 
     private Parent splashRoot;
-    private com.SpriteTool.Splash.Controller splashController;
+    private com.OpenRSC.Interface.Splash.Controller splashController;
     private VBox menuRoot;
-    private com.SpriteTool.PopMenu.Controller menuController;
+    private com.OpenRSC.Interface.PopMenu.Controller menuController;
     private Parent mainRoot;
-    private com.SpriteTool.Controller mainController;
+    private Controller mainController;
 
     public void go(String[] args) {
         launch(args);
@@ -47,9 +47,9 @@ public class SpriteTool extends Application {
 
     private void initLoaders() {
         try {
-            FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("Splash/Splash.fxml"));
-            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("PopMenu/PopMenu.fxml"));
-            FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("SpriteTool.fxml"));
+            FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("Interface/Splash/Splash.fxml"));
+            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("Interface/PopMenu/PopMenu.fxml"));
+            FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("Interface/SpriteTool/SpriteTool.fxml"));
             this.splashRoot = splashLoader.load();
             this.menuRoot = menuLoader.load();
             this.mainRoot = mainLoader.load();
@@ -115,7 +115,7 @@ public class SpriteTool extends Application {
     public Parent getSplashRoot() { return this.splashRoot; }
     public Parent getMainRoot() { return this.mainRoot; }
     public VBox getMenuRoot() { return this.menuRoot; }
-    public com.SpriteTool.Splash.Controller getSplashController() { return this.splashController; }
-    public com.SpriteTool.PopMenu.Controller getMenuController() { return this.menuController; }
-    public com.SpriteTool.Controller getMainController() { return this.mainController; }
+    public com.OpenRSC.Interface.Splash.Controller getSplashController() { return this.splashController; }
+    public com.OpenRSC.Interface.PopMenu.Controller getMenuController() { return this.menuController; }
+    public Controller getMainController() { return this.mainController; }
 }

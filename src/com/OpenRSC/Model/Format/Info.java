@@ -1,6 +1,6 @@
-package com.SpriteTool.Model.Format;
+package com.OpenRSC.Model.Format;
 
-import com.SpriteTool.Model.Entry;
+import com.OpenRSC.Model.Entry;
 
 public class Info {
     private Entry.TYPE type;
