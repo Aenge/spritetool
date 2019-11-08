@@ -9,6 +9,8 @@ public class Subspace {
     private Path path;
     private List<Entry> entryList = new ArrayList<Entry>();
 
+    @Override
+    public String toString() { return this.path.getFileName().toString(); }
     public Subspace(Path path) {
         this.path = path;
     }
