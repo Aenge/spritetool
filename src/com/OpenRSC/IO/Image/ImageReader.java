@@ -1,4 +1,4 @@
-package com.OpenRSC.IO;
+package com.OpenRSC.IO.Image;
 
 import com.OpenRSC.IO.Archive.ImageData;
 import javafx.scene.image.Image;

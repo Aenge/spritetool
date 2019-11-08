@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="800.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
-      <JFXListView fx:id="l_subspaces" depth="1" layoutX="14.0" layoutY="366.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <JFXListView fx:id="l_entries" layoutX="29.0" layoutY="30.0" prefHeight="335.0" prefWidth="134.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <JFXListView fx:id="l_subspaces" depth="1" layoutX="14.0" layoutY="366.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <JFXListView fx:id="l_entries" layoutX="29.0" layoutY="30.0" prefHeight="335.0" prefWidth="134.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <JFXDrawer fx:id="drawer" defaultDrawerSize="250.0" direction="RIGHT" layoutX="487.0" layoutY="48.0" prefHeight="296.0" prefWidth="100.0" AnchorPane.bottomAnchor="56.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
       <JFXHamburger fx:id="hamburger" layoutX="557.0" layoutY="14.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <Canvas fx:id="canvas" height="335.0" layoutX="157.0" layoutY="10.0" width="383.0" />
+      <Canvas fx:id="canvas" height="300.0" layoutX="382.0" layoutY="80.0" width="300.0" />
+      <VBox fx:id="statusbox" layoutX="10.0" layoutY="484.0" prefHeight="22.0" prefWidth="780.0" style="-fx-background-color: #585858; -fx-border-color: #000000;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Label fx:id="label_status" prefHeight="25.0" prefWidth="778.0" text="Workspace: Null" />
+         </children>
+      </VBox>
+      <AnchorPane layoutX="158.0" layoutY="10.0" prefHeight="440.0" prefWidth="134.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="65.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label layoutX="17.0" layoutY="-6.0" prefHeight="26.0" prefWidth="100.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" AnchorPane.topAnchor="0.0" />
+            <Label layoutX="4.0" layoutY="19.0" prefHeight="18.0" prefWidth="90.0" text="Name" AnchorPane.leftAnchor="3.0" />
+            <TextField fx:id="txt_name" layoutX="2.0" layoutY="37.0" prefHeight="26.0" prefWidth="128.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <JFXCheckBox fx:id="check_shift" alignment="CENTER" layoutX="60.0" layoutY="74.0" prefHeight="18.0" prefWidth="67.0" selected="true" />
+            <Label layoutX="3.0" layoutY="94.0" text="Vertical Shift" AnchorPane.leftAnchor="3.0" />
+            <TextField fx:id="text_vshift" layoutX="1.0" layoutY="112.0" prefHeight="26.0" prefWidth="126.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <TextField fx:id="text_hshift" layoutX="4.0" layoutY="156.0" prefHeight="26.0" prefWidth="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label layoutX="5.0" layoutY="138.0" prefHeight="18.0" prefWidth="109.0" text="Horizontal Shift" AnchorPane.leftAnchor="3.0" />
+            <Label layoutX="5.0" layoutY="75.0" text="Use Shift" AnchorPane.leftAnchor="3.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

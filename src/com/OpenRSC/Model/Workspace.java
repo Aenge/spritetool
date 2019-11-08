@@ -34,5 +34,29 @@ public class Workspace {
 
         return null;
     }
+
+    public int getSubspaceCount() { return this.subspaces.size(); }
+    public int getEntryCount() {
+        int entryCount = 0;
+        for (Subspace subspace : this.subspaces) {
+            entryCount += subspace.getEntryCount();
+        }
+        return entryCount;
+    }
+
+    public int getSpriteCount() {
+        int spriteCount = 0;
+        for (Subspace subspace : this.subspaces) {
+            spriteCount += subspace.getSpriteCount();
+        }
+        return spriteCount;
+    }
+    public int getAnimationCount() {
+        int animationCount = 0;
+        for (Subspace subspace : this.subspaces) {
+            animationCount += subspace.getAnimationCount();
+        }
+        return animationCount;
+    }
 }
 

@@ -1,5 +1,6 @@
-package com.OpenRSC.IO;
+package com.OpenRSC.IO.Workspace;
 
+import com.OpenRSC.IO.Info.InfoReader;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;

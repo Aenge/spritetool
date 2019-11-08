@@ -1,4 +1,4 @@
-package com.OpenRSC.IO;
+package com.OpenRSC.IO.Info;
 
 import com.OpenRSC.Model.Entry;
 

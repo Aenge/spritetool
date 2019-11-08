@@ -38,6 +38,7 @@ public class Entry {
     public boolean isAnimation() { return this.type == TYPE.ANIMATION; }
     public boolean isSprite() { return this.type == TYPE.SPRITE; }
     public Sprite getSprite() { return this.sprite; }
+
     public String getName() {
         if (isSprite())
             return this.sprite.getName();

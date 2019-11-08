@@ -1,9 +1,10 @@
 package com.OpenRSC.Model.Format;
 
 import com.OpenRSC.IO.Archive.ImageData;
-import com.OpenRSC.IO.ImageReader;
+import com.OpenRSC.IO.Image.ImageReader;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 public class Sprite {
 
@@ -12,7 +13,11 @@ public class Sprite {
     private ImageData imageData;
 
     public Sprite(File imageFile, Info info) {
-        this.name = imageFile.getName();
+        String name = imageFile.getName();
+        int findPeriod = name.lastIndexOf(".");
+        if (findPeriod != -1)
+            name = name.substring(0, findPeriod);
+        this.name = name;
         this.info = info;
         this.loadImageData(imageFile);
     }

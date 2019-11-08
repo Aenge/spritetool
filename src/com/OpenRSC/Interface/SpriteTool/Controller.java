@@ -19,6 +19,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
@@ -44,7 +46,16 @@ public class Controller implements Initializable {
     private JFXListView l_entries;
 
     @FXML
-    private AnchorPane anchorPane;
+    private Label label_status;
+
+    @FXML
+    private JFXCheckBox check_shift;
+
+    @FXML
+    private TextField text_vshift;
+
+    @FXML
+    private TextField text_hshift;
 
     @FXML
     private Canvas canvas;
@@ -86,39 +97,22 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
                 if (newEntry == null)
                     return;
-                SpriteRenderer spriteRenderer = new SpriteRenderer(383,335,0);
-                spriteRenderer.drawSpriteClipping(newEntry.getSprite(), 0, 0, newEntry.getSprite().getImageData().getWidth(), newEntry.getSprite().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                SpriteRenderer spriteRenderer = new SpriteRenderer(canvas);
+                spriteRenderer.bufferSprite(newEntry.getSprite(), 0, 0, newEntry.getSprite().getImageData().getWidth(), newEntry.getSprite().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                spriteRenderer.render();
                 //should be bound widths like this
                 // spriteRenderer.drawSpriteClipping(newEntry.getSprite(), 0, 0, newEntry.getSprite().getInfo().getBoundWidth(), newEntry.getSprite().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
-                GraphicsContext gc = canvas.getGraphicsContext2D();
-                PixelWriter pw = gc.getPixelWriter();
-                pw.setPixels(0, 0, spriteRenderer.getWidth2(), spriteRenderer.getHeight2(), PixelFormat.getIntArgbInstance(), spriteRenderer.getPixelData(), 0, spriteRenderer.getWidth2());
-                /*
-                PixelWriter pw = gc.getPixelWriter();
-                //pw.setPixels(1,1,1,1,pixelFormat, spriteRenderer.getPixelData(),0,50);
-                int spacing = 5;
-                int imageWidth = 300;
-                int imageHeight = 100;
-                int rows = imageHeight/(25 + spacing);
-                int columns = imageWidth/(25 + spacing);
-                for (int y = 0; y < rows; y++)
-                {
-                    for (int x = 0; x < columns; x++)
-                    {
-                        int xPos = x;
-                        int yPos = y;
-                        pw.setPixels(xPos, yPos, 25, 25,
-                                pixelFormat, spriteRenderer.getPixelData(), 0, 25 * 3);
-                    }
-                }
-
-                 */
             }
         });
 
-
-                //---------- entry list
-
+        //-------- Checkbox
+        check_shift.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean previous, Boolean current) {
+                text_hshift.setDisable(!current);
+                text_vshift.setDisable(!current);
+            }
+        });
     }
 
     //------------------ private methods
@@ -169,4 +163,5 @@ public class Controller implements Initializable {
     public void closeDrawer() { this.drawer.close(); }
     public void openDrawer() { this.drawer.open(); }
 
+    public void setStatus(String status) { label_status.setText(status); }
 }

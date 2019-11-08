@@ -1,6 +1,10 @@
 package com.OpenRSC.Render;
 
 import com.OpenRSC.Model.Format.Sprite;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelWriter;
 
 public class SpriteRenderer {
 
@@ -12,17 +16,27 @@ public class SpriteRenderer {
     private int clipRight;
     private boolean interlace = false;
     private int[] pixelData;
+    private GraphicsContext gc;
 
-    public SpriteRenderer(int width, int height, int clip) {
-        this.width2 = width;
-        this.height2 = height;
-        this.clipTop = clip;
-        this.clipBottom = height - clip;
-        this.clipLeft = clip;
-        this.clipRight = width - clip;
-        this.pixelData = new int[width * height];
+    public SpriteRenderer(Canvas canvas) {
+        this.gc = canvas.getGraphicsContext2D();
+        this.width2 = (int)canvas.getWidth();
+        this.height2 = (int)canvas.getHeight();
+        this.clipTop = 0;
+        this.clipBottom = this.height2;
+        this.clipLeft = 0;
+        this.clipRight = this.width2;
+        this.pixelData = new int[this.height2 * this.width2];
     }
 
+    public void clear() {
+        gc.clearRect(0, 0, this.width2, this.height2);
+    }
+
+    public void render() {
+        PixelWriter pw = gc.getPixelWriter();
+        pw.setPixels(0, 0, this.getWidth2(), this.getHeight2(), PixelFormat.getIntArgbInstance(), this.pixelData, 0, this.width2);
+    }
     public int[] getPixelData() {
         return pixelData;
     }
@@ -30,7 +44,7 @@ public class SpriteRenderer {
     public int getWidth2() { return this.width2; }
     public int getHeight2() { return this.height2; }
 
-    public void drawSpriteClipping(Sprite e, int x, int y, int width, int height, int colorMask, int colorMask2, int blueMask,
+    public void bufferSprite(Sprite e, int x, int y, int width, int height, int colorMask, int colorMask2, int blueMask,
                                    boolean mirrorX, int topPixelSkew, int dummy, int colourTransform) {
         try {
             try {
@@ -42,6 +56,9 @@ public class SpriteRenderer {
                 if (colorMask == 0) {
                     colorMask = 0xFFFFFF;
                 }
+
+                if (blueMask == 0)
+                    blueMask = 0xFFFFFF;
 
                 int spriteWidth = e.getImageData().getWidth();
                 int spriteHeight = e.getImageData().getHeight();
@@ -144,8 +161,6 @@ public class SpriteRenderer {
             int spritePixelG = spritePixel >> 8 & 0xFF;
             int spritePixelB = spritePixel & 0xFF;
 
-            if (blueMask == 0)
-                blueMask = 0xFFFFFF;
             try {
                 int firstColumn = srcStartX;
 
@@ -209,16 +224,6 @@ public class SpriteRenderer {
                                 finalColour |= (((spriteG + canvasG) >> 8) << 8);
                                 finalColour |= ((spriteB + canvasB) >> 8);
                                 dest[destRowHead + j] = finalColour;
-
-/*//*
-/ Are we a grey?
-								if (newR == newG && newB == newG) {
-									dest[destRowHead + j] = (newB * backgroundB >> 8) + ((backgroundG * newG >> 8) << 8)
-											+ ((backgroundR * newR >> 8) << 16);
-								} else {
-									dest[destRowHead + j] = newColor;
-								}*/
-
                             }
 
                             srcStartX += scaleX;
@@ -322,22 +327,12 @@ public class SpriteRenderer {
                                 int canvasG = (dest[var32 + destRowHead] >> 8 & 0xff) * inverseOpacity;
                                 int canvasB = (dest[var32 + destRowHead] & 0xff) * inverseOpacity;
 
-                                int finalColour =
-                                        (((spriteR + canvasR) >> 8) << 16) +
-                                                (((spriteG + canvasG) >> 8) << 8) +
-                                                ((spriteB + canvasB) >> 8);
+                                int finalColour = opacity << 24;
+                                finalColour |= (((spriteR + canvasR) >> 8) << 16);
+                                finalColour |= (((spriteG + canvasG) >> 8) << 8);
+                                finalColour |= ((spriteB + canvasB) >> 8);
+
                                 dest[var32 + destRowHead] = finalColour;
-
-
-/*if (spritePixelR == spritePixelG && spritePixelB == spritePixelG) {
-									dest[var32 + destRowHead] = (spritePixelB * mask1B >> 8) + (mask1G * spritePixelG >> 8 << 8)
-											+ (spritePixelR * mask1R >> 8 << 16);
-								} else if (spritePixelR == 255 && spritePixelG == spritePixelB) {
-									dest[var32 + destRowHead] = (mask2B * spritePixelB >> 8) + (spritePixelR * mask2R >> 8 << 16)
-											+ (spritePixelG * mask2G >> 8 << 8);
-								} else {
-									dest[var32 + destRowHead] = spritePixel;
-								}*/
 
                             }
 
@@ -351,7 +346,7 @@ public class SpriteRenderer {
                     destFirstColumn += destColumnSkewPerRow;
                 }
             } catch (Exception var33) {
-                System.out.println("error in transparent sprite plot routine");
+                var33.printStackTrace();
             }
 
         } catch (RuntimeException var34) {

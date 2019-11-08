@@ -1,5 +1,5 @@
 package com.OpenRSC;
-import com.OpenRSC.IO.WorkspaceReader;
+import com.OpenRSC.IO.Workspace.WorkspaceReader;
 import com.OpenRSC.Interface.SpriteTool.Controller;
 import com.OpenRSC.Model.Workspace;
 import javafx.application.Application;
@@ -106,6 +106,8 @@ public class SpriteTool extends Application {
 
         //Display the workspace
         mainController.populateSubspaceList(this.workspace);
+        getMainController().setStatus("Workspace: " + workspace.getName() + ": " + workspace.getSubspaceCount() + " categories, " + workspace.getEntryCount() +
+                " entries (" + workspace.getSpriteCount() + " sprites, " + workspace.getAnimationCount() + " animations)");
     }
 
     public void setPrimaryStage(Stage stage) { this.primaryStage = stage; }

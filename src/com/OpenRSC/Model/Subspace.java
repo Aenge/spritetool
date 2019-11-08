@@ -18,4 +18,23 @@ public class Subspace {
     public Path getPath() { return this.path; }
     public String getName() { return this.path.getFileName().toString(); }
     public List<Entry> getEntryList() { return entryList; }
+
+    public int getEntryCount() { return this.entryList.size(); }
+    public int getSpriteCount() {
+        int spriteCount = 0;
+        for (Entry entry : entryList) {
+            if (entry.isSprite())
+                ++spriteCount;
+        }
+        return spriteCount;
+    }
+    public int getAnimationCount() {
+        int animationCount = 0;
+        for (Entry entry : entryList) {
+            if (entry.isAnimation())
+                ++animationCount;
+        }
+        return animationCount;
+    }
+
 }
