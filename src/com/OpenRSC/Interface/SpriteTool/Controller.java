@@ -1,32 +1,21 @@
 package com.OpenRSC.Interface.SpriteTool;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.SpriteRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
-
-import java.io.File;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelWriter;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 
 
 public class Controller implements Initializable {
@@ -50,6 +39,9 @@ public class Controller implements Initializable {
 
     @FXML
     private JFXCheckBox check_shift;
+
+    @FXML
+    private TextField text_name;
 
     @FXML
     private TextField text_vshift;
@@ -100,6 +92,11 @@ public class Controller implements Initializable {
                 SpriteRenderer spriteRenderer = new SpriteRenderer(canvas);
                 spriteRenderer.bufferSprite(newEntry.getSprite(), 0, 0, newEntry.getSprite().getImageData().getWidth(), newEntry.getSprite().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
                 spriteRenderer.render();
+
+                text_name.setText(newEntry.getName());
+                check_shift.setSelected(newEntry.getSprite().getInfo().getUseShift());
+                text_hshift.setText(newEntry.getSprite().getInfo().getOffsetX() + "");
+                text_vshift.setText(newEntry.getSprite().getInfo().getOffsetX() + "");
                 //should be bound widths like this
                 // spriteRenderer.drawSpriteClipping(newEntry.getSprite(), 0, 0, newEntry.getSprite().getInfo().getBoundWidth(), newEntry.getSprite().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
             }
