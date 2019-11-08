@@ -50,6 +50,12 @@ public class Controller implements Initializable {
     private TextField text_hshift;
 
     @FXML
+    private TextField text_boundw;
+
+    @FXML
+    private TextField text_boundh;
+
+    @FXML
     private Canvas canvas;
 
     @Override
@@ -97,6 +103,8 @@ public class Controller implements Initializable {
                 check_shift.setSelected(newEntry.getSprite().getInfo().getUseShift());
                 text_hshift.setText(newEntry.getSprite().getInfo().getOffsetX() + "");
                 text_vshift.setText(newEntry.getSprite().getInfo().getOffsetX() + "");
+                text_boundh.setText(newEntry.getSprite().getInfo().getBoundHeight() + "");
+                text_boundw.setText(newEntry.getSprite().getInfo().getBoundWidth() + "");
                 //should be bound widths like this
                 // spriteRenderer.drawSpriteClipping(newEntry.getSprite(), 0, 0, newEntry.getSprite().getInfo().getBoundWidth(), newEntry.getSprite().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
             }
