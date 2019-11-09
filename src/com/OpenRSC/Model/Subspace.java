@@ -11,6 +11,7 @@ public class Subspace {
 
     @Override
     public String toString() { return this.path.getFileName().toString(); }
+
     public Subspace(Path path) {
         this.path = path;
     }

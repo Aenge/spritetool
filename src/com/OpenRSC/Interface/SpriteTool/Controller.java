@@ -13,7 +13,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
@@ -23,6 +25,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 
 public class Controller implements Initializable {
@@ -68,7 +73,9 @@ public class Controller implements Initializable {
     @FXML
     private ScrollBar scroll_canvas;
 
-    int changer = 0;
+    @FXML
+    private ScrollBar scroll_zoom;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //--------- HAMBURGER
@@ -90,7 +97,7 @@ public class Controller implements Initializable {
         l_subspaces.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildSubspaceMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getX() + l_subspaces.getLayoutX(), event.getY() + l_subspaces.getLayoutY(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(),event.getX() + l_subspaces.layoutXProperty().intValue(), event.getY() + l_subspaces.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
         l_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
             @Override
@@ -123,13 +130,23 @@ public class Controller implements Initializable {
         });
 
         canvas.setOnScroll(e -> {
-            changer += 2*Math.signum(e.getDeltaY());
-            if (changer > 149)
-                changer = 149;
-            Rectangle2D viewportRect = new Rectangle2D(changer, changer, 300-2*changer, 300-2*changer);
-            canvas.setViewport(viewportRect);
+            double newValue = scroll_zoom.getValue() - 4*Math.signum(e.getDeltaY());
+            if (newValue > scroll_zoom.getMax())
+                newValue = scroll_zoom.getMax();
+            else if (newValue < scroll_zoom.getMin())
+                newValue = scroll_zoom.getMin();
+            scroll_zoom.setValue(newValue);
         });
 
+        scroll_zoom.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if (t1.intValue() == number.intValue())
+                    return;
+                Rectangle2D viewportRect = new Rectangle2D(-t1.intValue(), -t1.intValue(), 300+2*t1.intValue(), 300+2*t1.intValue());
+                canvas.setViewport(viewportRect);
+            }
+        });
         scroll_canvas.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -181,7 +198,26 @@ public class Controller implements Initializable {
 
     private JFXPopup buildSubspaceMenu() {
         JFXPopup popup = new JFXPopup();
-        return null;
+        JFXButton btn_newCategory = new JFXButton("New Category");
+        btn_newCategory.setOnMouseClicked(e -> {
+            popup.hide();
+            if (spriteTool.getWorkspace().createSubspace("aoiuefhi")) {
+                Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
+                populateSubspaceList(spriteTool.getWorkspace());
+                l_entries.getSelectionModel().select(entry);
+            }
+
+        });
+        btn_newCategory.setPadding(new Insets(10));
+        VBox vbox = new VBox(btn_newCategory);
+        int height = 0;
+        for (Node child : vbox.getChildren()) {
+            height += ((JFXButton)child).getHeight();
+        }
+        vbox.setPrefHeight(height);
+        popup.setPopupContent(vbox);
+
+        return popup;
     }
 
     private void showEntry(Entry newEntry) {
@@ -199,7 +235,7 @@ public class Controller implements Initializable {
         text_vshift.setText(newEntry.getSpriteRep().getInfo().getOffsetX() + "");
         text_boundh.setText(newEntry.getSpriteRep().getInfo().getBoundHeight() + "");
         text_boundw.setText(newEntry.getSpriteRep().getInfo().getBoundWidth() + "");
-
+        scroll_zoom.setValue(0);
         if (newEntry.isAnimation() && newEntry.getAnimation().getFrameCount() > 1) {
             scroll_canvas.setMax(newEntry.getAnimation().getFrameCount());
             scroll_canvas.setDisable(false);

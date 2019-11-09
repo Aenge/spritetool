@@ -1,6 +1,9 @@
 package com.OpenRSC.Model;
 
+import com.OpenRSC.IO.Workspace.WorkspaceWriter;
+
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,5 +61,21 @@ public class Workspace {
         }
         return animationCount;
     }
+    public boolean createSubspace(String name) {
+
+        if (home == null)
+            return false;
+
+        Subspace ss = new Subspace(Paths.get(home.toString(),name));
+
+        WorkspaceWriter wswriter = new WorkspaceWriter(this);
+        if (wswriter.createSubspace(ss)) {
+            subspaces.add(ss);
+            return true;
+        }
+
+        return false;
+    }
+
 }
 

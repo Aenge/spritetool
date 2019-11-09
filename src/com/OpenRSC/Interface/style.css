@@ -20,8 +20,8 @@
     -fx-background-color: derive(-fx-base,45%)
 }
 
-.button:default {
-    -fx-base: -fx-accent ;
+.button {
+    -fx-base: #FFFFFF;
 }
 
 .table-view{
