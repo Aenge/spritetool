@@ -1,7 +1,10 @@
 package com.OpenRSC.Model;
 
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
+import javafx.scene.control.Alert;
 
+import java.io.File;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -66,7 +69,16 @@ public class Workspace {
         if (home == null)
             return false;
 
-        Subspace ss = new Subspace(Paths.get(home.toString(),name));
+        Subspace ss;
+        try {
+            ss = new Subspace(Paths.get(home.toString(),name));
+        } catch (InvalidPathException a) {
+            Alert invalid = new Alert(Alert.AlertType.ERROR);
+            invalid.setHeaderText("Invalid category name.");
+            invalid.showAndWait();
+            return false;
+        }
+
 
         WorkspaceWriter wswriter = new WorkspaceWriter(this);
         if (wswriter.createSubspace(ss)) {

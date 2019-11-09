@@ -8,6 +8,9 @@ import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,10 +20,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -99,6 +99,7 @@ public class Controller implements Initializable {
             if (popup != null)
                 popup.show(spriteTool.getPrimaryStage(),event.getX() + l_subspaces.layoutXProperty().intValue(), event.getY() + l_subspaces.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
+
         l_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
             @Override
             public void changed(ObservableValue<? extends Subspace> observableValue, Subspace oldSubspace, Subspace newSubspace) {
@@ -193,27 +194,48 @@ public class Controller implements Initializable {
         for (Subspace subspace : ws.getSubspaces()) {
             this.l_subspaces.getItems().add(subspace);
         }
-        this.l_subspaces.getSelectionModel().selectFirst();
     }
 
     private JFXPopup buildSubspaceMenu() {
+        if (spriteTool.getWorkspace() == null)
+            return null;
         JFXPopup popup = new JFXPopup();
+        List<JFXButton> buttons = new ArrayList<>();
         JFXButton btn_newCategory = new JFXButton("New Category");
         btn_newCategory.setOnMouseClicked(e -> {
             popup.hide();
-            if (spriteTool.getWorkspace().createSubspace("aoiuefhi")) {
-                Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
-                populateSubspaceList(spriteTool.getWorkspace());
-                l_entries.getSelectionModel().select(entry);
+            TextInputDialog td = new TextInputDialog();
+            td.setHeaderText("Enter the name of the new category");
+            td.showAndWait();
+            if (td.getEditor().getText().isEmpty())
+                return;
+            if (spriteTool.getWorkspace().createSubspace(td.getEditor().getText())) {
+                l_subspaces.getItems().add(spriteTool.getWorkspace().getSubspaceByName(td.getEditor().getText()));
             }
 
         });
         btn_newCategory.setPadding(new Insets(10));
-        VBox vbox = new VBox(btn_newCategory);
-        int height = 0;
-        for (Node child : vbox.getChildren()) {
-            height += ((JFXButton)child).getHeight();
+        buttons.add(btn_newCategory);
+        Subspace ss;
+        if ((ss = (Subspace)l_subspaces.getSelectionModel().getSelectedItem()) != null) {
+            JFXButton btn_delCategory = new JFXButton("Delete " + ss.getName());
+            JFXButton btn_renameCategory = new JFXButton("Rename " + ss.getName());
+            buttons.add(btn_delCategory);
+            buttons.add(btn_renameCategory);
         }
+
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(buttons);
+
+        int height = 0;
+        for (JFXButton button : buttons) {
+            height += button.getHeight();
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setPadding(new Insets(10));
+            button.setButtonType(JFXButton.ButtonType.RAISED);
+        }
+
+
         vbox.setPrefHeight(height);
         popup.setPopupContent(vbox);
 
