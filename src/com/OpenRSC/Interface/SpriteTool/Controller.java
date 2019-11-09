@@ -12,10 +12,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 
 
 public class Controller implements Initializable {
@@ -56,8 +61,12 @@ public class Controller implements Initializable {
     private TextField text_boundh;
 
     @FXML
-    private Canvas canvas;
+    private ImageView canvas;
 
+    @FXML
+    private ScrollBar scroll_canvas;
+
+    int changer = 0;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //--------- HAMBURGER
@@ -86,7 +95,7 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Subspace> observableValue, Subspace oldSubspace, Subspace newSubspace) {
                 if (newSubspace == null)
                     return;
-                canvas.getGraphicsContext2D().clearRect(0,0,canvas.getWidth(), canvas.getHeight());
+                spriteTool.getSpriteRenderer().clear();
                 populateEntryList(newSubspace);
             }
         });
@@ -95,9 +104,12 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
                 if (newEntry == null)
                     return;
-                SpriteRenderer spriteRenderer = new SpriteRenderer(canvas);
-                spriteRenderer.bufferSprite(newEntry.getSprite(), 0, 0, newEntry.getSprite().getImageData().getWidth(), newEntry.getSprite().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
-                spriteRenderer.render();
+
+                int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - newEntry.getSprite().getImageData().getWidth())/2;
+                int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - newEntry.getSprite().getImageData().getHeight())/2;
+                spriteTool.getSpriteRenderer().clear();
+                spriteTool.getSpriteRenderer().bufferSprite(newEntry.getSprite(), xOffset, yOffset, newEntry.getSprite().getImageData().getWidth(), newEntry.getSprite().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                spriteTool.getSpriteRenderer().render();
 
                 text_name.setText(newEntry.getName());
                 check_shift.setSelected(newEntry.getSprite().getInfo().getUseShift());
@@ -117,6 +129,14 @@ public class Controller implements Initializable {
                 text_hshift.setDisable(!current);
                 text_vshift.setDisable(!current);
             }
+        });
+
+        canvas.setOnScroll(e -> {
+            changer += 2*Math.signum(e.getDeltaY());
+            if (changer > 149)
+                changer = 149;
+            Rectangle2D viewportRect = new Rectangle2D(changer, changer, 300-2*changer, 300-2*changer);
+            canvas.setViewport(viewportRect);
         });
     }
 
@@ -169,4 +189,6 @@ public class Controller implements Initializable {
     public void openDrawer() { this.drawer.open(); }
 
     public void setStatus(String status) { label_status.setText(status); }
+
+    public ImageView getCanvas() { return this.canvas; }
 }

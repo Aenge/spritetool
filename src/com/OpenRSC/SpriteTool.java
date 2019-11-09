@@ -2,6 +2,7 @@ package com.OpenRSC;
 import com.OpenRSC.IO.Workspace.WorkspaceReader;
 import com.OpenRSC.Interface.SpriteTool.Controller;
 import com.OpenRSC.Model.Workspace;
+import com.OpenRSC.Render.SpriteRenderer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,6 +35,7 @@ public class SpriteTool extends Application {
     private com.OpenRSC.Interface.PopMenu.Controller menuController;
     private Parent mainRoot;
     private Controller mainController;
+    private SpriteRenderer spriteRenderer;
 
     public void go(String[] args) {
         launch(args);
@@ -60,6 +62,7 @@ public class SpriteTool extends Application {
             this.splashController.setSpriteTool(this);
             this.menuController.setSpriteTool(this);
             this.mainController.setSpriteTool(this);
+            spriteRenderer = new SpriteRenderer(mainController.getCanvas());
         } catch (IOException a) {
             a.printStackTrace();
         }
@@ -120,4 +123,5 @@ public class SpriteTool extends Application {
     public com.OpenRSC.Interface.Splash.Controller getSplashController() { return this.splashController; }
     public com.OpenRSC.Interface.PopMenu.Controller getMenuController() { return this.menuController; }
     public Controller getMainController() { return this.mainController; }
+    public SpriteRenderer getSpriteRenderer() { return this.spriteRenderer; }
 }

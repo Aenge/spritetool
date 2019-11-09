@@ -1,10 +1,10 @@
 package com.OpenRSC.Render;
 
 import com.OpenRSC.Model.Format.Sprite;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 
 public class SpriteRenderer {
 
@@ -16,12 +16,12 @@ public class SpriteRenderer {
     private int clipRight;
     private boolean interlace = false;
     private int[] pixelData;
-    private GraphicsContext gc;
+    private ImageView canvas;
 
-    public SpriteRenderer(Canvas canvas) {
-        this.gc = canvas.getGraphicsContext2D();
-        this.width2 = (int)canvas.getWidth();
-        this.height2 = (int)canvas.getHeight();
+    public SpriteRenderer(ImageView canvas) {
+        this.canvas = canvas;
+        this.width2 = (int)canvas.getFitWidth();
+        this.height2 = (int)canvas.getFitHeight();
         this.clipTop = 0;
         this.clipBottom = this.height2;
         this.clipLeft = 0;
@@ -30,12 +30,14 @@ public class SpriteRenderer {
     }
 
     public void clear() {
-        gc.clearRect(0, 0, this.width2, this.height2);
+        canvas.imageProperty().set(null);
     }
 
     public void render() {
-        PixelWriter pw = gc.getPixelWriter();
+        WritableImage write = new WritableImage(this.width2, this.height2);
+        PixelWriter pw = write.getPixelWriter();
         pw.setPixels(0, 0, this.getWidth2(), this.getHeight2(), PixelFormat.getIntArgbInstance(), this.pixelData, 0, this.width2);
+        canvas.setImage(write);
     }
     public int[] getPixelData() {
         return pixelData;
