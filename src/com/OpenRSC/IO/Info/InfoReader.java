@@ -16,6 +16,7 @@ public class InfoReader {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jo = objectMapper.readTree(infoFile);
 
+                ret.setName(jo.get("name").toString());
                 ret.setType(Entry.TYPE.get(jo.get("type").asInt()));
                 ret.setEntryID(jo.get("entryID").asInt());
                 ret.setFrame(jo.get("frame").asInt());

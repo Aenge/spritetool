@@ -47,6 +47,6 @@
       <Line endX="198.00006103515625" endY="0.9999942779541016" layoutX="382.0" layoutY="9.0" startX="-102.5" startY="0.49999427795410156" />
       <Line endX="198.0" endY="-1.0" layoutX="382.0" layoutY="311.0" startX="-102.5" startY="-0.5" />
       <Line endX="0.70709228515625" endY="248.29290771484375" layoutX="580.0" layoutY="61.0" startY="-51.00000762939453" />
-      <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="279.0" layoutY="311.0" max="0.0" prefHeight="14.0" prefWidth="302.0" />
+      <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="279.0" layoutY="311.0" min="1.0" prefHeight="14.0" prefWidth="300.0"/>
    </children>
 </AnchorPane>

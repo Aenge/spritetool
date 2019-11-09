@@ -2,6 +2,7 @@ package com.OpenRSC.IO.Workspace;
 
 import com.OpenRSC.IO.Info.InfoReader;
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
@@ -83,9 +84,27 @@ public class WorkspaceReader {
             }
 
             Info info = reader.read(infoFile);
+            Sprite sprite = new Sprite(pngFile, info);
+
             if (info.getType() == Entry.TYPE.SPRITE) {
-                Sprite sprite = new Sprite(pngFile, info);
                 ss.getEntryList().add(new Entry(sprite));
+            } else if (info.getType() == Entry.TYPE.ANIMATION) {
+                boolean exists = false;
+                for (int i = 0; i < ss.getEntryCount(); ++i) {
+                    if (ss.getEntryList().get(i).isAnimation()) {
+                        Animation animation = ss.getEntryList().get(i).getAnimation();
+                        if (animation != null &&
+                                animation.getName().equalsIgnoreCase(info.getName())) {
+                            exists = true;
+                            animation.addFrame(sprite);
+                        }
+                    }
+                }
+                if (!exists) {
+                    Animation animation = new Animation(info.getName(), info.getFrameCount());
+                    animation.addFrame(sprite);
+                    ss.getEntryList().add(new Entry(animation));
+                }
             }
         }
 

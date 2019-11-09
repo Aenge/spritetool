@@ -1,6 +1,7 @@
 package com.OpenRSC.Render;
 
 import com.OpenRSC.Model.Format.Sprite;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
@@ -30,6 +31,8 @@ public class SpriteRenderer {
     }
 
     public void clear() {
+        this.pixelData = new int[this.height2 * this.width2];
+        canvas.setViewport(new Rectangle2D(0,0,this.width2,this.height2));
         canvas.imageProperty().set(null);
     }
 

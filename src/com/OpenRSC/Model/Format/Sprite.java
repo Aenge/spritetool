@@ -8,21 +8,15 @@ import java.util.regex.Pattern;
 
 public class Sprite {
 
-    private String name;
     private Info info;
     private ImageData imageData;
 
     public Sprite(File imageFile, Info info) {
-        String name = imageFile.getName();
-        int findPeriod = name.lastIndexOf(".");
-        if (findPeriod != -1)
-            name = name.substring(0, findPeriod);
-        this.name = name;
         this.info = info;
         this.loadImageData(imageFile);
     }
 
-    public String getName() { return this.name; }
+    public String getName() { return this.getInfo().getName(); }
 
     public void loadImageData(File file) {
         ImageReader imageReader = new ImageReader();

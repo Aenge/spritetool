@@ -5,6 +5,7 @@ import com.OpenRSC.Model.Entry;
 public class Info {
     private Entry.TYPE type;
 
+    private String name;
     private int entryID;
     private int frameCount;
     private int frame;
@@ -16,6 +17,8 @@ public class Info {
 
     public void setType(Entry.TYPE type) { this.type = type; }
     public Entry.TYPE getType() { return this.type; }
+    public void setName(String name) { this.name = name; }
+    public String getName() { return this.name; }
     public void setEntryID(int id) { this.entryID = id; }
     public int getEntryID(int id) { return this.entryID; }
     public void setFrame(int frame) { this.frame = frame; }

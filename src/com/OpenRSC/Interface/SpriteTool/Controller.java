@@ -1,5 +1,6 @@
 package com.OpenRSC.Interface.SpriteTool;
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.SpriteRenderer;
@@ -16,6 +17,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -95,6 +97,9 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Subspace> observableValue, Subspace oldSubspace, Subspace newSubspace) {
                 if (newSubspace == null)
                     return;
+                scroll_canvas.setDisable(true);
+                scroll_canvas.setMax(1);
+                scroll_canvas.setValue(1);
                 spriteTool.getSpriteRenderer().clear();
                 populateEntryList(newSubspace);
             }
@@ -104,21 +109,7 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
                 if (newEntry == null)
                     return;
-
-                int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - newEntry.getSprite().getImageData().getWidth())/2;
-                int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - newEntry.getSprite().getImageData().getHeight())/2;
-                spriteTool.getSpriteRenderer().clear();
-                spriteTool.getSpriteRenderer().bufferSprite(newEntry.getSprite(), xOffset, yOffset, newEntry.getSprite().getImageData().getWidth(), newEntry.getSprite().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
-                spriteTool.getSpriteRenderer().render();
-
-                text_name.setText(newEntry.getName());
-                check_shift.setSelected(newEntry.getSprite().getInfo().getUseShift());
-                text_hshift.setText(newEntry.getSprite().getInfo().getOffsetX() + "");
-                text_vshift.setText(newEntry.getSprite().getInfo().getOffsetX() + "");
-                text_boundh.setText(newEntry.getSprite().getInfo().getBoundHeight() + "");
-                text_boundw.setText(newEntry.getSprite().getInfo().getBoundWidth() + "");
-                //should be bound widths like this
-                // spriteRenderer.drawSpriteClipping(newEntry.getSprite(), 0, 0, newEntry.getSprite().getInfo().getBoundWidth(), newEntry.getSprite().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                showEntry(newEntry);
             }
         });
 
@@ -137,6 +128,28 @@ public class Controller implements Initializable {
                 changer = 149;
             Rectangle2D viewportRect = new Rectangle2D(changer, changer, 300-2*changer, 300-2*changer);
             canvas.setViewport(viewportRect);
+        });
+
+        scroll_canvas.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                scroll_canvas.setValue(t1.intValue());
+                if (scroll_canvas.getValue() == number.intValue())
+                    return;
+
+                Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
+                if (entry == null)
+                    return;
+
+                Sprite sprite = entry.getAnimation().getFrame(t1.intValue());
+                int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getImageData().getWidth())/2;
+                int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getImageData().getHeight())/2;
+                spriteTool.getSpriteRenderer().clear();
+                spriteTool.getSpriteRenderer().bufferSprite(sprite, xOffset, yOffset,sprite.getImageData().getWidth(), sprite.getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                //should be bound widths like this
+                // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                spriteTool.getSpriteRenderer().render();
+            }
         });
     }
 
@@ -169,6 +182,28 @@ public class Controller implements Initializable {
     private JFXPopup buildSubspaceMenu() {
         JFXPopup popup = new JFXPopup();
         return null;
+    }
+
+    private void showEntry(Entry newEntry) {
+        int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - newEntry.getSpriteRep().getImageData().getWidth())/2;
+        int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - newEntry.getSpriteRep().getImageData().getHeight())/2;
+        spriteTool.getSpriteRenderer().clear();
+        spriteTool.getSpriteRenderer().bufferSprite(newEntry.getSpriteRep(), xOffset, yOffset, newEntry.getSpriteRep().getImageData().getWidth(), newEntry.getSpriteRep().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+        //should be bound widths like this
+        // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+        spriteTool.getSpriteRenderer().render();
+
+        text_name.setText(newEntry.getName());
+        check_shift.setSelected(newEntry.getSpriteRep().getInfo().getUseShift());
+        text_hshift.setText(newEntry.getSpriteRep().getInfo().getOffsetX() + "");
+        text_vshift.setText(newEntry.getSpriteRep().getInfo().getOffsetX() + "");
+        text_boundh.setText(newEntry.getSpriteRep().getInfo().getBoundHeight() + "");
+        text_boundw.setText(newEntry.getSpriteRep().getInfo().getBoundWidth() + "");
+
+        if (newEntry.isAnimation() && newEntry.getAnimation().getFrameCount() > 1) {
+            scroll_canvas.setMax(newEntry.getAnimation().getFrameCount());
+            scroll_canvas.setDisable(false);
+        }
     }
 
     //------------------- public methods
