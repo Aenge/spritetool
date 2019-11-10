@@ -105,14 +105,5 @@ public class Workspace {
 
         return true;
     }
-
-    public void renameSubspace(Subspace ss, Path path) {
-        for (Subspace subspace : subspaces) {
-            if (subspace == ss) {
-                subspace.setPath(path);
-            }
-        }
-    }
-
 }
 

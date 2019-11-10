@@ -250,7 +250,7 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                spriteTool.getWorkspace().renameSubspace(ss, newPath.toPath());
+                ss.setPath(newPath.toPath());
             });
             buttons.add(btn_delCategory);
             buttons.add(btn_renameCategory);
