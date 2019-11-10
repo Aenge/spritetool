@@ -8,6 +8,14 @@ public class Entry {
     public enum TYPE {
         SPRITE,
         ANIMATION;
+
+        @Override
+        public String toString() {
+            if (this == SPRITE)
+                return "Sprite";
+            else
+                return "Animation";
+        }
     }
 
     private TYPE type;
@@ -51,4 +59,6 @@ public class Entry {
 
         return null;
     }
+
+    public Entry.TYPE getType() { return this.type; }
 }

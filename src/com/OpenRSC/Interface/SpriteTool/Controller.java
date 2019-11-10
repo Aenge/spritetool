@@ -64,6 +64,15 @@ public class Controller implements Initializable {
     private TextField text_boundh;
 
     @FXML
+    private TextField text_type;
+
+    @FXML
+    private TextField text_frame;
+
+    @FXML
+    private TextField text_framecount;
+
+    @FXML
     private ImageView canvas;
 
     @FXML
@@ -105,6 +114,7 @@ public class Controller implements Initializable {
                 scroll_canvas.setMax(1);
                 scroll_canvas.setValue(1);
                 spriteTool.getSpriteRenderer().clear();
+                spriteTool.getSpriteRenderer().resetZoom();
                 populateEntryList(newSubspace);
             }
         });
@@ -154,8 +164,8 @@ public class Controller implements Initializable {
                 Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
                 if (entry == null)
                     return;
-
                 Sprite sprite = entry.getAnimation().getFrame(t1.intValue());
+                text_frame.setText(String.valueOf(sprite.getInfo().getFrame()));
                 int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getImageData().getWidth())/2;
                 int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getImageData().getHeight())/2;
                 spriteTool.getSpriteRenderer().clear();
@@ -171,24 +181,6 @@ public class Controller implements Initializable {
     private void openHamburger(HamburgerNextArrowBasicTransition transition) {
         transition.setRate(1.0);
         transition.play();
-        /*
-        Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
-        ObjectMapper om = new ObjectMapper();
-        try {
-            om.writeValue(new File("C://temp/bargain.json"), entry.getSpriteRep().getInfo());
-        } catch (IOException a) {
-            a.printStackTrace();
-        }
-*/
-        ObjectMapper om = new ObjectMapper();
-        Info info;
-        try {
-
-            info = om.readValue(new File("C://temp/bargain.json"), Info.class);
-        } catch (IOException a) {
-            a.printStackTrace();
-        }
-
     }
 
     private void closeHamburger(HamburgerNextArrowBasicTransition transition) {
@@ -289,17 +281,22 @@ public class Controller implements Initializable {
         int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - newEntry.getSpriteRep().getImageData().getWidth())/2;
         int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - newEntry.getSpriteRep().getImageData().getHeight())/2;
         spriteTool.getSpriteRenderer().clear();
+        spriteTool.getSpriteRenderer().resetZoom();
         spriteTool.getSpriteRenderer().bufferSprite(newEntry.getSpriteRep(), xOffset, yOffset, newEntry.getSpriteRep().getImageData().getWidth(), newEntry.getSpriteRep().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
         //should be bound widths like this
         // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
         spriteTool.getSpriteRenderer().render();
 
+        Info info = newEntry.getSpriteRep().getInfo();
         text_name.setText(newEntry.getName());
-        check_shift.setSelected(newEntry.getSpriteRep().getInfo().getUseShift());
-        text_hshift.setText(newEntry.getSpriteRep().getInfo().getOffsetX() + "");
-        text_vshift.setText(newEntry.getSpriteRep().getInfo().getOffsetX() + "");
-        text_boundh.setText(newEntry.getSpriteRep().getInfo().getBoundHeight() + "");
-        text_boundw.setText(newEntry.getSpriteRep().getInfo().getBoundWidth() + "");
+        check_shift.setSelected(info.getUseShift());
+        text_hshift.setText(String.valueOf(info.getOffsetX()));
+        text_vshift.setText(String.valueOf(info.getOffsetX()));
+        text_boundh.setText(String.valueOf(info.getBoundHeight()));
+        text_boundw.setText(String.valueOf(info.getBoundWidth()));
+        text_type.setText(info.getType().toString());
+        text_frame.setText(String.valueOf(info.getFrame()));
+        text_framecount.setText(String.valueOf(info.getFrameCount()));
         scroll_zoom.setValue(0);
         if (newEntry.isAnimation() && newEntry.getAnimation().getFrameCount() > 1) {
             scroll_canvas.setMax(newEntry.getAnimation().getFrameCount());

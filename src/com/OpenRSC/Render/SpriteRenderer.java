@@ -32,8 +32,11 @@ public class SpriteRenderer {
 
     public void clear() {
         this.pixelData = new int[this.height2 * this.width2];
-        canvas.setViewport(new Rectangle2D(0,0,this.width2,this.height2));
         canvas.imageProperty().set(null);
+    }
+
+    public void resetZoom() {
+        canvas.setViewport(new Rectangle2D(0,0,this.width2,this.height2));
     }
 
     public void render() {
