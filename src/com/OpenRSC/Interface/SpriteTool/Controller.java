@@ -7,7 +7,10 @@ import com.OpenRSC.Render.SpriteRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
+
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -191,9 +194,7 @@ public class Controller implements Initializable {
 
     public void populateSubspaceList(Workspace ws) {
         this.l_subspaces.getItems().clear();
-        for (Subspace subspace : ws.getSubspaces()) {
-            this.l_subspaces.getItems().add(subspace);
-        }
+        this.l_subspaces.setItems(ws.getSubspaces());
     }
 
     private JFXPopup buildSubspaceMenu() {
@@ -209,10 +210,8 @@ public class Controller implements Initializable {
             td.showAndWait();
             if (td.getEditor().getText().isEmpty())
                 return;
-            if (spriteTool.getWorkspace().createSubspace(td.getEditor().getText())) {
-                l_subspaces.getItems().add(spriteTool.getWorkspace().getSubspaceByName(td.getEditor().getText()));
-            }
 
+            spriteTool.getWorkspace().createSubspace(td.getEditor().getText());
         });
         btn_newCategory.setPadding(new Insets(10));
         buttons.add(btn_newCategory);
@@ -220,6 +219,39 @@ public class Controller implements Initializable {
         if ((ss = (Subspace)l_subspaces.getSelectionModel().getSelectedItem()) != null) {
             JFXButton btn_delCategory = new JFXButton("Delete " + ss.getName());
             JFXButton btn_renameCategory = new JFXButton("Rename " + ss.getName());
+
+            btn_delCategory.setOnMouseClicked(e -> {
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                confirm.setHeaderText("Are you sure you want to remove category " + ss.getName() + "? This action can't be undone.");
+                confirm.showAndWait();
+                if (confirm.getResult().getButtonData().isDefaultButton()) {
+                    if (!spriteTool.getWorkspace().deleteSubspace(ss)) {
+                        showError("Could not delete subspace.");
+                    }
+                }
+
+            });
+
+            btn_renameCategory.setOnMouseClicked(e -> {
+
+                TextInputDialog td = new TextInputDialog();
+                td.setHeaderText("Please enter the new name for category " + ss.getName());
+                td.showAndWait();
+                File path = ss.getPath().toFile();
+                File newPath = new File(path.getParent().toString(), td.getEditor().getText());
+
+                if (newPath.exists()) {
+                    showError("That category already exists.");
+                    return;
+                }
+
+                if (!path.renameTo(newPath)) {
+                    showError("Error renaming category.");
+                    return;
+                }
+
+                spriteTool.getWorkspace().renameSubspace(ss, newPath.toPath());
+            });
             buttons.add(btn_delCategory);
             buttons.add(btn_renameCategory);
         }
@@ -229,16 +261,16 @@ public class Controller implements Initializable {
 
         int height = 0;
         for (JFXButton button : buttons) {
-            height += button.getHeight();
+            height += button.getMaxHeight();
             button.setMaxWidth(Double.MAX_VALUE);
             button.setPadding(new Insets(10));
             button.setButtonType(JFXButton.ButtonType.RAISED);
+            button.setOnMouseEntered(e -> button.requestFocus());
         }
 
-
         vbox.setPrefHeight(height);
-        popup.setPopupContent(vbox);
 
+        popup.setPopupContent(vbox);
         return popup;
     }
 
@@ -284,4 +316,10 @@ public class Controller implements Initializable {
     public void setStatus(String status) { label_status.setText(status); }
 
     public ImageView getCanvas() { return this.canvas; }
+
+    public void showError(String text) {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setHeaderText(text);
+        error.showAndWait();
+    }
 }

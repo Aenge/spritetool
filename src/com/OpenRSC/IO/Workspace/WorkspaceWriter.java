@@ -17,7 +17,7 @@ public class WorkspaceWriter {
         if (ws == null)
             return false;
 
-        File directory = new File(ss.getPath().toUri());
+        File directory = ss.getPath().toFile();
         if (directory.exists())
             return false;
 

@@ -22,6 +22,8 @@
 
 .button {
     -fx-base: #FFFFFF;
+    -fx-accent: #1a6ee4;
+    -fx-focus-color: -fx-accent;
 }
 
 .table-view{

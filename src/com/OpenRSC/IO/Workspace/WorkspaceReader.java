@@ -20,7 +20,7 @@ public class WorkspaceReader {
     public Workspace loadWorkspace(Path path) {
         Workspace ws = new Workspace(path);
 
-        File[] directories = new File(path.toUri()).listFiles(File::isDirectory);
+        File[] directories = path.toFile().listFiles(File::isDirectory);
 
         if (directories == null || directories.length == 0) {
             new Alert(Alert.AlertType.ERROR, "The chosen directory is not a valid workspace.").showAndWait();
@@ -38,7 +38,7 @@ public class WorkspaceReader {
 
         Subspace ss = new Subspace(path);
 
-        File[] files = new File(ss.getPath().toUri()).listFiles(File::isFile);
+        File[] files = ss.getPath().toFile().listFiles(File::isFile);
 
         if (files == null) {
             return null;

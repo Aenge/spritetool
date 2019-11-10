@@ -1,22 +1,25 @@
 package com.OpenRSC.Model;
 
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 public class Workspace {
 
     private Path home;
     private String name;
-
-    private List<Subspace> subspaces = new ArrayList<Subspace>();
-    private Subspace activeSubspace;
+    private ObservableList<Subspace> subspaces = FXCollections.observableArrayList(Subspace.extractor());
 
     public Workspace(Path directory) {
         this.home = directory;
@@ -26,11 +29,9 @@ public class Workspace {
     public Path getHome() { return this.home; }
     public String getName() { return this.name; }
 
-    public List<Subspace> getSubspaces() {
+    public ObservableList<Subspace> getSubspaces() {
         return this.subspaces;
     }
-
-    public Subspace getActiveSubspace() { return this.activeSubspace; }
 
     public Subspace getSubspaceByName(String name) {
         for (Subspace subspace : getSubspaces()) {
@@ -64,6 +65,7 @@ public class Workspace {
         }
         return animationCount;
     }
+
     public boolean createSubspace(String name) {
 
         if (home == null)
@@ -87,6 +89,29 @@ public class Workspace {
         }
 
         return false;
+    }
+
+    public boolean deleteSubspace(Subspace ss) {
+        if (!subspaces.contains(ss))
+            return false;
+
+        subspaces.remove(ss);
+        try {
+            FileUtils.deleteDirectory(ss.getPath().toFile());
+        } catch (IOException a) {
+            a.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public void renameSubspace(Subspace ss, Path path) {
+        for (Subspace subspace : subspaces) {
+            if (subspace == ss) {
+                subspace.setPath(path);
+            }
+        }
     }
 
 }
