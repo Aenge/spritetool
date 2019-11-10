@@ -2,9 +2,7 @@ package com.OpenRSC.Model.Format;
 
 import com.OpenRSC.IO.Archive.ImageData;
 import com.OpenRSC.IO.Image.ImageReader;
-
 import java.io.File;
-import java.util.regex.Pattern;
 
 public class Sprite {
 

@@ -1,7 +1,5 @@
 package com.OpenRSC.Model.Format;
 
-import java.io.File;
-
 public class Animation {
 
     private String name;

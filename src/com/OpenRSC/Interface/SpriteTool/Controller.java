@@ -1,18 +1,17 @@
 package com.OpenRSC.Interface.SpriteTool;
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
-import com.OpenRSC.Render.SpriteRenderer;
 import com.OpenRSC.SpriteTool;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
-
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -21,15 +20,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
@@ -178,6 +171,24 @@ public class Controller implements Initializable {
     private void openHamburger(HamburgerNextArrowBasicTransition transition) {
         transition.setRate(1.0);
         transition.play();
+        /*
+        Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
+        ObjectMapper om = new ObjectMapper();
+        try {
+            om.writeValue(new File("C://temp/bargain.json"), entry.getSpriteRep().getInfo());
+        } catch (IOException a) {
+            a.printStackTrace();
+        }
+*/
+        ObjectMapper om = new ObjectMapper();
+        Info info;
+        try {
+
+            info = om.readValue(new File("C://temp/bargain.json"), Info.class);
+        } catch (IOException a) {
+            a.printStackTrace();
+        }
+
     }
 
     private void closeHamburger(HamburgerNextArrowBasicTransition transition) {

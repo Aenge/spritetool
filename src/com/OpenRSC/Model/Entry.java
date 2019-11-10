@@ -2,23 +2,12 @@ package com.OpenRSC.Model;
 
 import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Sprite;
-import java.util.EnumSet;
 
 public class Entry {
 
     public enum TYPE {
-        SPRITE(1),
-        ANIMATION(2);
-        private int value;
-        TYPE(int value) { this.value = value; }
-        public int getValue() { return this.value; }
-        public static TYPE get(int id) {
-            for (TYPE type : EnumSet.allOf(TYPE.class)) {
-                if (type.getValue() == id)
-                    return type;
-            }
-            return null;
-        }
+        SPRITE,
+        ANIMATION;
     }
 
     private TYPE type;

@@ -2,17 +2,13 @@ package com.OpenRSC.Model;
 
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 
 public class Workspace {
