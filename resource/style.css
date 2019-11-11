@@ -1,10 +1,10 @@
 .root {
-    -fx-accent: #1a6ee4;
+    -fx-accent: #0f9d58;
     -fx-focus-color: -fx-accent;
     -fx-base: #111;
     -fx-control-inner-background: derive(-fx-base,50%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
-    -icons-color: white;
+    -icons-color: #0f9d58;
 }
 
 .label{
@@ -27,6 +27,7 @@
 
 .button-red {
 -fx-background-color: red;
+-fx-text-fill: black
 }
 
 .glyph-icon {
@@ -37,7 +38,7 @@
 
 .edit-icon {
 -glyph-name: "EDIT";
--icons-color: red;
+-icons-color: black;
 }
 
 .jfx-popup-container

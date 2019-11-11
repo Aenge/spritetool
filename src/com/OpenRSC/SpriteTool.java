@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -82,7 +83,23 @@ public class SpriteTool extends Application {
         setPrimaryStage(newStage);
     }
 
-    public void loadWorkspace() {
+    public void createWorkspace() {
+        if (workspace != null)
+            return;
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+
+        File selectedDirectory = directoryChooser.showDialog(primaryStage);
+
+        if (selectedDirectory == null)
+            return;
+
+        if (selectedDirectory.exists())
+            getMainController().showError("That directory already exists.");
+
+    }
+
+    public void openWorkspace() {
         getMainController().closeDrawer();
 
         DirectoryChooser directoryChooser = new DirectoryChooser();

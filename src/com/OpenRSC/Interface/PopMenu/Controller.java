@@ -29,7 +29,7 @@ public class Controller implements Initializable {
     }
 
     public void b_OpenWorkSpace_Click() {
-        spriteTool.loadWorkspace();
+        spriteTool.openWorkspace();
     }
 
     public void setSpriteTool(SpriteTool spritetool) {

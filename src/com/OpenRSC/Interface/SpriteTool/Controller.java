@@ -88,15 +88,31 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton button_new_workspace;
 
+    @FXML
+    private JFXButton button_open_workspace;
+
+    @FXML
+    private JFXButton button_save_workspace;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        button_new_workspace.getStyleClass().add("button-red");
-        button_new_workspace.setOnMouseClicked(e-> {
-            button_new_workspace.getStyleClass().remove("button-red");
-        });
-        button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "20px"));
         //button_new_workspace.getStylesheets().clear();
         //button_new_workspace.setStyle(".glyph-icon{ -fx-fill: #FF0000; -fx-fill-text: #FF0000;}");
+
+        //--------- Menu buttons
+        button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "23px"));
+        button_new_workspace.setOnMouseClicked(e -> {
+            spriteTool.createWorkspace();
+        });
+        //button_new_workspace.getStyleClass().addAll("button-red", "edit-icon");
+        //button_new_workspace.setOnMouseClicked(e-> {
+        //    button_new_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+        //});
+        button_open_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT, "23px"));
+        button_open_workspace.setOnMouseClicked(e -> {
+            spriteTool.openWorkspace();
+        });
+        button_save_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.SAVE, "23px"));
         //--------- HAMBURGER
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
