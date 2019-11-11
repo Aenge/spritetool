@@ -30,9 +30,17 @@ public class SpriteRenderer {
         this.pixelData = new int[this.height2 * this.width2];
     }
 
+    public void reset() {
+        clear();
+        wipeBuffer();
+        resetZoom();
+    }
     public void clear() {
-        this.pixelData = new int[this.height2 * this.width2];
         canvas.imageProperty().set(null);
+    }
+
+    public void wipeBuffer() {
+        this.pixelData = new int[this.height2 * this.width2];
     }
 
     public void resetZoom() {

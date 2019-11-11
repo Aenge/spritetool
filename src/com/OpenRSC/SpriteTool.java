@@ -73,7 +73,7 @@ public class SpriteTool extends Application {
         Stage newStage = new Stage();
         newStage.setTitle("OpenRSC Sprite Tool");
 
-        Scene scene = new Scene(this.mainRoot, 800, 500);
+        Scene scene = new Scene(this.mainRoot, 800, 550);
         newStage.setScene(scene);
 
         newStage.show();

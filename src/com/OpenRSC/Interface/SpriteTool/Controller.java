@@ -14,6 +14,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -81,8 +85,18 @@ public class Controller implements Initializable {
     @FXML
     private ScrollBar scroll_zoom;
 
+    @FXML
+    private JFXButton button_new_workspace;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        button_new_workspace.getStyleClass().add("button-red");
+        button_new_workspace.setOnMouseClicked(e-> {
+            button_new_workspace.getStyleClass().remove("button-red");
+        });
+        button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "20px"));
+        //button_new_workspace.getStylesheets().clear();
+        //button_new_workspace.setStyle(".glyph-icon{ -fx-fill: #FF0000; -fx-fill-text: #FF0000;}");
         //--------- HAMBURGER
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -113,16 +127,25 @@ public class Controller implements Initializable {
                 scroll_canvas.setDisable(true);
                 scroll_canvas.setMax(1);
                 scroll_canvas.setValue(1);
-                spriteTool.getSpriteRenderer().clear();
-                spriteTool.getSpriteRenderer().resetZoom();
+                spriteTool.getSpriteRenderer().reset();
+                scroll_zoom.setValue(0);
                 populateEntryList(newSubspace);
             }
         });
+
+        //-------- Entries list
+        l_entries.setOnContextMenuRequested(event -> {
+            JFXPopup popup = buildEntryMenu();
+            if (popup != null)
+                popup.show(spriteTool.getPrimaryStage(),event.getX() + l_entries.layoutXProperty().intValue(), event.getY() + l_entries.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+        });
+
         l_entries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Entry>() {
             @Override
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
                 if (newEntry == null)
                     return;
+                spriteTool.getSpriteRenderer().reset();
                 showEntry(newEntry);
             }
         });
@@ -169,6 +192,7 @@ public class Controller implements Initializable {
                 int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getImageData().getWidth())/2;
                 int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getImageData().getHeight())/2;
                 spriteTool.getSpriteRenderer().clear();
+                spriteTool.getSpriteRenderer().wipeBuffer();
                 spriteTool.getSpriteRenderer().bufferSprite(sprite, xOffset, yOffset,sprite.getImageData().getWidth(), sprite.getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
                 //should be bound widths like this
                 // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
@@ -198,6 +222,33 @@ public class Controller implements Initializable {
     public void populateSubspaceList(Workspace ws) {
         this.l_subspaces.getItems().clear();
         this.l_subspaces.setItems(ws.getSubspaces());
+    }
+
+    private JFXPopup buildEntryMenu() {
+        if (spriteTool.getWorkspace() == null
+        || l_subspaces.getSelectionModel().getSelectedItem() == null)
+            return null;
+
+        JFXPopup popup = new JFXPopup();
+        List<JFXButton> buttons = new ArrayList<>();
+        JFXButton btn_newCategory = new JFXButton("New Entry");
+        buttons.add(btn_newCategory);
+
+        int height = 0;
+        for (JFXButton button : buttons) {
+            height += button.getMaxHeight();
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setPadding(new Insets(10));
+            button.setButtonType(JFXButton.ButtonType.RAISED);
+            button.setOnMouseEntered(e -> button.requestFocus());
+        }
+
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(buttons);
+        vbox.setPrefHeight(height);
+
+        popup.setPopupContent(vbox);
+        return popup;
     }
 
     private JFXPopup buildSubspaceMenu() {
@@ -240,6 +291,8 @@ public class Controller implements Initializable {
                 TextInputDialog td = new TextInputDialog();
                 td.setHeaderText("Please enter the new name for category " + ss.getName());
                 td.showAndWait();
+                if (td.getEditor().getText().isEmpty())
+                    return;
                 File path = ss.getPath().toFile();
                 File newPath = new File(path.getParent().toString(), td.getEditor().getText());
 
@@ -280,8 +333,6 @@ public class Controller implements Initializable {
     private void showEntry(Entry newEntry) {
         int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - newEntry.getSpriteRep().getImageData().getWidth())/2;
         int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - newEntry.getSpriteRep().getImageData().getHeight())/2;
-        spriteTool.getSpriteRenderer().clear();
-        spriteTool.getSpriteRenderer().resetZoom();
         spriteTool.getSpriteRenderer().bufferSprite(newEntry.getSpriteRep(), xOffset, yOffset, newEntry.getSpriteRep().getImageData().getWidth(), newEntry.getSpriteRep().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
         //should be bound widths like this
         // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
@@ -308,14 +359,6 @@ public class Controller implements Initializable {
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
         drawer.setSidePane(spriteTool.getMenuRoot());
-        /*
-        GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-        File newfile = new File("file:\\C:\\Users\\Scott\\Documents\\workspace\\Textures\\3239.png");
-        if (newfile.exists())
-            System.out.print("nice");
-        Image image = new Image(newfile.getPath());
-        gc.drawImage(image, 10, 10, 90, 90);
-         */
     }
 
     public void closeDrawer() { this.drawer.close(); }
