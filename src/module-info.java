@@ -12,5 +12,6 @@ module OpenRSC.Sprite.Tool {
     opens com.OpenRSC.Interface.PopMenu;
     opens com.OpenRSC.Interface.Splash;
     opens com.OpenRSC.Interface.SpriteTool;
+    opens com.OpenRSC.Interface.CreateWorkspace;
     opens com.OpenRSC;
 }

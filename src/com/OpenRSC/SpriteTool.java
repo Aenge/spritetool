@@ -15,6 +15,7 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class SpriteTool extends Application {
 
@@ -35,7 +36,9 @@ public class SpriteTool extends Application {
     private VBox menuRoot;
     private com.OpenRSC.Interface.PopMenu.Controller menuController;
     private Parent mainRoot;
-    private Controller mainController;
+    private com.OpenRSC.Interface.SpriteTool.Controller mainController;
+    private Parent createWorkspaceRoot;
+    private com.OpenRSC.Interface.CreateWorkspace.Controller createWorkspaceController;
     private SpriteRenderer spriteRenderer;
 
     public void go(String[] args) {
@@ -53,17 +56,20 @@ public class SpriteTool extends Application {
             FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("Interface/Splash/Splash.fxml"));
             FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("Interface/PopMenu/PopMenu.fxml"));
             FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("Interface/SpriteTool/SpriteTool.fxml"));
+            FXMLLoader createWorkspaceLoader = new FXMLLoader(getClass().getResource("Interface/CreateWorkspace/CreateWorkspace.fxml"));
             this.splashRoot = splashLoader.load();
             this.menuRoot = menuLoader.load();
             this.mainRoot = mainLoader.load();
+            this.createWorkspaceRoot = createWorkspaceLoader.load();
             this.menuRoot.setStyle("-fx-background-color: #3C3C3C");
             this.splashController = splashLoader.getController();
             this.menuController = menuLoader.getController();
             this.mainController = mainLoader.getController();
+            this.createWorkspaceController = createWorkspaceLoader.getController();
             this.splashController.setSpriteTool(this);
             this.menuController.setSpriteTool(this);
             this.mainController.setSpriteTool(this);
-            spriteRenderer = new SpriteRenderer(mainController.getCanvas());
+            this.createWorkspaceController.setSpriteTool(this);
         } catch (IOException a) {
             a.printStackTrace();
         }
@@ -81,22 +87,19 @@ public class SpriteTool extends Application {
         primaryStage.hide();
 
         setPrimaryStage(newStage);
+
+        spriteRenderer = new SpriteRenderer(mainController.getCanvas());
     }
 
     public void createWorkspace() {
         if (workspace != null)
             return;
 
-        DirectoryChooser directoryChooser = new DirectoryChooser();
+        Stage stage = new Stage();
+        Scene scene = new Scene(createWorkspaceRoot);
 
-        File selectedDirectory = directoryChooser.showDialog(primaryStage);
-
-        if (selectedDirectory == null)
-            return;
-
-        if (selectedDirectory.exists())
-            getMainController().showError("That directory already exists.");
-
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void openWorkspace() {
@@ -116,8 +119,12 @@ public class SpriteTool extends Application {
             return;
         }
 
+        openWorkspace(selectedDirectory.toPath());
+    }
+
+    public void openWorkspace(Path path) {
         WorkspaceReader reader = new WorkspaceReader();
-        this.workspace = reader.loadWorkspace(selectedDirectory.toPath());
+        this.workspace = reader.loadWorkspace(path);
 
         if (this.workspace == null) {
             System.out.print("Failed to load workspace.");
@@ -137,6 +144,7 @@ public class SpriteTool extends Application {
     public Parent getSplashRoot() { return this.splashRoot; }
     public Parent getMainRoot() { return this.mainRoot; }
     public VBox getMenuRoot() { return this.menuRoot; }
+    public Parent getCreateWorkspaceRoot() { return this.createWorkspaceRoot; }
     public com.OpenRSC.Interface.Splash.Controller getSplashController() { return this.splashController; }
     public com.OpenRSC.Interface.PopMenu.Controller getMenuController() { return this.menuController; }
     public Controller getMainController() { return this.mainController; }

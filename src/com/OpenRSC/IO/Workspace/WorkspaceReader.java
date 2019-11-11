@@ -22,11 +22,6 @@ public class WorkspaceReader {
 
         File[] directories = path.toFile().listFiles(File::isDirectory);
 
-        if (directories == null || directories.length == 0) {
-            new Alert(Alert.AlertType.ERROR, "The chosen directory is not a valid workspace.").showAndWait();
-            return null;
-        }
-
         for (File dir : directories) {
             ws.getSubspaces().add(loadSubspace(dir.toPath()));
         }

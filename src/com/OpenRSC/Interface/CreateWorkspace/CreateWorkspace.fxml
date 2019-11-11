@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="600.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.CreateWorkspace.Controller">
+   <children>
+      <Label layoutX="32.0" layoutY="48.0" text="Select the home directory for the new workspace" />
+      <TextField fx:id="text_directory" disable="true" editable="false" layoutX="32.0" layoutY="69.0" prefHeight="26.0" prefWidth="474.0" />
+      <JFXButton fx:id="button_choose_directory" buttonType="RAISED" layoutX="506.0" layoutY="69.0" />
+      <Label layoutX="32.0" layoutY="116.0" text="Choose a name for the workspace" />
+      <TextField fx:id="text_name" disable="true" layoutX="32.0" layoutY="134.0" prefHeight="26.0" prefWidth="216.0" />
+      <Label fx:id="label_display" layoutX="32.0" layoutY="192.0" text="Your new workspace is:" />
+      <Label fx:id="label_workspace_path" layoutX="32.0" layoutY="210.0" prefHeight="18.0" prefWidth="553.0" />
+      <JFXButton fx:id="button_accept" buttonType="RAISED" disable="true" layoutX="212.0" layoutY="242.0" text="Accept" />
+      <JFXButton fx:id="button_cancel" buttonType="RAISED" layoutX="345.0" layoutY="242.0" text="Cancel" />
+      <Label layoutX="202.0" text="Create New Workspace" AnchorPane.leftAnchor="202.0" AnchorPane.rightAnchor="202.8" AnchorPane.topAnchor="4.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Line endX="309.0" endY="-1.1444091796875E-5" layoutX="291.0" layoutY="36.0" startX="-291.0" startY="-1.1444091796875E-5" AnchorPane.topAnchor="35.4999885559082" />
+   </children>
+</AnchorPane>

@@ -5,11 +5,9 @@ import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.SpriteTool;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,6 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -33,6 +30,9 @@ import javafx.scene.layout.VBox;
 public class Controller implements Initializable {
 
     private SpriteTool spriteTool;
+
+    @FXML
+    private VBox root;
 
     @FXML
     private JFXHamburger hamburger;
@@ -100,6 +100,10 @@ public class Controller implements Initializable {
         //button_new_workspace.setStyle(".glyph-icon{ -fx-fill: #FF0000; -fx-fill-text: #FF0000;}");
 
         //--------- Menu buttons
+        button_new_workspace.setOnMouseEntered(e -> button_new_workspace.requestFocus());
+        button_open_workspace.setOnMouseEntered(e -> button_open_workspace.requestFocus());
+        button_save_workspace.setOnMouseEntered(e -> button_save_workspace.requestFocus());
+
         button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "23px"));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
@@ -215,6 +219,7 @@ public class Controller implements Initializable {
                 spriteTool.getSpriteRenderer().render();
             }
         });
+
     }
 
     //------------------ private methods
@@ -375,6 +380,7 @@ public class Controller implements Initializable {
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
         drawer.setSidePane(spriteTool.getMenuRoot());
+        this.spriteTool.getMainRoot().requestFocus();
     }
 
     public void closeDrawer() { this.drawer.close(); }
