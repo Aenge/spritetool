@@ -374,6 +374,9 @@ public class Controller implements Initializable {
             scroll_canvas.setMax(newEntry.getAnimation().getFrameCount());
             scroll_canvas.setDisable(false);
         }
+        Entry entry = newEntry.clone();
+        if (entry.equals(newEntry))
+            showError("bun");
     }
 
     //------------------- public methods
