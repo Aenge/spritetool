@@ -1,6 +1,6 @@
 package com.OpenRSC.IO.Image;
 
-import com.OpenRSC.IO.Archive.ImageData;
+import com.OpenRSC.Model.Format.ImageData;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelReader;

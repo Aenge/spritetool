@@ -1,4 +1,4 @@
-package com.OpenRSC.IO.Archive;
+package com.OpenRSC.Model.Format;
 
 public class ImageData {
     private int width;

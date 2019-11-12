@@ -18,5 +18,7 @@
     <orderEntry type="library" name="jacskondata" level="project" />
     <orderEntry type="library" name="jacks0n" level="project" />
     <orderEntry type="library" name="commons-io-2.6" level="project" />
+    <orderEntry type="library" name="cloning-1.10.0" level="project" />
+    <orderEntry type="library" name="objenesis-3.1" level="project" />
   </component>
 </module>
