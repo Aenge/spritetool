@@ -16,16 +16,17 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -171,29 +172,62 @@ public class Controller implements Initializable {
             }
         });
 
-        //-------- Checkbox
-        check_shift.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean previous, Boolean current) {
-                text_hshift.setDisable(!current);
-                text_vshift.setDisable(!current);
-            }
-        });
-
         canvas.setOnScroll(e -> {
-            double newValue = scroll_zoom.getValue() - 4*Math.signum(e.getDeltaY());
-            if (newValue > scroll_zoom.getMax())
-                newValue = scroll_zoom.getMax();
-            else if (newValue < scroll_zoom.getMin())
-                newValue = scroll_zoom.getMin();
-            scroll_zoom.setValue(newValue);
+            if (e.isControlDown()) {
+                double newValue = scroll_canvas.getValue() + Math.signum(e.getDeltaY());
+                if (newValue > scroll_canvas.getMax())
+                    newValue = scroll_canvas.getMax();
+                else if (newValue < scroll_canvas.getMin())
+                    newValue = scroll_canvas.getMin();
+
+                scroll_canvas.setValue(newValue);
+            } else {
+                double newValue = scroll_zoom.getValue() - 4*Math.signum(e.getDeltaY());
+                if (newValue > scroll_zoom.getMax())
+                    newValue = scroll_zoom.getMax();
+                else if (newValue < scroll_zoom.getMin())
+                    newValue = scroll_zoom.getMin();
+                scroll_zoom.setValue(newValue);
+            }
+
         });
 
+        final Light.Point point = new Light.Point();
+        canvas.setOnMouseClicked(e -> {
+            if (e.getClickCount() > 1)
+                scroll_zoom.setValue(0);
+        });
+        canvas.setCursor(Cursor.HAND);
+
+        canvas.setOnMousePressed(e -> {
+            point.setX(e.getSceneX());
+            point.setY(e.getSceneY());
+            canvas.setCursor(Cursor.CLOSED_HAND);
+        });
+
+        canvas.setOnMouseReleased(e -> {
+            canvas.setCursor(Cursor.HAND);
+        });
+        canvas.setOnMouseExited(e -> {
+            canvas.setCursor(Cursor.HAND);
+        });
+        canvas.setOnMouseDragged(e -> {
+            if (spriteTool.getWorkingCopy() == null)
+                return;
+            Rectangle2D viewPort = canvas.getViewport();
+            double deltaX = (e.getSceneX()-point.getX()) * viewPort.getWidth() / canvas.getFitWidth();
+            double deltaY = (e.getSceneY()-point.getY()) * viewPort.getHeight() / canvas.getFitHeight();
+            Rectangle2D newPort = new Rectangle2D(viewPort.getMinX() - deltaX, viewPort.getMinY() - deltaY, viewPort.getWidth(), viewPort.getHeight());
+            canvas.setViewport(newPort);
+            point.setX(e.getSceneX());
+            point.setY(e.getSceneY());
+        });
         scroll_zoom.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 if (t1.intValue() == number.intValue())
                     return;
+
                 Rectangle2D viewportRect = new Rectangle2D(-t1.intValue(), -t1.intValue(), 300+2*t1.intValue(), 300+2*t1.intValue());
                 canvas.setViewport(viewportRect);
             }
@@ -228,7 +262,7 @@ public class Controller implements Initializable {
             }
         });
         //------- Checkbox
-        check_shift.setDisable(false);
+        check_shift.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
         check_shift.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -237,10 +271,15 @@ public class Controller implements Initializable {
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setUseShift(t1);
                 spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite());
+
+                if (needSave())
+                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
+                else
+                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
             }
         });
         //------- Textboxes
-        text_boundh.setDisable(false);
+        text_boundh.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
         text_boundh.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -258,14 +297,15 @@ public class Controller implements Initializable {
                     return;
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setBoundHeight(Integer.parseInt(t1));
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
+
                 if (needSave())
                     button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
                 else
                     button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
-        text_boundw.setDisable(false);
+        text_boundw.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
         text_boundw.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -284,8 +324,14 @@ public class Controller implements Initializable {
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
+
+                if (needSave())
+                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
+                else
+                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
             }
         });
+        text_hshift.disableProperty().bind(check_shift.selectedProperty().not());
         text_hshift.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -301,8 +347,14 @@ public class Controller implements Initializable {
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetX(Integer.parseInt(t1));
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
+
+                if (needSave())
+                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
+                else
+                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
             }
         });
+        text_vshift.disableProperty().bind(check_shift.selectedProperty().not());
         text_vshift.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -318,8 +370,14 @@ public class Controller implements Initializable {
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetY(Integer.parseInt(t1));
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
+
+                if (needSave())
+                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
+                else
+                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
             }
         });
+        text_name.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
 
     }
 
