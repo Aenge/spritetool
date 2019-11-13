@@ -82,7 +82,7 @@ public class SpriteTool extends Application {
         Stage newStage = new Stage();
         newStage.setTitle("OpenRSC Sprite Tool");
 
-        Scene scene = new Scene(this.mainRoot, 800, 550);
+        Scene scene = new Scene(this.mainRoot, 800, 600);
         newStage.setScene(scene);
 
         newStage.show();
@@ -92,6 +92,8 @@ public class SpriteTool extends Application {
 
         spriteRenderer = new SpriteRenderer(mainController.getCanvas());
         spriteRenderer.setSpriteTool(this);
+
+        getMainController().getRoot().requestFocus();
     }
 
     public void createWorkspace() {

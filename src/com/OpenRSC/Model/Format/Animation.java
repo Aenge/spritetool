@@ -1,13 +1,18 @@
 package com.OpenRSC.Model.Format;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Animation {
 
     private String name;
     private Sprite[] frames;
+    private IntegerProperty frameProperty;
 
     public Animation(String name, int frameCount) {
         this.name = name;
         this.frames = new Sprite[frameCount];
+        frameProperty = new SimpleIntegerProperty(1);
     }
 
     Animation() { }
@@ -45,6 +50,11 @@ public class Animation {
         return null;
     }
 
+    public Sprite getViewedFrame() {
+        return this.frames[frameProperty.get()-1];
+    }
+
+    public IntegerProperty frameProperty() { return this.frameProperty; }
     public int getFrameCount() { return frames.length; }
     public String getName() { return this.name; }
     public Sprite getSprite() { return frames[0]; }
@@ -59,6 +69,7 @@ public class Animation {
             animation.frames[i] = this.frames[i].clone();
         }
 
+        animation.frameProperty = new SimpleIntegerProperty(1);
         return animation;
     }
 }

@@ -11,6 +11,14 @@ public class InfoReader {
             if (infoFile.exists()) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 ret = objectMapper.readValue(infoFile,Info.class);
+
+                //Jackson encodes strings in double quotes. Need to eliminate those.
+                String name = ret.getName();
+                if (name.startsWith("\"") &&
+                    name.endsWith("\"")) {
+                    name = name.substring(1,name.length()-1);
+                    ret.setName(name);
+                }
             }
         } catch (IOException a) {
             a.printStackTrace();

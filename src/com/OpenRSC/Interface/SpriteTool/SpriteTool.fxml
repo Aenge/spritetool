@@ -16,7 +16,7 @@
 
 <VBox fx:id="root" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
-      <HBox prefHeight="52.0" prefWidth="794.0" style="-fx-border-color: #000000;">
+      <HBox fx:id="hbox_menu" prefHeight="52.0" prefWidth="794.0" style="-fx-border-color: #000000;">
          <children>
             <JFXButton fx:id="button_new_workspace" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" text="New Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_open_workspace" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" text="Open Workspace" textAlignment="CENTER" />

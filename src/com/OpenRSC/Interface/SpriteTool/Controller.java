@@ -1,5 +1,6 @@
 package com.OpenRSC.Interface.SpriteTool;
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
@@ -24,6 +25,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -35,6 +37,8 @@ public class Controller implements Initializable {
     @FXML
     private VBox root;
 
+    @FXML
+    private HBox hbox_menu;
     @FXML
     private JFXHamburger hamburger;
 
@@ -97,11 +101,14 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        hbox_menu.setOnMouseExited(e->{
+            root.requestFocus();
+        });
+        
         //--------- Menu buttons
         button_new_workspace.setOnMouseEntered(e -> button_new_workspace.requestFocus());
         button_open_workspace.setOnMouseEntered(e -> button_open_workspace.requestFocus());
         button_save_workspace.setOnMouseEntered(e -> button_save_workspace.requestFocus());
-
         button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "23px"));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
@@ -165,6 +172,17 @@ public class Controller implements Initializable {
                     return;
                 spriteTool.getSpriteRenderer().reset();
                 spriteTool.setWorkingCopy(newEntry.clone());
+                /*
+                                if (spriteTool.getWorkingCopy().getType() == Entry.TYPE.ANIMATION) {
+                    ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().addListener(new ChangeListener<Number>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                            Sprite sprite = ((Animation)spriteTool.getWorkingCopy().getSpriteData()).getFrame((int)t1);
+                            spriteTool.getSpriteRenderer().renderSprite(sprite);
+                        }
+                    });
+                }
+                 */
                 showEntry(spriteTool.getWorkingCopy());
             }
         });
@@ -203,10 +221,13 @@ public class Controller implements Initializable {
                 if (scroll_canvas.getValue() == number.intValue())
                     return;
 
+                if (spriteTool.getWorkingCopy() == null)
+                    return;
+                /*
                 Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
                 if (entry == null)
                     return;
-                Sprite sprite = entry.getAnimation().getFrame(t1.intValue());
+                Sprite sprite = ((Animation)entry.getSpriteData()).setViewedFrame(t1.intValue());
                 text_frame.setText(String.valueOf(sprite.getInfo().getFrame()));
                 int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getImageData().getWidth())/2;
                 int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getImageData().getHeight())/2;
@@ -216,6 +237,10 @@ public class Controller implements Initializable {
                 //should be bound widths like this
                 // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
                 spriteTool.getSpriteRenderer().render();
+                 */
+
+                ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().setValue(t1);
+                showEntry(spriteTool.getWorkingCopy());
             }
         });
         //------- Checkbox
@@ -226,8 +251,8 @@ public class Controller implements Initializable {
                 if (t1 == null)
                     return;
 
-                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setUseShift(t1);
-                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSpriteRep());
+                spriteTool.getWorkingCopy().getSprite().getInfo().setUseShift(t1);
+                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite());
             }
         });
         //------- Textboxes
@@ -243,12 +268,12 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
                 if (Integer.parseInt(t1) <= sprite.getImageData().getHeight())
                     return;
 
-                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setBoundHeight(Integer.parseInt(t1));
+                spriteTool.getWorkingCopy().getSprite().getInfo().setBoundHeight(Integer.parseInt(t1));
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
@@ -264,12 +289,12 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
                 if (Integer.parseInt(t1) <= sprite.getImageData().getWidth())
                     return;
 
-                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setBoundWidth(Integer.parseInt(t1));
+                spriteTool.getWorkingCopy().getSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
@@ -284,9 +309,9 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
-                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setOffsetX(Integer.parseInt(t1));
+                spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetX(Integer.parseInt(t1));
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
@@ -301,9 +326,9 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
-                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setOffsetY(Integer.parseInt(t1));
+                spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetY(Integer.parseInt(t1));
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
@@ -440,10 +465,10 @@ public class Controller implements Initializable {
     }
 
     private void showEntry(Entry newEntry) {
-        Sprite sprite = newEntry.getSpriteRep();
+        Sprite sprite = newEntry.getSprite();
         spriteTool.getSpriteRenderer().renderSprite(sprite);
 
-        Info info = newEntry.getSpriteRep().getInfo();
+        Info info = newEntry.getSprite().getInfo();
         text_name.setText(newEntry.getName());
         check_shift.setSelected(info.getUseShift());
         text_hshift.setText(String.valueOf(info.getOffsetX()));
@@ -454,23 +479,16 @@ public class Controller implements Initializable {
         text_frame.setText(String.valueOf(info.getFrame()));
         text_framecount.setText(String.valueOf(info.getFrameCount()));
         scroll_zoom.setValue(0);
-        if (newEntry.isAnimation() && newEntry.getAnimation().getFrameCount() > 1) {
-            scroll_canvas.setMax(newEntry.getAnimation().getFrameCount());
+        if (newEntry.isAnimation() && ((Animation)newEntry.getSpriteData()).getFrameCount() > 1) {
+            scroll_canvas.setMax(((Animation)newEntry.getSpriteData()).getFrameCount());
             scroll_canvas.setDisable(false);
         }
-        Entry entry = newEntry.clone();
-        if (entry.equals(newEntry))
-            showError("bun");
-        entry.getSpriteRep().getInfo().setBoundHeight(100);
-        if (entry.equals(newEntry))
-            showError("bun2");
     }
 
     //------------------- public methods
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
         drawer.setSidePane(spriteTool.getMenuRoot());
-        this.spriteTool.getMainRoot().requestFocus();
     }
 
     public void closeDrawer() { this.drawer.close(); }
@@ -485,4 +503,6 @@ public class Controller implements Initializable {
         error.setHeaderText(text);
         error.showAndWait();
     }
+
+    public VBox getRoot() { return root; }
 }

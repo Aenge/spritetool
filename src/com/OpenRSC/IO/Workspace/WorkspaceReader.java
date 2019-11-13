@@ -87,7 +87,7 @@ public class WorkspaceReader {
                 boolean exists = false;
                 for (int i = 0; i < ss.getEntryCount(); ++i) {
                     if (ss.getEntryList().get(i).isAnimation()) {
-                        Animation animation = ss.getEntryList().get(i).getAnimation();
+                        Animation animation = ((Animation)ss.getEntryList().get(i).getSpriteData());
                         if (animation != null &&
                                 animation.getName().equalsIgnoreCase(info.getName())) {
                             exists = true;

@@ -19,8 +19,7 @@ public class Entry {
     }
 
     private TYPE type;
-    private Sprite sprite;
-    private Animation animation;
+    private Object spriteData;
 
     @Override
     public String toString() {
@@ -40,11 +39,8 @@ public class Entry {
             if (!entry.getName().equalsIgnoreCase(this.getName()) ||
                     entry.getType() != this.getType())
                 return false;
-            else if (entry.getType() == TYPE.SPRITE) {
-                return entry.getSprite().equals(this.getSprite());
-            } else if (entry.getType() == TYPE.ANIMATION) {
-                return entry.getAnimation().equals(this.getAnimation());
-            }
+            else
+                return entry.getSpriteData().equals(this.getSpriteData());
         } catch (NullPointerException a) {
             a.printStackTrace();
         }
@@ -53,37 +49,36 @@ public class Entry {
     }
     public Entry(Sprite sprite) {
         this.type = TYPE.SPRITE;
-        this.sprite = sprite;
+        this.spriteData = sprite;
     }
 
     public Entry(Animation animation) {
         this.type = TYPE.ANIMATION;
-        this.animation = animation;
+        this.spriteData = animation;
     }
 
     Entry() {}
 
     private void setType(TYPE type) { this.type = type; }
-    private void setSprite(Sprite sprite) { this.sprite = sprite; }
-    private void setAnimation(Animation animation) { this.animation = animation; }
+    private void setSpriteData(Sprite sprite) { this.spriteData = sprite; }
+    private void setSpriteData(Animation animation) { this.spriteData = animation; }
     public boolean isAnimation() { return this.type == TYPE.ANIMATION; }
     public boolean isSprite() { return this.type == TYPE.SPRITE; }
 
-    public Sprite getSprite() { return this.sprite; }
-    public Animation getAnimation() { return this.animation; }
+    public Object getSpriteData() { return this.spriteData; }
 
-    public Sprite getSpriteRep() {
+    public Sprite getSprite() {
         if (isSprite())
-            return this.sprite;
+            return (Sprite)this.spriteData;
         else if (isAnimation())
-            return this.animation.getSprite();
+            return ((Animation)this.spriteData).getViewedFrame();
         return null;
     }
     public String getName() {
         if (isSprite())
-            return this.sprite.getName();
+            return ((Sprite)spriteData).getName();
         else if (isAnimation())
-            return this.animation.getName();
+            return ((Animation)spriteData).getName();
 
         return null;
     }
@@ -94,10 +89,10 @@ public class Entry {
         Entry entry = new Entry();
         if (this.isSprite()) {
             entry.setType(TYPE.SPRITE);
-            entry.setSprite(this.getSprite().clone());
+            entry.setSpriteData(((Sprite)this.getSpriteData()).clone());
         } else if (this.isAnimation()) {
             entry.setType(TYPE.ANIMATION);
-            entry.setAnimation(this.getAnimation().clone());
+            entry.setSpriteData(((Animation)this.getSpriteData()).clone());
         }
         return entry;
     }
