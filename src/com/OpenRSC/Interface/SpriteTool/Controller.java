@@ -40,6 +40,7 @@ public class Controller implements Initializable {
 
     @FXML
     private HBox hbox_menu;
+
     @FXML
     private JFXHamburger hamburger;
 
@@ -47,10 +48,7 @@ public class Controller implements Initializable {
     private JFXDrawer drawer;
 
     @FXML
-    private JFXListView l_subspaces;
-
-    @FXML
-    private JFXListView l_entries;
+    private JFXListView l_subspaces, l_entries;
 
     @FXML
     private Label label_status;
@@ -59,22 +57,7 @@ public class Controller implements Initializable {
     private JFXCheckBox check_shift;
 
     @FXML
-    private TextField text_name;
-
-    @FXML
-    private TextField text_vshift;
-
-    @FXML
-    private TextField text_hshift;
-
-    @FXML
-    private TextField text_boundw;
-
-    @FXML
-    private TextField text_boundh;
-
-    @FXML
-    private TextField text_type;
+    private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh,text_type;
 
     @FXML
     private TextField text_frame;
@@ -86,19 +69,10 @@ public class Controller implements Initializable {
     private ImageView canvas;
 
     @FXML
-    private ScrollBar scroll_canvas;
+    private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private ScrollBar scroll_zoom;
-
-    @FXML
-    private JFXButton button_new_workspace;
-
-    @FXML
-    private JFXButton button_open_workspace;
-
-    @FXML
-    private JFXButton button_save_workspace;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
