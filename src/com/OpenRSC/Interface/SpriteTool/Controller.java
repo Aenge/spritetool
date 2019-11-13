@@ -16,8 +16,11 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -27,8 +30,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-
 
 public class Controller implements Initializable {
 
@@ -104,7 +105,7 @@ public class Controller implements Initializable {
         hbox_menu.setOnMouseExited(e->{
             root.requestFocus();
         });
-        
+
         //--------- Menu buttons
         button_new_workspace.setOnMouseEntered(e -> button_new_workspace.requestFocus());
         button_open_workspace.setOnMouseEntered(e -> button_open_workspace.requestFocus());
@@ -119,9 +120,18 @@ public class Controller implements Initializable {
         //});
         button_open_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT, "23px"));
         button_open_workspace.setOnMouseClicked(e -> {
+            if (needSave()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Loading a new workspace will cause you to lose your unsaved changes.");
+                alert.showAndWait();
+                if (alert.getResult() != ButtonType.OK)
+                    return;
+            }
             spriteTool.openWorkspace();
         });
         button_save_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.SAVE, "23px"));
+        button_save_workspace.setOnMouseClicked(e -> {
+            button_save_workspace.getStyleClass().removeAll("button-red","edit-icon");
+        });
         //--------- HAMBURGER
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -270,10 +280,14 @@ public class Controller implements Initializable {
 
                 Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
-                if (Integer.parseInt(t1) <= sprite.getImageData().getHeight())
+                if (Integer.parseInt(t1) < sprite.getImageData().getHeight())
                     return;
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setBoundHeight(Integer.parseInt(t1));
+                if (needSave())
+                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
+                else
+                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
                 spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
@@ -291,7 +305,7 @@ public class Controller implements Initializable {
 
                 Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
-                if (Integer.parseInt(t1) <= sprite.getImageData().getWidth())
+                if (Integer.parseInt(t1) < sprite.getImageData().getWidth())
                     return;
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
@@ -505,4 +519,12 @@ public class Controller implements Initializable {
     }
 
     public VBox getRoot() { return root; }
+
+    public boolean needSave() {
+        if (l_entries.getSelectionModel().getSelectedItem() == null)
+            return false;
+
+        Entry selected = (Entry)l_entries.getSelectionModel().getSelectedItem();
+        return !spriteTool.getWorkingCopy().equals(selected);
+    }
 }
