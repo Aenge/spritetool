@@ -1,11 +1,14 @@
 package com.OpenRSC.Render;
 
+import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.SpriteTool;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 public class SpriteRenderer {
 
@@ -18,6 +21,7 @@ public class SpriteRenderer {
     private boolean interlace = false;
     private int[] pixelData;
     private ImageView canvas;
+    private SpriteTool spriteTool;
 
     public SpriteRenderer(ImageView canvas) {
         this.canvas = canvas;
@@ -59,6 +63,44 @@ public class SpriteRenderer {
 
     public int getWidth2() { return this.width2; }
     public int getHeight2() { return this.height2; }
+
+    public void drawRect(Rectangle2D rectangle2D, Color color) {
+        int finalColour = 0xFF << 24;
+        finalColour |= (int)(color.getRed() * 255) << 16;
+        finalColour |= (int)(color.getGreen() * 255) << 8;
+        finalColour |= (int)(color.getBlue() * 255);
+
+        int leftLine = (int)rectangle2D.getMinX() + getWidth2() * (int)rectangle2D.getMinY();
+        int rightLine = (int)rectangle2D.getMaxX() + getWidth2() * (int)rectangle2D.getMinY() - 1;
+        for (int y = 0; y < rectangle2D.getHeight(); ++y) {
+            this.pixelData[y * getWidth2() + leftLine] = finalColour;
+            this.pixelData[y * getWidth2() + rightLine] = finalColour;
+        }
+        int topLine = (int)rectangle2D.getMinX() + getWidth2() * (int)rectangle2D.getMinY();
+        int bottomLine = (int)rectangle2D.getMinX() + getWidth2() * ((int)rectangle2D.getMaxY() - 1);
+        for (int x = 0; x < rectangle2D.getWidth(); ++x) {
+            this.pixelData[x + topLine] = finalColour;
+            this.pixelData[x + bottomLine] = finalColour;
+        }
+    }
+
+    public void renderSprite(Sprite sprite) {
+        int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getInfo().getBoundWidth())/2;
+        int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getInfo().getBoundHeight())/2;
+        spriteTool.getSpriteRenderer().wipeBuffer();
+        Rectangle2D boundingBox = new Rectangle2D(xOffset - 1, yOffset - 1, sprite.getInfo().getBoundWidth() + 2, sprite.getInfo().getBoundHeight() + 2);
+        spriteTool.getSpriteRenderer().drawRect(boundingBox, Color.rgb(15,157,88));
+        spriteTool.getSpriteRenderer().bufferSprite(sprite,
+                xOffset,
+                yOffset,
+                sprite.getInfo().getBoundWidth(),
+                sprite.getInfo().getBoundHeight(),
+                0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+        spriteTool.getSpriteRenderer().render();
+    }
+
+    public SpriteTool getSpriteTool() { return this.spriteTool; }
+    public void setSpriteTool(SpriteTool spriteTool) { this.spriteTool = spriteTool; }
 
     public void bufferSprite(Sprite e, int x, int y, int width, int height, int colorMask, int colorMask2, int blueMask,
                                    boolean mirrorX, int topPixelSkew, int dummy, int colourTransform) {

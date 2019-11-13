@@ -16,6 +16,31 @@ public class Info {
 
     Info() {}
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+
+        if (!Info.class.isAssignableFrom(o.getClass()))
+            return false;
+
+        Info info = (Info)o;
+
+        if (!this.name.equalsIgnoreCase(info.name) ||
+                this.type != info.type ||
+                this.entryID != info.entryID ||
+                this.frameCount != info.frameCount ||
+                this.frame != info.frame ||
+                this.useShift != info.useShift ||
+                this.offsetX != info.offsetX ||
+                this.offsetY != info.offsetY ||
+                this.boundwidth != info.boundwidth ||
+                this.boundheight != info.boundheight)
+            return false;
+
+
+        return true;
+    }
     public void setType(Entry.TYPE type) { this.type = type; }
     public Entry.TYPE getType() { return this.type; }
     public void setName(String name) { this.name = name; }

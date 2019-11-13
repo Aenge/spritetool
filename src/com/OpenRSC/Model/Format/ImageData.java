@@ -1,5 +1,7 @@
 package com.OpenRSC.Model.Format;
 
+import javafx.scene.image.Image;
+
 import java.util.Arrays;
 
 public class ImageData {
@@ -15,6 +17,27 @@ public class ImageData {
 
     ImageData() {}
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+
+        if (!ImageData.class.isAssignableFrom(o.getClass()))
+            return false;
+
+        ImageData imageData = (ImageData)o;
+
+        if (this.width != imageData.width ||
+            this.height != imageData.height )
+            return false;
+
+        for (int i = 0; i < pixels.length; ++i) {
+            if (this.pixels[i] != imageData.pixels[i])
+                return false;
+        }
+
+        return true;
+    }
     private void setWidth(int width) { this.width = width; }
     private void setHeight(int height) { this.height = height; }
     private void setPixels(int[] pixels) { this.pixels = Arrays.copyOf(pixels, pixels.length); }

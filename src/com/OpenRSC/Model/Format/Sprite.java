@@ -1,6 +1,7 @@
 package com.OpenRSC.Model.Format;
 
 import com.OpenRSC.IO.Image.ImageReader;
+
 import java.io.File;
 
 public class Sprite {
@@ -17,6 +18,20 @@ public class Sprite {
 
     @Override
     public boolean equals(Object o) {
+        if (o == null)
+            return false;
+
+        if (!Sprite.class.isAssignableFrom(o.getClass()))
+            return false;
+
+        Sprite sprite = (Sprite)o;
+
+        if (!this.getInfo().equals(sprite.getInfo()))
+            return false;
+
+        if (!this.getImageData().equals(sprite.getImageData()))
+            return false;
+
         return true;
     }
 

@@ -1,13 +1,13 @@
 package com.OpenRSC;
 import com.OpenRSC.IO.Workspace.WorkspaceReader;
 import com.OpenRSC.Interface.SpriteTool.Controller;
+import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.SpriteRenderer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -40,6 +40,8 @@ public class SpriteTool extends Application {
     private Parent createWorkspaceRoot;
     private com.OpenRSC.Interface.CreateWorkspace.Controller createWorkspaceController;
     private SpriteRenderer spriteRenderer;
+
+    private Entry workingCopy;
 
     public void go(String[] args) {
         launch(args);
@@ -89,6 +91,7 @@ public class SpriteTool extends Application {
         setPrimaryStage(newStage);
 
         spriteRenderer = new SpriteRenderer(mainController.getCanvas());
+        spriteRenderer.setSpriteTool(this);
     }
 
     public void createWorkspace() {
@@ -149,4 +152,6 @@ public class SpriteTool extends Application {
     public com.OpenRSC.Interface.PopMenu.Controller getMenuController() { return this.menuController; }
     public Controller getMainController() { return this.mainController; }
     public SpriteRenderer getSpriteRenderer() { return this.spriteRenderer; }
+    public Entry getWorkingCopy() { return this.workingCopy; }
+    public void setWorkingCopy(Entry entry) { this.workingCopy = entry; }
 }

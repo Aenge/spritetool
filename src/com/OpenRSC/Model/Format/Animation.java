@@ -14,6 +14,22 @@ public class Animation {
 
     @Override
     public boolean equals(Object o) {
+        if (o == null)
+            return false;
+
+        if (!Animation.class.isAssignableFrom(o.getClass()))
+            return false;
+
+        Animation animation = (Animation)o;
+
+        if (!this.getName().equalsIgnoreCase(animation.getName()))
+            return false;
+
+        for (int i = 0; i < frames.length; ++i) {
+            if (!frames[i].equals(animation.frames[i]))
+                return false;
+        }
+
         return true;
     }
     private void setName(String name) { this.name = name; }

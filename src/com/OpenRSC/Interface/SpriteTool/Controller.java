@@ -25,6 +25,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 
 public class Controller implements Initializable {
@@ -96,9 +97,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //button_new_workspace.getStylesheets().clear();
-        //button_new_workspace.setStyle(".glyph-icon{ -fx-fill: #FF0000; -fx-fill-text: #FF0000;}");
-
         //--------- Menu buttons
         button_new_workspace.setOnMouseEntered(e -> button_new_workspace.requestFocus());
         button_open_workspace.setOnMouseEntered(e -> button_open_workspace.requestFocus());
@@ -166,7 +164,8 @@ public class Controller implements Initializable {
                 if (newEntry == null)
                     return;
                 spriteTool.getSpriteRenderer().reset();
-                showEntry(newEntry);
+                spriteTool.setWorkingCopy(newEntry.clone());
+                showEntry(spriteTool.getWorkingCopy());
             }
         });
 
@@ -213,10 +212,99 @@ public class Controller implements Initializable {
                 int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getImageData().getHeight())/2;
                 spriteTool.getSpriteRenderer().clear();
                 spriteTool.getSpriteRenderer().wipeBuffer();
-                spriteTool.getSpriteRenderer().bufferSprite(sprite, xOffset, yOffset,sprite.getImageData().getWidth(), sprite.getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                spriteTool.getSpriteRenderer().bufferSprite(sprite, xOffset, yOffset,sprite.getInfo().getBoundWidth(), sprite.getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
                 //should be bound widths like this
                 // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
                 spriteTool.getSpriteRenderer().render();
+            }
+        });
+        //------- Checkbox
+        check_shift.setDisable(false);
+        check_shift.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (t1 == null)
+                    return;
+
+                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setUseShift(t1);
+                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSpriteRep());
+            }
+        });
+        //------- Textboxes
+        text_boundh.setDisable(false);
+        text_boundh.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1 == null || t1.isEmpty())
+                    return;
+
+                if (!t1.matches("\\d*")) {
+                    text_boundh.setText(s);
+                    return;
+                }
+
+                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+
+                if (Integer.parseInt(t1) <= sprite.getImageData().getHeight())
+                    return;
+
+                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setBoundHeight(Integer.parseInt(t1));
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
+            }
+        });
+        text_boundw.setDisable(false);
+        text_boundw.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1 == null || t1.isEmpty())
+                    return;
+
+                if (!t1.matches("\\d*")) {
+                    text_boundh.setText(s);
+                    return;
+                }
+
+                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+
+                if (Integer.parseInt(t1) <= sprite.getImageData().getWidth())
+                    return;
+
+                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setBoundWidth(Integer.parseInt(t1));
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
+            }
+        });
+        text_hshift.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1 == null || t1.isEmpty())
+                    return;
+
+                if (!t1.matches("\\d*")) {
+                    text_boundh.setText(s);
+                    return;
+                }
+
+                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+
+                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setOffsetX(Integer.parseInt(t1));
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
+            }
+        });
+        text_vshift.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1 == null || t1.isEmpty())
+                    return;
+
+                if (!t1.matches("\\d*")) {
+                    text_boundh.setText(s);
+                    return;
+                }
+
+                Sprite sprite = spriteTool.getWorkingCopy().getSpriteRep();
+
+                spriteTool.getWorkingCopy().getSpriteRep().getInfo().setOffsetY(Integer.parseInt(t1));
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
 
@@ -352,12 +440,8 @@ public class Controller implements Initializable {
     }
 
     private void showEntry(Entry newEntry) {
-        int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - newEntry.getSpriteRep().getImageData().getWidth())/2;
-        int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - newEntry.getSpriteRep().getImageData().getHeight())/2;
-        spriteTool.getSpriteRenderer().bufferSprite(newEntry.getSpriteRep(), xOffset, yOffset, newEntry.getSpriteRep().getImageData().getWidth(), newEntry.getSpriteRep().getImageData().getHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
-        //should be bound widths like this
-        // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
-        spriteTool.getSpriteRenderer().render();
+        Sprite sprite = newEntry.getSpriteRep();
+        spriteTool.getSpriteRenderer().renderSprite(sprite);
 
         Info info = newEntry.getSpriteRep().getInfo();
         text_name.setText(newEntry.getName());
@@ -377,6 +461,9 @@ public class Controller implements Initializable {
         Entry entry = newEntry.clone();
         if (entry.equals(newEntry))
             showError("bun");
+        entry.getSpriteRep().getInfo().setBoundHeight(100);
+        if (entry.equals(newEntry))
+            showError("bun2");
     }
 
     //------------------- public methods
