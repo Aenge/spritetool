@@ -3,17 +3,18 @@ package com.OpenRSC.Model;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.util.Callback;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Subspace {
 
     private Path path;
     private StringProperty pather = new SimpleStringProperty();
-    private List<Entry> entryList = new ArrayList<Entry>();
+    private ObservableList<Entry> entryList = FXCollections.observableArrayList();
 
     @Override
     public String toString() { return getName(); }
@@ -31,7 +32,7 @@ public class Subspace {
         pather.set(path.getFileName().toString());
     }
     public String getName() { return pather.getValue().toString(); }
-    public List<Entry> getEntryList() { return entryList; }
+    public ObservableList<Entry> getEntryList() { return entryList; }
 
     public int getEntryCount() { return this.entryList.size(); }
     public int getSpriteCount() {

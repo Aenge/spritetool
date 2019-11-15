@@ -1,5 +1,6 @@
 package com.OpenRSC.Model;
 
+import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Sprite;
 

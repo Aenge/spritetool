@@ -2,6 +2,7 @@ package com.OpenRSC.IO.Workspace;
 
 import com.OpenRSC.IO.Image.ImageWriter;
 import com.OpenRSC.IO.Info.InfoWriter;
+import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
@@ -27,6 +28,18 @@ public class WorkspaceWriter {
 
         if (directory.mkdir())
             return true;
+
+        return false;
+    }
+    public boolean updateEntry(Subspace subspace, Entry oldEntry, Entry newEntry) {
+        if (oldEntry.getType() != newEntry.getType())
+            return false;
+
+        if (newEntry.getType() == Entry.TYPE.SPRITE) {
+            return updateSprite(subspace, (Sprite)oldEntry.getSpriteData(), (Sprite)newEntry.getSpriteData());
+        } else if (newEntry.getType() == Entry.TYPE.ANIMATION) {
+            return updateAnimation(subspace, (Animation)oldEntry.getSpriteData(), (Animation)newEntry.getSpriteData());
+        }
 
         return false;
     }

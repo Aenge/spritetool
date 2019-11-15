@@ -34,6 +34,7 @@ import javafx.scene.layout.VBox;
 public class Controller implements Initializable {
 
     private SpriteTool spriteTool;
+    private boolean triggerListeners = true;
 
     @FXML
     private VBox root;
@@ -88,10 +89,6 @@ public class Controller implements Initializable {
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
         });
-        //button_new_workspace.getStyleClass().addAll("button-red", "edit-icon");
-        //button_new_workspace.setOnMouseClicked(e-> {
-        //    button_new_workspace.getStyleClass().removeAll("button-red", "edit-icon");
-        //});
         button_open_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT, "23px"));
         button_open_workspace.setOnMouseClicked(e -> {
             if (needSave()) {
@@ -104,31 +101,23 @@ public class Controller implements Initializable {
         });
         button_save_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.SAVE, "23px"));
         button_save_workspace.setOnMouseClicked(e -> {
-            if (l_entries.getSelectionModel().getSelectedItem() == null ||
-                l_subspaces.getSelectionModel().getSelectedItem() == null)
+            Subspace ss = (Subspace)l_subspaces.getSelectionModel().getSelectedItem();
+            Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
+
+            if (ss == null || entry == null)
                 return;
 
             WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspace());
-            Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
-            if (entry.getType() == Entry.TYPE.SPRITE) {
-                if (wsWriter.updateSprite((Subspace)l_subspaces.getSelectionModel().getSelectedItem(),
-                        ((Entry)l_entries.getSelectionModel().getSelectedItem()).getSprite(),
-                        spriteTool.getWorkingCopy().getSprite())) {
-                    button_save_workspace.getStyleClass().removeAll("button-red","edit-icon");
-                    Subspace subspace = (Subspace)l_subspaces.getSelectionModel().getSelectedItem();
-                    int index = subspace.getEntryList().indexOf((Entry)l_entries.getSelectionModel().getSelectedItem());
-                    if (index > -1) {
-                        subspace.getEntryList().set(index, spriteTool.getWorkingCopy());
-                    }
-                } else {
-                    showError("There was a problem saving your changes.");
+
+            if (wsWriter.updateEntry(ss, entry, spriteTool.getWorkingCopy())) {
+                int index = ss.getEntryList().indexOf(entry);
+                if (index > -1) {
+                    ss.getEntryList().set(index, spriteTool.getWorkingCopy());
                 }
-            } else if (entry.getType() == Entry.TYPE.ANIMATION) {
+            } else
+                showError("There was a problem saving your changes.");
 
-            }
-
-
-
+            checkSave();
         });
         //--------- HAMBURGER
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
@@ -155,14 +144,29 @@ public class Controller implements Initializable {
         l_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
             @Override
             public void changed(ObservableValue<? extends Subspace> observableValue, Subspace oldSubspace, Subspace newSubspace) {
-                if (newSubspace == null)
+                if (newSubspace == null ||
+                    !triggerListeners)
                     return;
+
+                if (needSave()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
+                    alert.showAndWait();
+                    if (alert.getResult() != ButtonType.OK) {
+                        triggerListeners = false;
+                        l_subspaces.getSelectionModel().select(oldSubspace);
+                        triggerListeners = true;
+                        return;
+                    }
+                }
+
+                spriteTool.setWorkingCopy(null);
                 scroll_canvas.setDisable(true);
                 scroll_canvas.setMax(1);
                 scroll_canvas.setValue(1);
-                spriteTool.getSpriteRenderer().reset();
                 scroll_zoom.setValue(0);
+                spriteTool.getSpriteRenderer().reset();
                 populateEntryList(newSubspace);
+                checkSave();
             }
         });
 
@@ -178,8 +182,18 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
                 if (newEntry == null)
                     return;
+
+                if (needSave()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
+                    alert.showAndWait();
+                    if (alert.getResult() != ButtonType.OK) {
+                        l_entries.getSelectionModel().select(oldEntry);
+                        return;
+                    }
+                }
                 spriteTool.getSpriteRenderer().reset();
                 spriteTool.setWorkingCopy(newEntry.clone());
+                checkSave();
                 /*
                                 if (spriteTool.getWorkingCopy().getType() == Entry.TYPE.ANIMATION) {
                     ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().addListener(new ChangeListener<Number>() {
@@ -245,6 +259,7 @@ public class Controller implements Initializable {
             point.setX(e.getSceneX());
             point.setY(e.getSceneY());
         });
+        scroll_zoom.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
         scroll_zoom.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -274,16 +289,16 @@ public class Controller implements Initializable {
         check_shift.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (!triggerListeners)
+                    return;
+
                 if (t1 == null)
                     return;
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setUseShift(t1);
-                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite());
+                checkSave();
 
-                if (needSave())
-                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
-                else
-                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite());
             }
         });
         //------- Textboxes
@@ -291,6 +306,9 @@ public class Controller implements Initializable {
         text_boundh.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (!triggerListeners)
+                    return;
+
                 if (t1 == null || t1.isEmpty())
                     return;
 
@@ -304,19 +322,19 @@ public class Controller implements Initializable {
                 if (Integer.parseInt(t1) < sprite.getImageData().getHeight())
                     return;
 
-                spriteTool.getWorkingCopy().getSprite().getInfo().setBoundHeight(Integer.parseInt(t1));
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                sprite.getInfo().setBoundHeight(Integer.parseInt(t1));
 
-                if (needSave())
-                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
-                else
-                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+                checkSave();
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
         text_boundw.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
         text_boundw.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (!triggerListeners)
+                    return;
+
                 if (t1 == null || t1.isEmpty())
                     return;
 
@@ -331,18 +349,18 @@ public class Controller implements Initializable {
                     return;
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                checkSave();
 
-                if (needSave())
-                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
-                else
-                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
         text_hshift.disableProperty().bind(check_shift.selectedProperty().not());
         text_hshift.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (!triggerListeners)
+                    return;
+
                 if (t1 == null || t1.isEmpty())
                     return;
 
@@ -354,18 +372,18 @@ public class Controller implements Initializable {
                 Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetX(Integer.parseInt(t1));
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                checkSave();
 
-                if (needSave())
-                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
-                else
-                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
         text_vshift.disableProperty().bind(check_shift.selectedProperty().not());
         text_vshift.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (!triggerListeners)
+                    return;
+
                 if (t1 == null || t1.isEmpty())
                     return;
 
@@ -377,12 +395,9 @@ public class Controller implements Initializable {
                 Sprite sprite = spriteTool.getWorkingCopy().getSprite();
 
                 spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetY(Integer.parseInt(t1));
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                checkSave();
 
-                if (needSave())
-                    button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
-                else
-                    button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+                spriteTool.getSpriteRenderer().renderSprite(sprite);
             }
         });
         text_name.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -401,10 +416,11 @@ public class Controller implements Initializable {
     }
 
     private void populateEntryList(Subspace ss) {
-        this.l_entries.getItems().clear();
-        for (Entry entry : ss.getEntryList()) {
-            this.l_entries.getItems().add(entry);
-        }
+//        this.l_entries.getItems().clear();
+//        for (Entry entry : ss.getEntryList()) {
+//            this.l_entries.getItems().add(entry);
+//        }
+        l_entries.setItems(ss.getEntryList());
     }
 
     public void populateSubspaceList(Workspace ws) {
@@ -522,6 +538,7 @@ public class Controller implements Initializable {
         Sprite sprite = newEntry.getSprite();
         spriteTool.getSpriteRenderer().renderSprite(sprite);
 
+        triggerListeners = false;
         Info info = newEntry.getSprite().getInfo();
         text_name.setText(newEntry.getID());
         check_shift.setSelected(info.getUseShift());
@@ -537,6 +554,7 @@ public class Controller implements Initializable {
             scroll_canvas.setMax(((Animation)newEntry.getSpriteData()).getFrameCount());
             scroll_canvas.setDisable(false);
         }
+        triggerListeners = true;
     }
 
     //------------------- public methods
@@ -561,10 +579,18 @@ public class Controller implements Initializable {
     public VBox getRoot() { return root; }
 
     public boolean needSave() {
-        if (l_entries.getSelectionModel().getSelectedItem() == null)
+        if (l_entries.getSelectionModel().getSelectedItem() == null
+        || spriteTool.getWorkingCopy() == null)
             return false;
 
         Entry selected = (Entry)l_entries.getSelectionModel().getSelectedItem();
         return !spriteTool.getWorkingCopy().equals(selected);
+    }
+
+    private void checkSave() {
+        if (needSave())
+            button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
+        else
+            button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
     }
 }
