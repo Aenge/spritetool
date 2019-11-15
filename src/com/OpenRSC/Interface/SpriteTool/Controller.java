@@ -1,4 +1,5 @@
 package com.OpenRSC.Interface.SpriteTool;
+import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Info;
@@ -16,13 +17,11 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -105,7 +104,31 @@ public class Controller implements Initializable {
         });
         button_save_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.SAVE, "23px"));
         button_save_workspace.setOnMouseClicked(e -> {
-            button_save_workspace.getStyleClass().removeAll("button-red","edit-icon");
+            if (l_entries.getSelectionModel().getSelectedItem() == null ||
+                l_subspaces.getSelectionModel().getSelectedItem() == null)
+                return;
+
+            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspace());
+            Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
+            if (entry.getType() == Entry.TYPE.SPRITE) {
+                if (wsWriter.updateSprite((Subspace)l_subspaces.getSelectionModel().getSelectedItem(),
+                        ((Entry)l_entries.getSelectionModel().getSelectedItem()).getSprite(),
+                        spriteTool.getWorkingCopy().getSprite())) {
+                    button_save_workspace.getStyleClass().removeAll("button-red","edit-icon");
+                    Subspace subspace = (Subspace)l_subspaces.getSelectionModel().getSelectedItem();
+                    int index = subspace.getEntryList().indexOf((Entry)l_entries.getSelectionModel().getSelectedItem());
+                    if (index > -1) {
+                        subspace.getEntryList().set(index, spriteTool.getWorkingCopy());
+                    }
+                } else {
+                    showError("There was a problem saving your changes.");
+                }
+            } else if (entry.getType() == Entry.TYPE.ANIMATION) {
+
+            }
+
+
+
         });
         //--------- HAMBURGER
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
@@ -241,21 +264,6 @@ public class Controller implements Initializable {
 
                 if (spriteTool.getWorkingCopy() == null)
                     return;
-                /*
-                Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
-                if (entry == null)
-                    return;
-                Sprite sprite = ((Animation)entry.getSpriteData()).setViewedFrame(t1.intValue());
-                text_frame.setText(String.valueOf(sprite.getInfo().getFrame()));
-                int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getImageData().getWidth())/2;
-                int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getImageData().getHeight())/2;
-                spriteTool.getSpriteRenderer().clear();
-                spriteTool.getSpriteRenderer().wipeBuffer();
-                spriteTool.getSpriteRenderer().bufferSprite(sprite, xOffset, yOffset,sprite.getInfo().getBoundWidth(), sprite.getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
-                //should be bound widths like this
-                // spriteRenderer.bufferSprite(newEntry.getSpriteRep(), 0, 0, newEntry.getSpriteRep().getInfo().getBoundWidth(), newEntry.getSpriteRep().getInfo().getBoundHeight(), 0, 0, 0, false, 0, 1, 0xFFFFFFFF);
-                spriteTool.getSpriteRenderer().render();
-                 */
 
                 ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().setValue(t1);
                 showEntry(spriteTool.getWorkingCopy());
@@ -515,7 +523,7 @@ public class Controller implements Initializable {
         spriteTool.getSpriteRenderer().renderSprite(sprite);
 
         Info info = newEntry.getSprite().getInfo();
-        text_name.setText(newEntry.getName());
+        text_name.setText(newEntry.getID());
         check_shift.setSelected(info.getUseShift());
         text_hshift.setText(String.valueOf(info.getOffsetX()));
         text_vshift.setText(String.valueOf(info.getOffsetX()));

@@ -5,12 +5,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Animation {
 
-    private String name;
+    private String id;
     private Sprite[] frames;
     private IntegerProperty frameProperty;
 
-    public Animation(String name, int frameCount) {
-        this.name = name;
+    public Animation(String id, int frameCount) {
+        this.id = id;
         this.frames = new Sprite[frameCount];
         frameProperty = new SimpleIntegerProperty(1);
     }
@@ -27,7 +27,16 @@ public class Animation {
 
         Animation animation = (Animation)o;
 
-        if (!this.getName().equalsIgnoreCase(animation.getName()))
+        if (!this.getID().equalsIgnoreCase(animation.getID()))
+            return false;
+
+        if (getFrameCount() != animation.getFrameCount())
+            return false;
+
+        if (frames == null && animation.frames != null)
+            return false;
+
+        if (frames != null && animation.frames == null)
             return false;
 
         for (int i = 0; i < frames.length; ++i) {
@@ -37,7 +46,9 @@ public class Animation {
 
         return true;
     }
-    private void setName(String name) { this.name = name; }
+    public void setID(String name) { this.id = name; }
+    public String getID() { return this.id; }
+
     public void addFrame(Sprite sprite) {
         if (this.frames != null &&
                 sprite.getInfo().getFrame() <= this.frames.length)
@@ -50,19 +61,21 @@ public class Animation {
         return null;
     }
 
+    public Sprite[] getFrames() {
+        return this.frames;
+    }
     public Sprite getViewedFrame() {
         return this.frames[frameProperty.get()-1];
     }
 
     public IntegerProperty frameProperty() { return this.frameProperty; }
     public int getFrameCount() { return frames.length; }
-    public String getName() { return this.name; }
     public Sprite getSprite() { return frames[0]; }
 
     public Animation clone() {
         Animation animation = new Animation();
 
-        animation.setName(String.copyValueOf(this.name.toCharArray()));
+        animation.setID(this.id);
         animation.frames = new Sprite[this.getFrameCount()];
 
         for (int i=0; i < this.getFrameCount(); ++i) {

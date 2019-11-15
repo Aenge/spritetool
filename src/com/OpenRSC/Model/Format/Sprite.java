@@ -37,7 +37,8 @@ public class Sprite {
 
     private void setInfo(Info info) { this.info = info; }
     private void setImageData(ImageData data) { this.imageData = data; }
-    public String getName() { return this.getInfo().getName(); }
+    public String getFileName() { return this.getInfo().getFileName(); }
+    public String getID() { return this.getInfo().getID(); }
 
     public void loadImageData(File file) {
         ImageReader imageReader = new ImageReader();

@@ -18,12 +18,12 @@ public class InfoWriter {
             this.file = null;
     }
 
-    public void write() {
+    public boolean write() {
         if (this.file == null || this.info == null) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setHeaderText("Unable to write to info file.");
             error.showAndWait();
-            return;
+            return false;
         }
 
         ObjectMapper om = new ObjectMapper();
@@ -31,6 +31,9 @@ public class InfoWriter {
             om.writeValue(this.file, this.info);
         } catch (IOException a) {
             a.printStackTrace();
+            return false;
         }
+
+        return true;
     }
 }

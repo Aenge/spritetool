@@ -7,6 +7,8 @@ module OpenRSC.Sprite.Tool {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.annotation;
     requires org.apache.commons.io;
+    requires java.desktop;
+    requires javafx.swing;
     opens com.OpenRSC.Model;
     opens com.OpenRSC.Model.Format;
     opens com.OpenRSC.Interface.PopMenu;

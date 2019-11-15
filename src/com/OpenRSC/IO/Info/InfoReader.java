@@ -13,11 +13,11 @@ public class InfoReader {
                 ret = objectMapper.readValue(infoFile,Info.class);
 
                 //Jackson encodes strings in double quotes. Need to eliminate those.
-                String name = ret.getName();
+                String name = ret.getID();
                 if (name.startsWith("\"") &&
-                    name.endsWith("\"")) {
+                        name.endsWith("\"")) {
                     name = name.substring(1,name.length()-1);
-                    ret.setName(name);
+                    ret.setID(name);
                 }
             }
         } catch (IOException a) {

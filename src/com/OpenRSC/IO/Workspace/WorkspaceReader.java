@@ -79,6 +79,8 @@ public class WorkspaceReader {
             }
 
             Info info = reader.read(infoFile);
+            info.setFileName(pair);
+
             Sprite sprite = new Sprite(pngFile, info);
 
             if (info.getType() == Entry.TYPE.SPRITE) {
@@ -89,14 +91,14 @@ public class WorkspaceReader {
                     if (ss.getEntryList().get(i).isAnimation()) {
                         Animation animation = ((Animation)ss.getEntryList().get(i).getSpriteData());
                         if (animation != null &&
-                                animation.getName().equalsIgnoreCase(info.getName())) {
+                                animation.getID().equalsIgnoreCase(info.getID())) {
                             exists = true;
                             animation.addFrame(sprite);
                         }
                     }
                 }
                 if (!exists) {
-                    Animation animation = new Animation(info.getName(), info.getFrameCount());
+                    Animation animation = new Animation(info.getID(), info.getFrameCount());
                     animation.addFrame(sprite);
                     ss.getEntryList().add(new Entry(animation));
                 }

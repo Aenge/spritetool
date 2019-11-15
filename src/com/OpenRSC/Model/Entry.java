@@ -23,7 +23,7 @@ public class Entry {
 
     @Override
     public String toString() {
-        return this.getName();
+        return getID();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Entry {
 
         Entry entry = (Entry)o;
         try {
-            if (!entry.getName().equalsIgnoreCase(this.getName()) ||
+            if (!entry.getID().equalsIgnoreCase(this.getID()) ||
                     entry.getType() != this.getType())
                 return false;
             else
@@ -74,11 +74,11 @@ public class Entry {
             return ((Animation)this.spriteData).getViewedFrame();
         return null;
     }
-    public String getName() {
+    public String getID() {
         if (isSprite())
-            return ((Sprite)spriteData).getName();
+            return ((Sprite)spriteData).getID();
         else if (isAnimation())
-            return ((Animation)spriteData).getName();
+            return ((Animation)spriteData).getID();
 
         return null;
     }
