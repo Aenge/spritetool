@@ -5,16 +5,19 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<VBox fx:id="root" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
+<VBox fx:id="root" prefHeight="602.0" prefWidth="606.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
       <HBox fx:id="hbox_menu" prefHeight="52.0" prefWidth="794.0" style="-fx-border-color: #000000;">
          <children>
@@ -25,16 +28,16 @@
       </HBox>
       <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0">
          <children>
-            <JFXListView fx:id="l_subspaces" layoutX="14.0" layoutY="366.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0" />
-            <JFXListView fx:id="l_entries" layoutX="29.0" layoutY="30.0" prefHeight="335.0" prefWidth="134.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+            <JFXListView fx:id="list_subspaces" layoutX="14.0" layoutY="366.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0" />
+            <JFXListView fx:id="list_entries" layoutX="29.0" layoutY="30.0" prefHeight="335.0" prefWidth="134.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
             <JFXDrawer fx:id="drawer" defaultDrawerSize="250.0" direction="RIGHT" layoutX="487.0" layoutY="48.0" prefHeight="296.0" prefWidth="100.0" AnchorPane.bottomAnchor="56.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
-            <JFXHamburger fx:id="hamburger" layoutX="647.0" layoutY="265.0" AnchorPane.rightAnchor="122.60000000000002" AnchorPane.topAnchor="265.0" />
+            <JFXHamburger fx:id="hamburger" layoutX="569.0" layoutY="14.0" AnchorPane.rightAnchor="200.60000000000002" AnchorPane.topAnchor="14.0" />
             <VBox fx:id="statusbox" layoutX="10.0" layoutY="484.0" prefHeight="22.0" prefWidth="780.0" style="-fx-background-color: #585858; -fx-border-color: #000000;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0">
                <children>
                   <Label fx:id="label_status" prefHeight="25.0" prefWidth="778.0" text="Workspace: Null" />
                </children>
             </VBox>
-            <AnchorPane layoutX="139.0" layoutY="52.0" prefHeight="440.0" prefWidth="104.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="139.0" layoutY="52.0" prefHeight="469.0" prefWidth="104.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="2.0" layoutY="-2.0" prefHeight="26.0" prefWidth="122.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0" />
                   <Label layoutX="5.0" layoutY="19.0" prefHeight="18.0" prefWidth="58.0" text="Name" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="0.0" />
@@ -49,23 +52,27 @@
                   <TextField fx:id="text_boundw" layoutX="2.0" layoutY="253.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <TextField fx:id="text_boundh" layoutX="4.0" layoutY="209.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Line endX="-7.30712890625" endY="-99.61210632324219" layoutX="114.0" layoutY="19.0" startX="93.18577575683594" startY="-99.61212921142578" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0" />
-                  <Line endX="-0.6070709228515625" endY="-7.62939453125E-6" layoutX="38.0" layoutY="74.0" startX="-100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0" />
-                  <Line endX="-0.0999755859375" layoutX="38.0" layoutY="192.0" startX="-100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0" />
-                  <Line endX="58.79998779296875" layoutX="41.0" layoutY="288.0" startX="-39.59999084472656" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <Label layoutX="1.0" layoutY="292.0" text="Type" AnchorPane.leftAnchor="3.0" />
-                  <TextField fx:id="text_type" layoutX="1.0" layoutY="310.0" prefHeight="26.0" prefWidth="74.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <Label layoutX="5.0" layoutY="337.0" prefHeight="18.0" prefWidth="88.0" text="Frame" AnchorPane.leftAnchor="3.0" />
-                  <Label layoutX="3.0" layoutY="382.0" text="Frame Count" AnchorPane.leftAnchor="3.0" />
-                  <TextField fx:id="text_frame" layoutX="-2.0" layoutY="356.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <TextField fx:id="text_framecount" layoutX="1.0" layoutY="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Separator layoutX="-46.0" layoutY="68.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <ColorPicker fx:id="color_grayscale" layoutX="10.0" layoutY="313.0" prefHeight="26.0" prefWidth="82.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label layoutY="296.0" text="Grayscale" />
+                  <Label layoutX="11.0" layoutY="354.0" text="Bluescale" AnchorPane.leftAnchor="0.0" />
+                  <ColorPicker fx:id="color_bluescale" layoutX="33.0" layoutY="372.0" prefHeight="26.0" prefWidth="68.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                </children>
             </AnchorPane>
-            <ImageView fx:id="canvas" fitHeight="300.0" fitWidth="300.0" layoutX="243.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="52.0" />
-            <Line endX="198.00006103515625" endY="0.9999942779541016" layoutX="346.0" layoutY="52.0" startX="-102.5" startY="0.49999427795410156" AnchorPane.topAnchor="51.79288749396801" />
-            <Line endX="198.0" endY="-1.0" layoutX="345.0" layoutY="353.0" startX="-102.5" startY="-0.5" AnchorPane.topAnchor="351.2928931713104" />
-            <Line endX="0.70709228515625" endY="248.29290771484375" layoutX="544.0" layoutY="104.0" startY="-51.00000762939453" AnchorPane.topAnchor="52.292884826660156" />
-            <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="244.0" layoutY="353.0" min="1.0" prefHeight="14.0" prefWidth="300.0" />
-            <ScrollBar fx:id="scroll_zoom" layoutX="545.0" layoutY="52.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="52.0" />
+            <ImageView fx:id="canvas" fitHeight="300.0" fitWidth="300.0" layoutX="243.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" />
+            <Line endX="198.0" endY="-1.0" layoutX="346.0" layoutY="301.0" startX="-102.5" startY="-0.5" AnchorPane.topAnchor="299.2928931713104" />
+            <Line endX="0.70709228515625" endY="248.29290771484375" layoutX="544.0" layoutY="104.0" startY="-51.00000762939453" AnchorPane.topAnchor="0.0" />
+            <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="244.0" layoutY="301.0" min="1.0" prefHeight="14.0" prefWidth="300.0" />
+            <ScrollBar fx:id="scroll_zoom" layoutX="545.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane fx:id="pane_animation" layoutX="242.0" layoutY="315.0" prefHeight="154.0" prefWidth="315.0" style="-fx-border-color: #000000;">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="88.0" text="Frame" AnchorPane.leftAnchor="14.0" />
+                  <JFXButton fx:id="button_addframe" layoutX="107.0" layoutY="11.0" />
+                  <JFXButton fx:id="button_changepng" layoutX="133.0" layoutY="51.0" text="Change Image" />
+                  <Label fx:id="label_frame" layoutX="59.0" layoutY="15.0" text="Label" />
+                  <ToggleButton fx:id="button_play" contentDisplay="TOP" layoutX="189.0" layoutY="11.0" mnemonicParsing="false" text="play" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

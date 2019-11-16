@@ -84,10 +84,17 @@ public class SpriteRenderer {
         }
     }
 
-    public void renderSprite(Sprite sprite) {
+    public void renderSprite(Sprite sprite, Color grayscale, Color bluescale) {
         int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getInfo().getBoundWidth())/2;
         int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getInfo().getBoundHeight())/2;
-        spriteTool.getSpriteRenderer().wipeBuffer();
+        int grayscaleint = 0;
+        grayscaleint |= (int)(grayscale.getRed() * 255) << 16;
+        grayscaleint |= (int)(grayscale.getGreen() * 255) << 8;
+        grayscaleint |= (int)(grayscale.getBlue() * 255);
+        int bluescaleint = 0;
+        bluescaleint |= (int)(bluescale.getRed() * 255) << 16;
+        bluescaleint |= (int)(bluescale.getGreen() * 255) << 8;
+        bluescaleint |= (int)(bluescale.getBlue() * 255);
         Rectangle2D boundingBox = new Rectangle2D(xOffset - 1, yOffset - 1, sprite.getInfo().getBoundWidth() + 2, sprite.getInfo().getBoundHeight() + 2);
         spriteTool.getSpriteRenderer().drawRect(boundingBox, Color.rgb(15,157,88));
         spriteTool.getSpriteRenderer().bufferSprite(sprite,
@@ -95,7 +102,7 @@ public class SpriteRenderer {
                 yOffset,
                 sprite.getInfo().getBoundWidth(),
                 sprite.getInfo().getBoundHeight(),
-                0, 0, 0, false, 0, 1, 0xFFFFFFFF);
+                grayscaleint, 0, bluescaleint, false, 0, 1, 0xFFFFFFFF);
         spriteTool.getSpriteRenderer().render();
     }
 

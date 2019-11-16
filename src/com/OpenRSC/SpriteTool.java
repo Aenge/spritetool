@@ -84,12 +84,13 @@ public class SpriteTool extends Application {
 
         Scene scene = new Scene(this.mainRoot, 800, 600);
         newStage.setScene(scene);
-
+        newStage.setOnCloseRequest(e -> {
+            getMainController().stopTimer();
+        });
         newStage.show();
         primaryStage.hide();
 
         setPrimaryStage(newStage);
-
         spriteRenderer = new SpriteRenderer(mainController.getCanvas());
         spriteRenderer.setSpriteTool(this);
 

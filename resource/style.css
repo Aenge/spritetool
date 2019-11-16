@@ -41,6 +41,10 @@
 -icons-color: black;
 }
 
+.red-icon {
+-icons-color: red;
+}
+
 .jfx-popup-container
 {
 -fx-background-color: #3C3C3C;

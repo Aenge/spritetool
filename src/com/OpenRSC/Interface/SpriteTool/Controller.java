@@ -11,12 +11,12 @@ import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.Timer;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -28,8 +28,12 @@ import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+
+import javax.swing.*;
 
 public class Controller implements Initializable {
 
@@ -43,16 +47,19 @@ public class Controller implements Initializable {
     private HBox hbox_menu;
 
     @FXML
+    private AnchorPane pane_animation;
+
+    @FXML
     private JFXHamburger hamburger;
 
     @FXML
     private JFXDrawer drawer;
 
     @FXML
-    private JFXListView l_subspaces, l_entries;
+    private JFXListView list_subspaces, list_entries;
 
     @FXML
-    private Label label_status;
+    private Label label_status, label_frame, label_framecount;
 
     @FXML
     private JFXCheckBox check_shift;
@@ -61,19 +68,22 @@ public class Controller implements Initializable {
     private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh,text_type;
 
     @FXML
-    private TextField text_frame;
-
-    @FXML
-    private TextField text_framecount;
-
-    @FXML
     private ImageView canvas;
 
     @FXML
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng;
+
+    @FXML
+    private ToggleButton button_play;
+
+    @FXML
+    private ColorPicker color_grayscale, color_bluescale;
+
+    private Timer playTimer = new Timer();
+    private TimerTask playTask;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,8 +111,8 @@ public class Controller implements Initializable {
         });
         button_save_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.SAVE, "23px"));
         button_save_workspace.setOnMouseClicked(e -> {
-            Subspace ss = (Subspace)l_subspaces.getSelectionModel().getSelectedItem();
-            Entry entry = (Entry)l_entries.getSelectionModel().getSelectedItem();
+            Subspace ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem();
+            Entry entry = (Entry)list_entries.getSelectionModel().getSelectedItem();
 
             if (ss == null || entry == null)
                 return;
@@ -118,6 +128,26 @@ public class Controller implements Initializable {
                 showError("There was a problem saving your changes.");
 
             checkSave();
+        });
+
+        //--------- Other Buttons
+        button_addframe.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "15px"));
+        button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLAY, "15px"));
+        button_play.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (t1) {
+                    button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.STOP, "15px"));
+                    button_play.getStyleClass().add("red-icon");
+                    button_play.setText("stop");
+                    playAnimation();
+                } else {
+                    button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLAY, "15px"));
+                    button_play.getStyleClass().remove("red-icon");
+                    button_play.setText("play");
+                    stopAnimation();
+                }
+            }
         });
         //--------- HAMBURGER
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
@@ -135,13 +165,13 @@ public class Controller implements Initializable {
         });
 
         //--------- subspace list
-        l_subspaces.setOnContextMenuRequested(event -> {
+        list_subspaces.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildSubspaceMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getX() + l_subspaces.layoutXProperty().intValue(), event.getY() + l_subspaces.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(),event.getX() + list_subspaces.layoutXProperty().intValue(), event.getY() + list_subspaces.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
 
-        l_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
+        list_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
             @Override
             public void changed(ObservableValue<? extends Subspace> observableValue, Subspace oldSubspace, Subspace newSubspace) {
                 if (newSubspace == null ||
@@ -153,7 +183,7 @@ public class Controller implements Initializable {
                     alert.showAndWait();
                     if (alert.getResult() != ButtonType.OK) {
                         triggerListeners = false;
-                        l_subspaces.getSelectionModel().select(oldSubspace);
+                        list_subspaces.getSelectionModel().select(oldSubspace);
                         triggerListeners = true;
                         return;
                     }
@@ -171,13 +201,13 @@ public class Controller implements Initializable {
         });
 
         //-------- Entries list
-        l_entries.setOnContextMenuRequested(event -> {
+        list_entries.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildEntryMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getX() + l_entries.layoutXProperty().intValue(), event.getY() + l_entries.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(),event.getX() + list_entries.layoutXProperty().intValue(), event.getY() + list_entries.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
 
-        l_entries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Entry>() {
+        list_entries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Entry>() {
             @Override
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
                 if (newEntry == null)
@@ -187,7 +217,7 @@ public class Controller implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
                     alert.showAndWait();
                     if (alert.getResult() != ButtonType.OK) {
-                        l_entries.getSelectionModel().select(oldEntry);
+                        list_entries.getSelectionModel().select(oldEntry);
                         return;
                     }
                 }
@@ -208,7 +238,18 @@ public class Controller implements Initializable {
                 showEntry(spriteTool.getWorkingCopy());
             }
         });
-
+        color_bluescale.valueProperty().addListener(new ChangeListener<Color>() {
+            @Override
+            public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
+                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(), color_grayscale.getValue(), t1);
+            }
+        });
+        color_grayscale.valueProperty().addListener(new ChangeListener<Color>() {
+            @Override
+            public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
+                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(), t1, color_bluescale.getValue());
+            }
+        });
         canvas.setOnScroll(e -> {
             if (e.isControlDown()) {
                 double newValue = scroll_canvas.getValue() + Math.signum(e.getDeltaY());
@@ -259,7 +300,7 @@ public class Controller implements Initializable {
             point.setX(e.getSceneX());
             point.setY(e.getSceneY());
         });
-        scroll_zoom.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
+        scroll_zoom.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         scroll_zoom.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -285,7 +326,7 @@ public class Controller implements Initializable {
             }
         });
         //------- Checkbox
-        check_shift.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
+        check_shift.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         check_shift.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -298,11 +339,11 @@ public class Controller implements Initializable {
                 spriteTool.getWorkingCopy().getSprite().getInfo().setUseShift(t1);
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite());
+                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(),color_grayscale.getValue(), color_bluescale.getValue());
             }
         });
         //------- Textboxes
-        text_boundh.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
+        text_boundh.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         text_boundh.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -325,10 +366,10 @@ public class Controller implements Initializable {
                 sprite.getInfo().setBoundHeight(Integer.parseInt(t1));
 
                 checkSave();
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
             }
         });
-        text_boundw.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
+        text_boundw.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         text_boundw.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -351,7 +392,7 @@ public class Controller implements Initializable {
                 spriteTool.getWorkingCopy().getSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
             }
         });
         text_hshift.disableProperty().bind(check_shift.selectedProperty().not());
@@ -374,7 +415,7 @@ public class Controller implements Initializable {
                 spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetX(Integer.parseInt(t1));
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
             }
         });
         text_vshift.disableProperty().bind(check_shift.selectedProperty().not());
@@ -397,10 +438,10 @@ public class Controller implements Initializable {
                 spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetY(Integer.parseInt(t1));
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(sprite);
+                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
             }
         });
-        text_name.disableProperty().bind(l_entries.getSelectionModel().selectedItemProperty().isNull());
+        text_name.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
 
     }
 
@@ -420,17 +461,17 @@ public class Controller implements Initializable {
 //        for (Entry entry : ss.getEntryList()) {
 //            this.l_entries.getItems().add(entry);
 //        }
-        l_entries.setItems(ss.getEntryList());
+        list_entries.setItems(ss.getEntryList());
     }
 
     public void populateSubspaceList(Workspace ws) {
-        this.l_subspaces.getItems().clear();
-        this.l_subspaces.setItems(ws.getSubspaces());
+        this.list_subspaces.getItems().clear();
+        this.list_subspaces.setItems(ws.getSubspaces());
     }
 
     private JFXPopup buildEntryMenu() {
         if (spriteTool.getWorkspace() == null
-        || l_subspaces.getSelectionModel().getSelectedItem() == null)
+        || list_subspaces.getSelectionModel().getSelectedItem() == null)
             return null;
 
         JFXPopup popup = new JFXPopup();
@@ -474,7 +515,7 @@ public class Controller implements Initializable {
         btn_newCategory.setPadding(new Insets(10));
         buttons.add(btn_newCategory);
         Subspace ss;
-        if ((ss = (Subspace)l_subspaces.getSelectionModel().getSelectedItem()) != null) {
+        if ((ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem()) != null) {
             JFXButton btn_delCategory = new JFXButton("Delete " + ss.getName());
             JFXButton btn_renameCategory = new JFXButton("Rename " + ss.getName());
 
@@ -536,7 +577,7 @@ public class Controller implements Initializable {
 
     private void showEntry(Entry newEntry) {
         Sprite sprite = newEntry.getSprite();
-        spriteTool.getSpriteRenderer().renderSprite(sprite);
+        spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
 
         triggerListeners = false;
         Info info = newEntry.getSprite().getInfo();
@@ -546,9 +587,7 @@ public class Controller implements Initializable {
         text_vshift.setText(String.valueOf(info.getOffsetX()));
         text_boundh.setText(String.valueOf(info.getBoundHeight()));
         text_boundw.setText(String.valueOf(info.getBoundWidth()));
-        text_type.setText(info.getType().toString());
-        text_frame.setText(String.valueOf(info.getFrame()));
-        text_framecount.setText(String.valueOf(info.getFrameCount()));
+        label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
         scroll_zoom.setValue(0);
         if (newEntry.isAnimation() && ((Animation)newEntry.getSpriteData()).getFrameCount() > 1) {
             scroll_canvas.setMax(((Animation)newEntry.getSpriteData()).getFrameCount());
@@ -557,6 +596,22 @@ public class Controller implements Initializable {
         triggerListeners = true;
     }
 
+    private void playAnimation() {
+        playTask = new TimerTask() {
+            public void run() {
+                int curFrame = (int)scroll_canvas.getValue();
+                if (curFrame == (int)scroll_canvas.getMax())
+                    Platform.runLater(()->scroll_canvas.setValue(1));
+                else
+                    Platform.runLater(()->scroll_canvas.setValue(curFrame + 1));
+            }
+        };
+        playTimer.schedule(playTask, 1000, 1000);
+    }
+
+    private void stopAnimation() {
+        playTask.cancel();
+    }
     //------------------- public methods
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
@@ -579,11 +634,11 @@ public class Controller implements Initializable {
     public VBox getRoot() { return root; }
 
     public boolean needSave() {
-        if (l_entries.getSelectionModel().getSelectedItem() == null
+        if (list_entries.getSelectionModel().getSelectedItem() == null
         || spriteTool.getWorkingCopy() == null)
             return false;
 
-        Entry selected = (Entry)l_entries.getSelectionModel().getSelectedItem();
+        Entry selected = (Entry)list_entries.getSelectionModel().getSelectedItem();
         return !spriteTool.getWorkingCopy().equals(selected);
     }
 
@@ -592,5 +647,12 @@ public class Controller implements Initializable {
             button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
         else
             button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+    }
+
+    public void stopTimer() {
+        if (playTask != null)
+            playTask.cancel();
+
+        playTimer.cancel();
     }
 }
