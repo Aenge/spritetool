@@ -82,11 +82,12 @@ public class SpriteTool extends Application {
         Stage newStage = new Stage();
         newStage.setTitle("OpenRSC Sprite Tool");
 
-        Scene scene = new Scene(this.mainRoot, 800, 600);
+        Scene scene = new Scene(this.mainRoot, 560, 540);
         newStage.setScene(scene);
         newStage.setOnCloseRequest(e -> {
             getMainController().stopTimer();
         });
+        newStage.setResizable(false);
         newStage.show();
         primaryStage.hide();
 
@@ -109,8 +110,6 @@ public class SpriteTool extends Application {
     }
 
     public void openWorkspace() {
-        getMainController().closeDrawer();
-
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(primaryStage);
 

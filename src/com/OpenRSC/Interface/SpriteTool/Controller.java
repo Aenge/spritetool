@@ -50,12 +50,6 @@ public class Controller implements Initializable {
     private AnchorPane pane_animation;
 
     @FXML
-    private JFXHamburger hamburger;
-
-    @FXML
-    private JFXDrawer drawer;
-
-    @FXML
     private JFXListView list_subspaces, list_entries;
 
     @FXML
@@ -77,7 +71,7 @@ public class Controller implements Initializable {
     private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng;
 
     @FXML
-    private ToggleButton button_play;
+    private ToggleButton button_play, button_male, button_female;
 
     @FXML
     private ColorPicker color_grayscale, color_bluescale;
@@ -95,7 +89,7 @@ public class Controller implements Initializable {
         button_new_workspace.setOnMouseEntered(e -> button_new_workspace.requestFocus());
         button_open_workspace.setOnMouseEntered(e -> button_open_workspace.requestFocus());
         button_save_workspace.setOnMouseEntered(e -> button_save_workspace.requestFocus());
-        button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "23px"));
+        button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "23px"));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
         });
@@ -131,6 +125,7 @@ public class Controller implements Initializable {
         });
 
         //--------- Other Buttons
+        button_changepng.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "15px"));
         button_addframe.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "15px"));
         button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLAY, "15px"));
         button_play.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -149,19 +144,23 @@ public class Controller implements Initializable {
                 }
             }
         });
-        //--------- HAMBURGER
-        HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburger);
-        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            drawer.toggle();
+        button_male.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.MALE,"15px"));
+        button_male.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (t1)
+                    button_female.setSelected(false);
+                root.requestFocus();
+            }
         });
-
-        //--------- DRAWER
-        drawer.setOnDrawerClosing(event -> {
-            closeHamburger(transition);
-
-        });
-        drawer.setOnDrawerOpening(event -> {
-            openHamburger(transition);
+        button_female.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FEMALE,"15px"));
+        button_female.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (t1)
+                    button_male.setSelected(false);
+                root.requestFocus();
+            }
         });
 
         //--------- subspace list
@@ -224,17 +223,6 @@ public class Controller implements Initializable {
                 spriteTool.getSpriteRenderer().reset();
                 spriteTool.setWorkingCopy(newEntry.clone());
                 checkSave();
-                /*
-                                if (spriteTool.getWorkingCopy().getType() == Entry.TYPE.ANIMATION) {
-                    ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().addListener(new ChangeListener<Number>() {
-                        @Override
-                        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                            Sprite sprite = ((Animation)spriteTool.getWorkingCopy().getSpriteData()).getFrame((int)t1);
-                            spriteTool.getSpriteRenderer().renderSprite(sprite);
-                        }
-                    });
-                }
-                 */
                 showEntry(spriteTool.getWorkingCopy());
             }
         });
@@ -244,12 +232,14 @@ public class Controller implements Initializable {
                 spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(), color_grayscale.getValue(), t1);
             }
         });
+        color_bluescale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         color_grayscale.valueProperty().addListener(new ChangeListener<Color>() {
             @Override
             public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
                 spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(), t1, color_bluescale.getValue());
             }
         });
+        color_grayscale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         canvas.setOnScroll(e -> {
             if (e.isControlDown()) {
                 double newValue = scroll_canvas.getValue() + Math.signum(e.getDeltaY());
@@ -615,11 +605,7 @@ public class Controller implements Initializable {
     //------------------- public methods
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
-        drawer.setSidePane(spriteTool.getMenuRoot());
     }
-
-    public void closeDrawer() { this.drawer.close(); }
-    public void openDrawer() { this.drawer.open(); }
 
     public void setStatus(String status) { label_status.setText(status); }
 
