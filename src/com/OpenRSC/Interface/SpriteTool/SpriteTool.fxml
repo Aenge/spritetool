@@ -16,16 +16,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<VBox fx:id="root" prefHeight="540.0" prefWidth="800.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
+<VBox fx:id="root" prefHeight="540.0" prefWidth="558.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
-      <HBox fx:id="hbox_menu" prefHeight="52.0" prefWidth="794.0" style="-fx-border-color: #000000;">
+      <HBox fx:id="hbox_menu" prefHeight="52.0" prefWidth="558.0" style="-fx-border-color: #000000;">
          <children>
             <JFXButton fx:id="button_new_workspace" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" text="New Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_open_workspace" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" text="Open Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_save_workspace" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" text="Save Workspace" textAlignment="CENTER" />
          </children>
       </HBox>
-      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="800.0">
+      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="562.0">
          <children>
             <JFXListView fx:id="list_subspaces" layoutX="2.0" layoutY="427.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="13.0" />
             <JFXListView fx:id="list_entries" layoutX="29.0" layoutY="30.0" prefHeight="427.0" prefWidth="134.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
@@ -64,17 +64,17 @@
             <ScrollBar fx:id="scroll_zoom" layoutX="545.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="0.0" />
             <AnchorPane fx:id="pane_animation" layoutX="242.0" layoutY="315.0" prefHeight="112.0" prefWidth="315.0" style="-fx-border-color: #000000;">
                <children>
+                  <JFXButton fx:id="button_changepng" buttonType="RAISED" layoutX="103.0" layoutY="10.0" prefHeight="26.0" prefWidth="28.0" styleClass="glass-grey" />
                   <Label layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="88.0" text="Frame" AnchorPane.leftAnchor="14.0" />
-                  <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="136.0" layoutY="10.0" prefHeight="26.0" prefWidth="28.0" />
-                  <JFXButton fx:id="button_changepng" buttonType="RAISED" layoutX="103.0" layoutY="10.0" prefHeight="26.0" prefWidth="30.0" />
-                  <Label fx:id="label_frame" layoutX="59.0" layoutY="15.0" text="Label" />
-                  <ToggleButton fx:id="button_play" contentDisplay="RIGHT" layoutX="189.0" layoutY="11.0" mnemonicParsing="false" text="play" />
-                  <ToggleButton fx:id="button_male" layoutX="248.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" />
-                  <ToggleButton fx:id="button_female" layoutX="271.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" />
-                  <Label layoutX="15.0" layoutY="47.0" text="Animation Type" />
-                  <ChoiceBox layoutX="112.0" layoutY="43.0" prefWidth="150.0" />
-                  <Label layoutX="75.0" layoutY="78.0" text="Slot" />
-                  <ChoiceBox layoutX="112.0" layoutY="74.0" prefWidth="150.0" />
+                  <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="134.0" layoutY="10.0" prefHeight="26.0" prefWidth="28.0" styleClass="glass-grey" />
+                  <Label fx:id="label_frame" layoutX="59.0" layoutY="15.0" />
+                  <ToggleButton fx:id="button_play" contentDisplay="RIGHT" layoutX="276.0" layoutY="11.0" mnemonicParsing="false" />
+                  <ToggleButton fx:id="button_male" layoutX="208.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" />
+                  <ToggleButton fx:id="button_female" layoutX="230.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" />
+                  <Label layoutX="89.0" layoutY="47.0" text="Animation Type" />
+                  <ChoiceBox layoutX="187.0" layoutY="42.0" prefHeight="26.0" prefWidth="107.0" />
+                  <Label layoutX="147.0" layoutY="77.0" text="Slot" />
+                  <ChoiceBox layoutX="187.0" layoutY="73.0" prefHeight="26.0" prefWidth="107.0" />
                </children>
             </AnchorPane>
          </children>

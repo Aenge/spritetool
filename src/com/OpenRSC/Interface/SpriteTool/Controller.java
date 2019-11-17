@@ -27,14 +27,10 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
-import javax.swing.*;
-
 public class Controller implements Initializable {
 
     private SpriteTool spriteTool;
@@ -126,8 +122,11 @@ public class Controller implements Initializable {
 
         //--------- Other Buttons
         button_changepng.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "15px"));
+        button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_addframe.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "15px"));
+        button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLAY, "15px"));
+        button_play.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_play.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -602,6 +601,14 @@ public class Controller implements Initializable {
     private void stopAnimation() {
         playTask.cancel();
     }
+
+    private void checkSave() {
+        if (needSave())
+            button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
+        else
+            button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
+    }
+
     //------------------- public methods
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
@@ -626,13 +633,6 @@ public class Controller implements Initializable {
 
         Entry selected = (Entry)list_entries.getSelectionModel().getSelectedItem();
         return !spriteTool.getWorkingCopy().equals(selected);
-    }
-
-    private void checkSave() {
-        if (needSave())
-            button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
-        else
-            button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
     }
 
     public void stopTimer() {
