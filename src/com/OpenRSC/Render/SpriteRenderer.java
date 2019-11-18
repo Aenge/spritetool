@@ -1,6 +1,7 @@
 package com.OpenRSC.Render;
 
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.SpriteTool;
 import javafx.geometry.Rectangle2D;
@@ -22,6 +23,7 @@ public class SpriteRenderer {
     private int[] pixelData;
     private ImageView canvas;
     private SpriteTool spriteTool;
+    private PlayerRenderer playerRenderer;
 
     public SpriteRenderer(ImageView canvas) {
         this.canvas = canvas;
@@ -32,6 +34,7 @@ public class SpriteRenderer {
         this.clipLeft = 0;
         this.clipRight = this.width2;
         this.pixelData = new int[this.height2 * this.width2];
+        this.playerRenderer = new PlayerRenderer();
     }
 
     public void reset() {
@@ -82,6 +85,14 @@ public class SpriteRenderer {
             this.pixelData[x + topLine] = finalColour;
             this.pixelData[x + bottomLine] = finalColour;
         }
+    }
+
+    public void renderPlayer(int frame) {
+        clear();
+        Entry entry = playerRenderer.defaultPlayer.getEntryByName("bow");
+        Sprite sprite = ((Animation)entry.getSpriteData()).getFrame(frame);
+        bufferSprite(sprite,0,0,100,100,0,0,0,false,0,1,0xFFFFFFFF);
+        render();
     }
 
     public void renderSprite(Sprite sprite, Color grayscale, Color bluescale) {

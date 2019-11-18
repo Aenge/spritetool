@@ -52,4 +52,13 @@ public class Subspace {
         return animationCount;
     }
 
+    public Entry getEntryByName(String name) {
+        for (Entry entry : entryList) {
+            if (entry.getID().equalsIgnoreCase(name)) {
+                return entry;
+            }
+        }
+
+        return null;
+    }
 }
