@@ -4,15 +4,27 @@ import com.OpenRSC.Interface.SpriteTool.Controller;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.SpriteRenderer;
+import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -110,7 +122,9 @@ public class SpriteTool extends Application {
     }
 
     public void openWorkspace() {
+
         DirectoryChooser directoryChooser = new DirectoryChooser();
+
         File selectedDirectory = directoryChooser.showDialog(primaryStage);
 
         //Check if they closed the dialog without choosing
@@ -124,22 +138,49 @@ public class SpriteTool extends Application {
             return;
         }
 
-        openWorkspace(selectedDirectory.toPath());
+        final int maxProgress = getFilesCount(selectedDirectory);
+        SimpleIntegerProperty countProgress = new SimpleIntegerProperty();
+        SimpleDoubleProperty ratio = new SimpleDoubleProperty();
+        countProgress.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                ratio.set(t1.doubleValue()/maxProgress);
+            }
+        });
+        mainController.progress_bar.progressProperty().bind(ratio);
+        final Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                openWorkspace(selectedDirectory.toPath(), countProgress);
+                return null;
+            }
+        };
+
+
+        Thread thread = new Thread(task, "task-thread");
+        thread.start();
     }
 
-    public void openWorkspace(Path path) {
+    public void openWorkspace(Path path) { openWorkspace(path, null); }
+    public void openWorkspace(Path path, SimpleIntegerProperty countProgress) {
         WorkspaceReader reader = new WorkspaceReader();
+        reader.setProgressCounter(countProgress);
         this.workspace = reader.loadWorkspace(path);
 
         if (this.workspace == null) {
-            System.out.print("Failed to load workspace.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open workspace.");
+            alert.showAndWait();
             return;
         }
 
         //Display the workspace
-        mainController.populateSubspaceList(this.workspace);
-        getMainController().setStatus("Workspace: " + workspace.getName() + ": " + workspace.getSubspaceCount() + " categories, " + workspace.getEntryCount() +
-                " entries (" + workspace.getSpriteCount() + " sprites, " + workspace.getAnimationCount() + " animations)");
+        Platform.runLater(() -> {
+            mainController.populateSubspaceList(this.workspace);
+            mainController.setStatus("Workspace: " + workspace.getName() + ": " + workspace.getSubspaceCount() + " categories, " + workspace.getEntryCount() +
+                    " entries (" + workspace.getSpriteCount() + " sprites, " + workspace.getAnimationCount() + " animations)");
+        });
+
+        return;
     }
 
     public void setPrimaryStage(Stage stage) { this.primaryStage = stage; }
@@ -156,4 +197,16 @@ public class SpriteTool extends Application {
     public SpriteRenderer getSpriteRenderer() { return this.spriteRenderer; }
     public Entry getWorkingCopy() { return this.workingCopy; }
     public void setWorkingCopy(Entry entry) { this.workingCopy = entry; }
+
+    public static int getFilesCount(File file) {
+        File[] files = file.listFiles();
+        int count = 0;
+        for (File f : files)
+            if (f.isDirectory())
+                count += getFilesCount(f);
+            else
+                count++;
+
+        return count;
+    }
 }

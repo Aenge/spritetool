@@ -72,6 +72,9 @@ public class Controller implements Initializable {
     @FXML
     private ColorPicker color_grayscale, color_bluescale;
 
+    @FXML
+    public ProgressBar progress_bar;
+
     private Timer playTimer = new Timer();
     private TimerTask playTask;
 
@@ -124,7 +127,7 @@ public class Controller implements Initializable {
         button_changepng.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "15px"));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_female.setOnMouseClicked(e -> {
-            spriteTool.getSpriteRenderer().renderPlayer();
+            //spriteTool.getSpriteRenderer().renderPlayer();
         });
         button_addframe.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "15px"));
         button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
