@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.ImageView?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<VBox fx:id="root" prefHeight="540.0" prefWidth="558.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
+<VBox fx:id="root" prefHeight="540.0" prefWidth="738.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
       <HBox fx:id="hbox_menu" prefHeight="52.0" prefWidth="558.0" style="-fx-border-color: #000000;">
          <children>
@@ -27,59 +28,98 @@
             <ProgressBar fx:id="progress_bar" prefWidth="200.0" progress="0.0" />
          </children>
       </HBox>
-      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="562.0">
+      <HBox>
          <children>
-            <JFXListView fx:id="list_subspaces" layoutX="2.0" layoutY="427.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="13.0" />
-            <JFXListView fx:id="list_entries" layoutX="29.0" layoutY="30.0" prefHeight="427.0" prefWidth="134.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
-            <VBox fx:id="statusbox" layoutX="2.0" layoutY="462.0" prefHeight="22.0" prefWidth="780.0" style="-fx-background-color: #585858; -fx-border-color: #000000;" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="13.0">
+            <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="562.0">
                <children>
-                  <Label fx:id="label_status" prefHeight="25.0" prefWidth="778.0" text="Workspace: Null" />
-               </children>
-            </VBox>
-            <AnchorPane layoutX="139.0" layoutY="52.0" prefHeight="427.0" prefWidth="104.0" style="-fx-border-color: #000000;" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label layoutX="2.0" layoutY="-2.0" prefHeight="26.0" prefWidth="122.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0" />
-                  <Label layoutX="5.0" layoutY="19.0" prefHeight="18.0" prefWidth="58.0" text="Name" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="0.0" />
-                  <TextField fx:id="text_name" layoutX="3.0" layoutY="37.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <JFXCheckBox fx:id="check_shift" alignment="CENTER" layoutX="-1.0" layoutY="71.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="18.0" prefWidth="88.0" text="Use Shift" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="71.0" />
-                  <Label layoutX="6.0" layoutY="89.0" text="Vertical Shift" AnchorPane.leftAnchor="6.0" />
-                  <TextField fx:id="text_vshift" layoutX="3.0" layoutY="107.0" prefHeight="26.0" prefWidth="72.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="1.0" />
-                  <TextField fx:id="text_hshift" layoutX="5.0" layoutY="151.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="1.0" />
-                  <Label layoutX="6.0" layoutY="133.0" prefHeight="18.0" prefWidth="88.0" text="Horizontal Shift" AnchorPane.leftAnchor="6.0" />
-                  <Label layoutX="6.0" layoutY="230.0" prefHeight="18.0" prefWidth="78.0" text="Bound Width" AnchorPane.leftAnchor="6.0" />
-                  <Label layoutX="6.0" layoutY="186.0" text="Bound Height" AnchorPane.leftAnchor="6.0" />
-                  <TextField fx:id="text_boundw" layoutX="3.0" layoutY="248.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="1.0" />
-                  <TextField fx:id="text_boundh" layoutX="3.0" layoutY="204.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="1.0" />
-                  <Line endX="-7.30712890625" endY="-99.61210632324219" layoutX="114.0" layoutY="19.0" startX="93.18577575683594" startY="-99.61212921142578" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0" />
-                  <Separator layoutX="-46.0" layoutY="68.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <ColorPicker fx:id="color_grayscale" layoutY="330.0" prefHeight="26.0" prefWidth="82.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="12.0" />
-                  <Label layoutX="7.0" layoutY="312.0" text="Grayscale" />
-                  <Label layoutX="8.0" layoutY="356.0" text="Bluescale" AnchorPane.leftAnchor="8.0" />
-                  <ColorPicker fx:id="color_bluescale" layoutX="2.0" layoutY="374.0" prefHeight="26.0" prefWidth="68.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" />
-                  <Label layoutX="13.0" layoutY="286.0" text="Color Preview" />
+                  <JFXListView fx:id="list_subspaces" layoutX="2.0" layoutY="427.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="580.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="0.0" />
+                  <JFXListView fx:id="list_entries" layoutX="29.0" layoutY="30.0" prefHeight="402.0" prefWidth="134.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="25.0" />
+                  <VBox fx:id="statusbox" layoutX="2.0" layoutY="462.0" prefHeight="22.0" prefWidth="780.0" style="-fx-background-color: #585858; -fx-border-color: #000000;" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label fx:id="label_status" prefHeight="25.0" prefWidth="778.0" text="Workspace: Null" />
+                     </children>
+                  </VBox>
+                  <AnchorPane layoutX="139.0" layoutY="52.0" prefHeight="427.0" prefWidth="104.0" style="-fx-border-color: #000000;" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label layoutX="2.0" layoutY="-2.0" prefHeight="26.0" prefWidth="122.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0" />
+                        <Label layoutX="5.0" layoutY="19.0" prefHeight="18.0" prefWidth="58.0" text="Name" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="text_name" layoutX="3.0" layoutY="37.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <JFXCheckBox fx:id="check_shift" alignment="CENTER" layoutX="-1.0" layoutY="71.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="18.0" prefWidth="88.0" text="Use Shift" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="71.0" />
+                        <Label layoutX="6.0" layoutY="89.0" text="Vertical Shift" AnchorPane.leftAnchor="6.0" />
+                        <TextField fx:id="text_vshift" layoutX="3.0" layoutY="107.0" prefHeight="26.0" prefWidth="72.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="1.0" />
+                        <TextField fx:id="text_hshift" layoutX="5.0" layoutY="151.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="1.0" />
+                        <Label layoutX="6.0" layoutY="133.0" prefHeight="18.0" prefWidth="88.0" text="Horizontal Shift" AnchorPane.leftAnchor="6.0" />
+                        <Label layoutX="6.0" layoutY="230.0" prefHeight="18.0" prefWidth="78.0" text="Bound Width" AnchorPane.leftAnchor="6.0" />
+                        <Label layoutX="6.0" layoutY="186.0" text="Bound Height" AnchorPane.leftAnchor="6.0" />
+                        <TextField fx:id="text_boundw" layoutX="3.0" layoutY="248.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="1.0" />
+                        <TextField fx:id="text_boundh" layoutX="3.0" layoutY="204.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="1.0" />
+                        <Line endX="-7.30712890625" endY="-99.61210632324219" layoutX="114.0" layoutY="19.0" startX="93.18577575683594" startY="-99.61212921142578" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0" />
+                        <Separator layoutX="-46.0" layoutY="68.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <ColorPicker fx:id="color_grayscale" layoutY="330.0" prefHeight="26.0" prefWidth="82.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="12.0" />
+                        <Label layoutX="7.0" layoutY="312.0" text="Grayscale" />
+                        <Label layoutX="8.0" layoutY="356.0" text="Bluescale" AnchorPane.leftAnchor="8.0" />
+                        <ColorPicker fx:id="color_bluescale" layoutX="2.0" layoutY="374.0" prefHeight="26.0" prefWidth="68.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" />
+                        <Label layoutX="13.0" layoutY="286.0" text="Color Preview" />
+                     </children>
+                  </AnchorPane>
+                  <ImageView fx:id="canvas" fitHeight="300.0" fitWidth="300.0" layoutX="243.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" />
+                  <Line endX="198.0" endY="-1.0" layoutX="346.0" layoutY="301.0" startX="-102.5" startY="-0.5" AnchorPane.topAnchor="299.2928931713104" />
+                  <Line endX="0.70709228515625" endY="248.29290771484375" layoutX="544.0" layoutY="104.0" startY="-51.00000762939453" AnchorPane.topAnchor="0.0" />
+                  <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="244.0" layoutY="301.0" min="1.0" prefHeight="14.0" prefWidth="300.0" />
+                  <ScrollBar fx:id="scroll_zoom" layoutX="545.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="pane_animation" layoutX="242.0" layoutY="315.0" prefHeight="112.0" prefWidth="315.0" style="-fx-border-color: #000000;" AnchorPane.rightAnchor="5.199999999999989">
+                     <children>
+                        <JFXButton fx:id="button_changepng" buttonType="RAISED" layoutX="103.0" layoutY="10.0" prefHeight="26.0" prefWidth="28.0" styleClass="glass-grey" />
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="88.0" text="Frame" AnchorPane.leftAnchor="14.0" />
+                        <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="134.0" layoutY="10.0" prefHeight="26.0" prefWidth="28.0" styleClass="glass-grey" />
+                        <Label fx:id="label_frame" layoutX="59.0" layoutY="15.0" />
+                        <ToggleButton fx:id="button_play" contentDisplay="RIGHT" layoutX="259.0" layoutY="52.0" mnemonicParsing="false" />
+                        <Label layoutX="17.0" layoutY="47.0" text="Animation Type" />
+                        <ChoiceBox layoutX="117.0" layoutY="43.0" prefHeight="26.0" prefWidth="107.0" />
+                        <Label layoutX="80.0" layoutY="77.0" text="Slot" />
+                        <ChoiceBox layoutX="117.0" layoutY="72.0" prefHeight="26.0" prefWidth="107.0" />
+                        <Slider layoutX="162.0" layoutY="17.0" />
+                     </children>
+                  </AnchorPane>
+                  <TextField fx:id="text_search" layoutX="-9.0" layoutY="2.0" prefHeight="26.0" prefWidth="133.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-            <ImageView fx:id="canvas" fitHeight="300.0" fitWidth="300.0" layoutX="243.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" />
-            <Line endX="198.0" endY="-1.0" layoutX="346.0" layoutY="301.0" startX="-102.5" startY="-0.5" AnchorPane.topAnchor="299.2928931713104" />
-            <Line endX="0.70709228515625" endY="248.29290771484375" layoutX="544.0" layoutY="104.0" startY="-51.00000762939453" AnchorPane.topAnchor="0.0" />
-            <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="244.0" layoutY="301.0" min="1.0" prefHeight="14.0" prefWidth="300.0" />
-            <ScrollBar fx:id="scroll_zoom" layoutX="545.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="0.0" />
-            <AnchorPane fx:id="pane_animation" layoutX="242.0" layoutY="315.0" prefHeight="112.0" prefWidth="315.0" style="-fx-border-color: #000000;">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <JFXButton fx:id="button_changepng" buttonType="RAISED" layoutX="103.0" layoutY="10.0" prefHeight="26.0" prefWidth="28.0" styleClass="glass-grey" />
-                  <Label layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="88.0" text="Frame" AnchorPane.leftAnchor="14.0" />
-                  <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="134.0" layoutY="10.0" prefHeight="26.0" prefWidth="28.0" styleClass="glass-grey" />
-                  <Label fx:id="label_frame" layoutX="59.0" layoutY="15.0" />
-                  <ToggleButton fx:id="button_play" contentDisplay="RIGHT" layoutX="276.0" layoutY="11.0" mnemonicParsing="false" />
-                  <ToggleButton fx:id="button_male" layoutX="208.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" />
-                  <ToggleButton fx:id="button_female" layoutX="230.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" />
-                  <Label layoutX="89.0" layoutY="47.0" text="Animation Type" />
-                  <ChoiceBox layoutX="187.0" layoutY="42.0" prefHeight="26.0" prefWidth="107.0" />
-                  <Label layoutX="147.0" layoutY="77.0" text="Slot" />
-                  <ChoiceBox layoutX="187.0" layoutY="73.0" prefHeight="26.0" prefWidth="107.0" />
+                  <Label layoutX="68.0" layoutY="79.0" text="Basic" />
+                  <Label layoutY="128.0" text="Body" />
+                  <Label layoutY="102.0" text="Head" />
+                  <Label layoutY="154.0" text="Legs" />
+                  <Label layoutX="53.0" layoutY="183.0" text="Equipment" />
+                  <Label layoutY="217.0" text="Head" />
+                  <Label layoutY="243.0" text="Body" />
+                  <Label layoutY="269.0" text="Legs" />
+                  <Label layoutY="295.0" text="Main" />
+                  <Label layoutY="321.0" text="Sub" />
+                  <ToggleButton fx:id="button_male" layoutX="62.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="28.0" />
+                  <ToggleButton fx:id="button_female" layoutX="95.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="27.0" />
+                  <Label layoutY="347.0" text="Glove" />
+                  <Label layoutY="373.0" text="Boot" />
+                  <Label layoutY="399.0" text="Neck" />
+                  <Label layoutY="425.0" text="Cape" />
+                  <JFXCheckBox layoutX="40.0" layoutY="14.0" text="Render Player" />
+                  <Line endX="106.00003051757812" layoutX="82.0" layoutY="78.0" startX="-84.9999771118164" />
+                  <Line endX="84.60000610351562" layoutX="102.0" layoutY="182.0" startX="-100.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="98.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="124.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="150.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="213.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="239.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="265.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="291.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="317.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="343.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="369.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="395.0" prefWidth="150.0" />
+                  <ChoiceBox layoutX="33.0" layoutY="421.0" prefWidth="150.0" />
                </children>
             </AnchorPane>
          </children>
-      </AnchorPane>
+      </HBox>
    </children>
 </VBox>

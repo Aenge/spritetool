@@ -8,7 +8,9 @@ import java.net.URL;
 
 public class PlayerRenderer {
 
-    public Subspace defaultPlayer;
+
+    private Subspace shippedAnimations;
+    private String[] layers = new String[12];
     private int[] animFrameToSprite_Walk = new int[]{0, 1, 2, 1};
     private final int[] animFrameToSprite_CombatA = new int[]{0, 1, 2, 1, 0, 0, 0, 0};
     private final int[] animFrameToSprite_CombatB = new int[]{0, 0, 0, 0, 0, 1, 2, 1};
@@ -21,9 +23,12 @@ public class PlayerRenderer {
     public PlayerRenderer() {
         WorkspaceReader workspaceReader = new WorkspaceReader();
         File folder = new File("resource/animations");
-        this.defaultPlayer = workspaceReader.loadSubspace(folder.toPath());
+        this.shippedAnimations = workspaceReader.loadSubspace(folder.toPath());
     }
 
+    public String[] getLayers() { return this.layers; };
+
+    public Subspace getShippedAnimations() { return this.shippedAnimations; }
 /*
     public final void drawPlayer(int index, int x, int y, int width, int height, int topPixelSkew, int var3,
                                  int overlayMovement) {

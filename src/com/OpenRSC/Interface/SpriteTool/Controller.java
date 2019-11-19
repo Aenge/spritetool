@@ -55,7 +55,7 @@ public class Controller implements Initializable {
     private JFXCheckBox check_shift;
 
     @FXML
-    private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh,text_type;
+    private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh, text_type, text_search;
 
     @FXML
     private ImageView canvas;
@@ -437,20 +437,9 @@ public class Controller implements Initializable {
             }
         });
         text_name.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
-
     }
 
     //------------------ private methods
-    private void openHamburger(HamburgerNextArrowBasicTransition transition) {
-        transition.setRate(1.0);
-        transition.play();
-    }
-
-    private void closeHamburger(HamburgerNextArrowBasicTransition transition) {
-        transition.setRate(-1.0);
-        transition.play();
-    }
-
     private void populateEntryList(Subspace ss) {
 //        this.l_entries.getItems().clear();
 //        for (Entry entry : ss.getEntryList()) {

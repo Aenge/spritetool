@@ -94,7 +94,7 @@ public class SpriteTool extends Application {
         Stage newStage = new Stage();
         newStage.setTitle("OpenRSC Sprite Tool");
 
-        Scene scene = new Scene(this.mainRoot, 560, 540);
+        Scene scene = new Scene(this.mainRoot, 750, 540);
         newStage.setScene(scene);
         newStage.setOnCloseRequest(e -> {
             getMainController().stopTimer();
