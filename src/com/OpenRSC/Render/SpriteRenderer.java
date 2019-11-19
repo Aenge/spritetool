@@ -1,10 +1,7 @@
 package com.OpenRSC.Render;
 
-import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.SpriteTool;
-import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
@@ -36,10 +33,9 @@ public class SpriteRenderer {
         this.clipRight = this.width2;
         this.pixelData = new int[this.height2 * this.width2];
         this.playerRenderer = new PlayerRenderer();
-        playerRenderer.getLayers()[0] = "legs1";
-        playerRenderer.getLayers()[1] = "body1";
-        playerRenderer.getLayers()[2] = "head1";
-        renderPlayer(10);
+        playerRenderer.getLayers()[PlayerRenderer.LAYER.LEGS_NO_SKIN.getIndex()] = "legs1";
+        playerRenderer.getLayers()[PlayerRenderer.LAYER.BODY_NO_SKIN.getIndex()] = "body1";
+        playerRenderer.getLayers()[PlayerRenderer.LAYER.HEAD_NO_SKIN.getIndex()] = "head1";
     }
 
     public void reset() {
@@ -94,15 +90,8 @@ public class SpriteRenderer {
 
     public void renderPlayer(int frame) {
         clear();
-        for (String layer : playerRenderer.getLayers()) {
-            if (layer == null)
-                continue;
-
-            Entry entry = playerRenderer.getShippedAnimations().getEntryByName(layer);
-            Sprite sprite = ((Animation)entry.getSpriteData()).getFrame(frame+1);
-            bufferSprite(sprite,0,0,sprite.getInfo().getBoundWidth(),sprite.getInfo().getBoundHeight(),0,0,0,false,0,1,0xFFFFFFFF);
-        }
-
+        wipeBuffer();
+        playerRenderer.drawPlayer(this,100,100,frame);
         render();
     }
 

@@ -3,7 +3,6 @@ package com.OpenRSC.IO.Workspace;
 import com.OpenRSC.IO.Image.ImageWriter;
 import com.OpenRSC.IO.Info.InfoWriter;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
@@ -32,16 +31,18 @@ public class WorkspaceWriter {
         return false;
     }
     public boolean updateEntry(Subspace subspace, Entry oldEntry, Entry newEntry) {
-        if (oldEntry.getType() != newEntry.getType())
-            return false;
-
-        if (newEntry.getType() == Entry.TYPE.SPRITE) {
-            return updateSprite(subspace, (Sprite)oldEntry.getSpriteData(), (Sprite)newEntry.getSpriteData());
-        } else if (newEntry.getType() == Entry.TYPE.ANIMATION) {
-            return updateAnimation(subspace, (Animation)oldEntry.getSpriteData(), (Animation)newEntry.getSpriteData());
+        for (int i = 0; i < newEntry.frameCount(); ++i) {
+            if (i < oldEntry.frameCount()) {
+                if (!oldEntry.getFrame(i).equals(newEntry.getFrame(i))) {
+                    if (!updateSprite(subspace, oldEntry.getFrame(i), newEntry.getFrame(i)))
+                        return false;
+                }
+            } else {
+                if (!writeSprite(subspace, (newEntry.getFrame(i))))
+                    return false;
+            }
         }
-
-        return false;
+        return true;
     }
 
     //Returns if operation successful
@@ -101,20 +102,4 @@ public class WorkspaceWriter {
 
         return true;
     }
-
-    public boolean updateAnimation(Subspace subspace, Animation oldAnimation, Animation newAnimation) {
-        for (int i = 0; i < newAnimation.getFrameCount(); ++i) {
-            if (i < oldAnimation.getFrameCount()) {
-                if (!oldAnimation.getFrames()[i].equals(newAnimation.getFrames()[i])) {
-                    if (!updateSprite(subspace, oldAnimation.getFrames()[i], newAnimation.getFrames()[i]))
-                        return false;
-                }
-            } else {
-                if (!writeSprite(subspace, (newAnimation.getFrames())[i]))
-                    return false;
-            }
-        }
-        return true;
-    }
-
 }

@@ -1,25 +1,23 @@
 package com.OpenRSC.Render;
 
 import com.OpenRSC.IO.Workspace.WorkspaceReader;
+import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 
 import java.io.File;
-import java.net.URL;
 
 public class PlayerRenderer {
 
 
     private Subspace shippedAnimations;
     private String[] layers = new String[12];
-    private int[] animFrameToSprite_Walk = new int[]{0, 1, 2, 1};
-    private final int[] animFrameToSprite_CombatA = new int[]{0, 1, 2, 1, 0, 0, 0, 0};
-    private final int[] animFrameToSprite_CombatB = new int[]{0, 0, 0, 0, 0, 1, 2, 1};
     private final int[][] animDirLayer_To_CharLayer = new int[][]{{11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 3, 4},
             {11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 3, 4}, {11, 3, 2, 9, 7, 1, 6, 10, 0, 5, 8, 4},
             {3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5}, {3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5},
             {4, 3, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5}, {11, 4, 2, 9, 7, 1, 6, 10, 0, 5, 8, 3},
             {11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 4, 3}};
-
+    private final int[] frameToDir = new int[]{4,4,4,5,5,5,6,6,6,7,7,7,0,0,0,8,8,8};
     public PlayerRenderer() {
         WorkspaceReader workspaceReader = new WorkspaceReader();
         File folder = new File("resource/animations");
@@ -29,108 +27,40 @@ public class PlayerRenderer {
     public String[] getLayers() { return this.layers; };
 
     public Subspace getShippedAnimations() { return this.shippedAnimations; }
-/*
-    public final void drawPlayer(int index, int x, int y, int width, int height, int topPixelSkew, int var3,
-                                 int overlayMovement) {
+
+    public final void drawPlayer(SpriteRenderer spriteRenderer, int x, int y, int frame) {
         try {
-
-            int wantedAnimDir = 2;
-            boolean mirrorX = false;
-            int actualAnimDir = wantedAnimDir;
-            if (wantedAnimDir == 5) {
-                mirrorX = true;
-                actualAnimDir = 3;
-            } else if (wantedAnimDir == 7) {
-                actualAnimDir = 1;
-                mirrorX = true;
-            } else if (wantedAnimDir == 6) {
-                actualAnimDir = 2;
-                mirrorX = true;
-            }
-
-
-            int spriteOffset = this.animFrameToSprite_Walk[player.stepFrame / 6 % 4] + actualAnimDir * 3;
-            if (player.direction == ORSCharacterDirection.COMBAT_B) {
-                wantedAnimDir = 2;
-                actualAnimDir = 5;
-                x += overlayMovement * 5 / 100;
-                mirrorX = true;
-                spriteOffset = this.animFrameToSprite_CombatB[this.getFrameCounter() / 6 % 8] + actualAnimDir * 3;
-            } else if (player.direction == ORSCharacterDirection.COMBAT_A) {
-                x -= overlayMovement * 5 / 100;
-                actualAnimDir = 5;
-                mirrorX = false;
-                wantedAnimDir = 2;
-                spriteOffset = this.animFrameToSprite_CombatA[this.getFrameCounter() / 5 % 8] + actualAnimDir * 3;
-            }
+            int wantedAnimDir = frameToDir[frame];
 
             for (int lay = 0; lay < 12; ++lay) {
                 int mappedLayer = this.animDirLayer_To_CharLayer[wantedAnimDir][lay];
-                int animID = player.layerAnimation[mappedLayer] - 1;
-                if (animID >= 0) {
+                String animID = layers[mappedLayer];
+                if (animID != null) {
                     byte spriteOffsetX = 0;
                     byte spriteOffsetY = 0;
-                    int mySpriteOffset = spriteOffset;
-                    if (mirrorX && actualAnimDir >= 1 && actualAnimDir <= 3) {
-                        if (EntityHandler.getAnimationDef(animID).hasF()) {
-                            mySpriteOffset = spriteOffset + 15;
-                        } else if (mappedLayer == 4 && actualAnimDir == 1) {
-                            mySpriteOffset = actualAnimDir * 3
-                                    + this.animFrameToSprite_Walk[(player.stepFrame / 6 + 2) % 4];
-                            spriteOffsetY = -3;
-                            spriteOffsetX = -22;
-                        } else if (mappedLayer == 4 && actualAnimDir == 2) {
-                            spriteOffsetX = 0;
-                            spriteOffsetY = -8;
-                            mySpriteOffset = this.animFrameToSprite_Walk[(player.stepFrame / 6 + 2) % 4]
-                                    + actualAnimDir * 3;
-                        } else if (mappedLayer == 4 && actualAnimDir == 3) {
-                            spriteOffsetY = -5;
-                            mySpriteOffset = actualAnimDir * 3
-                                    + this.animFrameToSprite_Walk[(2 + player.stepFrame / 6) % 4];
-                            spriteOffsetX = 26;
-                        } else if (mappedLayer == 3 && actualAnimDir == 1) {
-                            mySpriteOffset = actualAnimDir * 3
-                                    + this.animFrameToSprite_Walk[(2 + player.stepFrame / 6) % 4];
-                            spriteOffsetX = 22;
-                            spriteOffsetY = 3;
-                        } else if (mappedLayer == 3 && actualAnimDir == 2) {
-                            spriteOffsetY = 8;
-                            mySpriteOffset = actualAnimDir * 3
-                                    + this.animFrameToSprite_Walk[(player.stepFrame / 6 + 2) % 4];
-                            spriteOffsetX = 0;
-                        } else if (mappedLayer == 3 && actualAnimDir == 3) {
-                            spriteOffsetX = -26;
-                            mySpriteOffset = this.animFrameToSprite_Walk[(2 + player.stepFrame / 6) % 4]
-                                    + actualAnimDir * 3;
-                            spriteOffsetY = 5;
-                        }
-                    }
 
-
-                    Sprite sprite = spriteSelect(EntityHandler.getAnimationDef(animID), mySpriteOffset);
-                    int something1 = sprite.getSomething1();
-                    int something2 = sprite.getSomething2();
-                    int something3 = this.spriteSelect(EntityHandler.getAnimationDef(animID), 0).getSomething1();
+                    Entry entry = shippedAnimations.getEntryByName(animID);
+                    Sprite sprite = entry.getFrame(frame);
+                    if (sprite == null)
+                        return;
+                    int something1 = sprite.getInfo().getBoundWidth();
+                    int something2 = sprite.getInfo().getBoundHeight();
+                    int something3 = entry.getFrame(0).getInfo().getBoundWidth();
                     if (something1 != 0 && something2 != 0 && something3 != 0) {
-                        int xOffset = (spriteOffsetX * width) / something1;
-                        int yOffset = (spriteOffsetY * height) / something2;
-                        int spriteWidth = (something1 * width) / something3;
-                        xOffset -= (spriteWidth - width) / 2;
-                        int colorMask1 = EntityHandler.getAnimationDef(animID).getCharColour();
-                        int blueScaleColor = EntityHandler.getAnimationDef(animID).getBlueMask();
-                        if (colorMask1 == 1) {
-                            colorMask1 = this.getPlayerHairColors()[player.colourHair];
-                        } else if (colorMask1 == 2) {
-                            colorMask1 = this.getPlayerClothingColors()[player.colourTop];
-                        } else if (colorMask1 == 3) {
-                            colorMask1 = this.getPlayerClothingColors()[player.colourBottom];
-                        }
+                        int colorMask1 = 0;
+                        int blueScaleColor = 0;
+//                        if (colorMask1 == 1) {
+//                            colorMask1 = this.getPlayerHairColors()[player.colourHair];
+//                        } else if (colorMask1 == 2) {
+//                            colorMask1 = this.getPlayerClothingColors()[player.colourTop];
+//                        } else if (colorMask1 == 3) {
+//                            colorMask1 = this.getPlayerClothingColors()[player.colourBottom];
+//                        }
 
-                        int colorMask2 = this.getPlayerSkinColors()[player.colourSkin];
+                        int colorMask2 = 15523536;
 
-                        this.getSurface().drawSpriteClipping(sprite, xOffset + x, y + yOffset, spriteWidth,
-                                height, colorMask1, colorMask2, blueScaleColor, mirrorX, topPixelSkew, 1, 0);
+                        spriteRenderer.bufferSprite(sprite, x, y, something1,
+                                something2, colorMask1, colorMask2, blueScaleColor, false, 0, 1, 0xFFFFFFFF);
                     }
 
                 }
@@ -140,7 +70,44 @@ public class PlayerRenderer {
             a.printStackTrace();
         }
     }
-*/
+
+
+    public enum LAYER {
+        HEAD_NO_SKIN, //can be basic head or full helm
+        BODY_NO_SKIN, //can be basic body or plate mail
+        LEGS_NO_SKIN, //can be basic legs or plate legs
+        MAIN_HAND,
+        OFF_HAND,
+        HEAD_WITH_SKIN, //medium helms / hats
+        BODY_WITH_SKIN, //chainmails
+        LEGS_WITH_SKIN, //robes
+        NECK,
+        BOOTS,
+        GLOVES,
+        CAPE;
+
+
+        public int getIndex() { return this.ordinal(); }
+    }
+    //Frame dirs
+//    0: 4, 0
+//    1: 4, 1
+//    2: 4, 2
+//    3: 5, 0
+//    4: 5, 1
+//    5: 5, 2
+//    6: 6, 0
+//    7: 6, 1
+//    8: 6, 2
+//    9: 7, 0
+//    10: 7, 1
+//    11: 7, 2
+//    12: 0, 0
+//    13: 0, 1
+//    14: 0, 2
+//    15: 8, 0
+//    16: 8, 1
+//    17: 8, 2
     public enum ORSCharacterDirection {
         NORTH(0, 0, -1),
         NORTH_WEST(1, 1, -1),

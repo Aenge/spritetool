@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.util.Callback;
 
 import java.nio.file.Path;
-import java.util.List;
 
 public class Subspace {
 
@@ -35,10 +34,11 @@ public class Subspace {
     public ObservableList<Entry> getEntryList() { return entryList; }
 
     public int getEntryCount() { return this.entryList.size(); }
+
     public int getSpriteCount() {
         int spriteCount = 0;
         for (Entry entry : entryList) {
-            if (entry.isSprite())
+            if (!entry.isAnimation())
                 ++spriteCount;
         }
         return spriteCount;

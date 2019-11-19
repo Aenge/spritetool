@@ -3,7 +3,7 @@ package com.OpenRSC.Model.Format;
 import com.OpenRSC.Model.Entry;
 
 public class Info {
-    private Entry.TYPE type;
+
     private String filename;
     private String id;
     private int frameCount;
@@ -27,7 +27,6 @@ public class Info {
         Info info = (Info)o;
 
         if (!this.filename.equalsIgnoreCase(info.filename) ||
-                this.type != info.type ||
                 !this.id.equalsIgnoreCase(info.id) ||
                 this.frameCount != info.frameCount ||
                 this.frame != info.frame ||
@@ -41,8 +40,6 @@ public class Info {
 
         return true;
     }
-    public void setType(Entry.TYPE type) { this.type = type; }
-    public Entry.TYPE getType() { return this.type; }
     public void setFileName(String name) { this.filename = name; }
     public String getFileName() { return this.filename; }
     public void setID(String id) { this.id = id; }
@@ -64,10 +61,6 @@ public class Info {
 
     public Info clone() {
         Info info = new Info();
-        if (this.getType() == Entry.TYPE.SPRITE)
-            info.setType(Entry.TYPE.SPRITE);
-        else
-            info.setType(Entry.TYPE.ANIMATION);
 
         info.setFileName(this.getFileName());
         info.setID(this.getID());

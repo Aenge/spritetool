@@ -1,14 +1,12 @@
 package com.OpenRSC.Interface.SpriteTool;
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Animation;
 import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
-import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
@@ -234,19 +232,21 @@ public class Controller implements Initializable {
         color_bluescale.valueProperty().addListener(new ChangeListener<Color>() {
             @Override
             public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
-                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(), color_grayscale.getValue(), t1);
+                spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), t1);
             }
         });
         color_bluescale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         color_grayscale.valueProperty().addListener(new ChangeListener<Color>() {
             @Override
             public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
-                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(), t1, color_bluescale.getValue());
+                spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), t1, color_bluescale.getValue());
             }
         });
         color_grayscale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         canvas.setOnScroll(e -> {
             if (e.isControlDown()) {
+                if (scroll_canvas.isDisable())
+                    return;
                 double newValue = scroll_canvas.getValue() + Math.signum(e.getDeltaY());
                 if (newValue > scroll_canvas.getMax())
                     newValue = scroll_canvas.getMax();
@@ -255,6 +255,8 @@ public class Controller implements Initializable {
 
                 scroll_canvas.setValue(newValue);
             } else {
+                if (scroll_zoom.isDisable())
+                    return;
                 double newValue = scroll_zoom.getValue() - 4*Math.signum(e.getDeltaY());
                 if (newValue > scroll_zoom.getMax())
                     newValue = scroll_zoom.getMax();
@@ -312,12 +314,13 @@ public class Controller implements Initializable {
                 scroll_canvas.setValue(t1.intValue());
                 if (scroll_canvas.getValue() == number.intValue())
                     return;
-
-                if (spriteTool.getWorkingCopy() == null)
-                    return;
-
-                ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().setValue(t1);
-                showEntry(spriteTool.getWorkingCopy());
+                spriteTool.getSpriteRenderer().renderPlayer(t1.intValue()-1);
+//
+//                if (spriteTool.getWorkingCopy() == null)
+//                    return;
+//
+//                ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().setValue(t1);
+//                showEntry(spriteTool.getWorkingCopy());
             }
         });
         //------- Checkbox
@@ -331,10 +334,10 @@ public class Controller implements Initializable {
                 if (t1 == null)
                     return;
 
-                spriteTool.getWorkingCopy().getSprite().getInfo().setUseShift(t1);
+                getWorkingSprite().getInfo().setUseShift(t1);
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(spriteTool.getWorkingCopy().getSprite(),color_grayscale.getValue(), color_bluescale.getValue());
+                spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(),color_grayscale.getValue(), color_bluescale.getValue());
             }
         });
         //------- Textboxes
@@ -353,7 +356,7 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
+                Sprite sprite = getWorkingSprite();
 
                 if (Integer.parseInt(t1) < sprite.getImageData().getHeight())
                     return;
@@ -379,12 +382,12 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
+                Sprite sprite = getWorkingSprite();
 
                 if (Integer.parseInt(t1) < sprite.getImageData().getWidth())
                     return;
 
-                spriteTool.getWorkingCopy().getSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
+                getWorkingSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
                 checkSave();
 
                 spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
@@ -405,9 +408,9 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
+                Sprite sprite = getWorkingSprite();
 
-                spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetX(Integer.parseInt(t1));
+                getWorkingSprite().getInfo().setOffsetX(Integer.parseInt(t1));
                 checkSave();
 
                 spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
@@ -428,9 +431,9 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = spriteTool.getWorkingCopy().getSprite();
+                Sprite sprite = getWorkingSprite();
 
-                spriteTool.getWorkingCopy().getSprite().getInfo().setOffsetY(Integer.parseInt(t1));
+                getWorkingSprite().getInfo().setOffsetY(Integer.parseInt(t1));
                 checkSave();
 
                 spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
@@ -560,11 +563,19 @@ public class Controller implements Initializable {
     }
 
     private void showEntry(Entry newEntry) {
-        Sprite sprite = newEntry.getSprite();
+        scroll_canvas.setValue(1);
+        scroll_canvas.setMax(newEntry.frameCount());
+        scroll_canvas.setDisable(false);
+
+        Sprite sprite = newEntry.getFrame(0);
+
+        if (sprite == null)
+            return;
+
         spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
 
         triggerListeners = false;
-        Info info = newEntry.getSprite().getInfo();
+        Info info = sprite.getInfo();
         text_name.setText(newEntry.getID());
         check_shift.setSelected(info.getUseShift());
         text_hshift.setText(String.valueOf(info.getOffsetX()));
@@ -573,10 +584,7 @@ public class Controller implements Initializable {
         text_boundw.setText(String.valueOf(info.getBoundWidth()));
         label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
         scroll_zoom.setValue(0);
-        if (newEntry.isAnimation() && ((Animation)newEntry.getSpriteData()).getFrameCount() > 1) {
-            scroll_canvas.setMax(((Animation)newEntry.getSpriteData()).getFrameCount());
-            scroll_canvas.setDisable(false);
-        }
+
         triggerListeners = true;
     }
 
@@ -635,5 +643,10 @@ public class Controller implements Initializable {
             playTask.cancel();
 
         playTimer.cancel();
+    }
+
+    public Sprite getWorkingSprite() {
+        int index = (int)scroll_canvas.getValue();
+        return spriteTool.getWorkingCopy().getFrame(index);
     }
 }

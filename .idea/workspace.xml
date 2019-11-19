@@ -6,16 +6,129 @@
     </artifacts-to-build>
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java" line="39" />
+    <bookmark url="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java" line="31" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OpenRSC Sprite Tool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OpenRSC Sprite Tool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_0.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_1.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_10.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_11.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_12.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_13.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_14.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_15.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_16.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_17.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_2.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_3.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_4.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_5.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_6.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_7.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_8.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_9.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/body1_9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_0.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_1.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_10.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_11.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_12.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_13.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_14.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_15.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_16.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_17.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_2.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_3.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_4.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_5.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_6.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_7.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_8.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_9.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/head1_9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_0.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_1.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_10.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_11.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_12.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_13.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_14.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_15.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_16.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_17.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_2.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_3.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_4.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_5.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_6.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_7.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_8.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_9.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/animations/legs1_9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Animation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,112 +187,7 @@
     <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="619">
-              <caret line="41" selection-start-line="41" selection-end-line="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="63" column="60" selection-start-line="63" selection-start-column="60" selection-end-line="63" selection-end-column="60" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="74" selection-start-line="20" selection-start-column="74" selection-end-line="20" selection-end-column="74" />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="41" column="23" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1565#1566#0" expanded="true" />
-                <element signature="e#1665#1666#0" expanded="true" />
-                <element signature="e#1777#1778#0" expanded="true" />
-                <element signature="e#2165#2166#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Animation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="986">
-              <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="619">
-              <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -273,22 +281,22 @@
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/ImageData.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Info/InfoWriter.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Info.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Sprite.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Info/InfoReader.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Animation.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceWriter.java" />
         <option value="$PROJECT_DIR$/resource/style.css" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageReader.java" />
         <option value="$PROJECT_DIR$/src/module-info.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Info.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceWriter.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java" />
       </list>
     </option>
   </component>
@@ -309,6 +317,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -316,64 +326,10 @@
               <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
               <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="resource" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="resource" type="462c0819:PsiDirectoryNode" />
-              <item name="animations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
-              <item name="Interface" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
-              <item name="Interface" type="462c0819:PsiDirectoryNode" />
-              <item name="SpriteTool" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
-              <item name="IO" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
-              <item name="IO" type="462c0819:PsiDirectoryNode" />
-              <item name="Image" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -388,24 +344,24 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resource/animations" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\resource" />
-      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\OpenRSC\Interface" />
-      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\SpriteTool\Interface\SpriteTool" />
-      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\SpriteTool\PopMenu" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\resource\animations" />
       <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\out\production\OpenRSC Sprite Tool\animations" />
       <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\OpenRSC\Interface\SpriteTool" />
       <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\SpriteTool\Splash" />
       <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\lib" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\resource" />
+      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\OpenRSC\Interface" />
+      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\SpriteTool\Interface\SpriteTool" />
+      <recent name="C:\Users\Scott\Documents\OpenRSC Sprite Tool\src\com\SpriteTool\PopMenu" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -511,9 +467,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.17919463" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.1818792" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -521,8 +476,8 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.26675603" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.22654155" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3378016" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3538874" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.29088473" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -533,7 +488,7 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" weight="0.18364611" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.24798928" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.21447721" />
       <window_info anchor="bottom" id="Terminal" order="14" weight="0.3297587" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -551,18 +506,6 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java</url>
-          <line>31</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -712,27 +655,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Sprite.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
         </state>
       </provider>
     </entry>
@@ -842,65 +768,11 @@
     <entry file="file://$PROJECT_DIR$/out/production/OpenRSC Sprite Tool/animations/legs1_0.info">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4862">
-          <caret line="286" column="28" selection-start-line="286" selection-start-column="28" selection-end-line="286" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Animation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resource/animations/body1_0.info">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/resource/animations/head1_0.info">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="619">
-          <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="619">
-          <caret line="41" selection-start-line="41" selection-end-line="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml">
       <provider selected="true" editor-type-id="text-editor">
@@ -910,36 +782,97 @@
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java">
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Animation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-97">
+          <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="41" column="23" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+        <state relative-caret-position="51">
+          <caret line="3" column="30" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1819">
+          <caret line="107" column="42" selection-start-line="107" selection-start-column="42" selection-end-line="107" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1565#1566#0" expanded="true" />
-            <element signature="e#1665#1666#0" expanded="true" />
-            <element signature="e#1777#1778#0" expanded="true" />
-            <element signature="e#2165#2166#0" expanded="true" />
+            <element signature="e#1137#1138#0" expanded="true" />
+            <element signature="e#1178#1179#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Info.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="62" column="31" selection-start-line="62" selection-start-column="31" selection-end-line="62" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="63" column="60" selection-start-line="63" selection-start-column="60" selection-end-line="63" selection-end-column="60" />
+        <state relative-caret-position="228">
+          <caret line="96" column="50" selection-start-line="96" selection-start-column="50" selection-end-line="96" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="54" column="49" selection-start-line="54" selection-start-column="49" selection-end-line="54" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1215#1216#0" expanded="true" />
           </folding>
         </state>
       </provider>
