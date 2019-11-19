@@ -35,6 +35,7 @@ public class SpriteRenderer {
         this.clipRight = this.width2;
         this.pixelData = new int[this.height2 * this.width2];
         this.playerRenderer = new PlayerRenderer();
+        renderPlayer(0);
     }
 
     public void reset() {
@@ -89,8 +90,8 @@ public class SpriteRenderer {
 
     public void renderPlayer(int frame) {
         clear();
-        Entry entry = playerRenderer.defaultPlayer.getEntryByName("bow");
-        Sprite sprite = ((Animation)entry.getSpriteData()).getFrame(frame);
+        Entry entry = playerRenderer.defaultPlayer.getEntryByName("legs1");
+        Sprite sprite = ((Animation)entry.getSpriteData()).getFrame(frame+10);
         bufferSprite(sprite,0,0,100,100,0,0,0,false,0,1,0xFFFFFFFF);
         render();
     }

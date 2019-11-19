@@ -217,7 +217,7 @@ public class Controller implements Initializable {
                 if (newEntry == null)
                     return;
 
-                if (needSave()) {
+                if (needSave(oldEntry)) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
                     alert.showAndWait();
                     if (alert.getResult() != ButtonType.OK) {
@@ -632,13 +632,13 @@ public class Controller implements Initializable {
 
     public VBox getRoot() { return root; }
 
-    public boolean needSave() {
-        if (list_entries.getSelectionModel().getSelectedItem() == null
-        || spriteTool.getWorkingCopy() == null)
+    public boolean needSave() { return needSave((Entry)list_entries.getSelectionModel().getSelectedItem());  }
+    public boolean needSave(Entry entry) {
+        if (entry == null
+                || spriteTool.getWorkingCopy() == null)
             return false;
 
-        Entry selected = (Entry)list_entries.getSelectionModel().getSelectedItem();
-        return !spriteTool.getWorkingCopy().equals(selected);
+        return !spriteTool.getWorkingCopy().equals(entry);
     }
 
     public void stopTimer() {
