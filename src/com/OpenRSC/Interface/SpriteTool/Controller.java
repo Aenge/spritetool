@@ -487,6 +487,11 @@ public class Controller implements Initializable {
                 filteredEntryList.setPredicate(s -> true);
             } else
                 filteredEntryList.setPredicate(s -> s.toString().contains(filter));
+
+            if (filteredEntryList.size() == 0)
+                text_search.getStyleClass().add("textField-red");
+            else
+                text_search.getStyleClass().removeAll("textField-red");
         });
         list_entries.setItems(filteredEntryList);
     }

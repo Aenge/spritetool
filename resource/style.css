@@ -52,6 +52,10 @@
 -icons-color: red;
 }
 
+.textField-red{
+-fx-control-inner-background: #FF0000;
+-fx-background-color: #FF0000;
+}
 .jfx-popup-container
 {
 -fx-background-color: #3C3C3C;
