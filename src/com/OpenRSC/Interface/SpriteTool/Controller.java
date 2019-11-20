@@ -27,7 +27,6 @@ import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -265,14 +264,14 @@ public class Controller implements Initializable {
         color_bluescale.valueProperty().addListener(new ChangeListener<Color>() {
             @Override
             public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
-                spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), t1);
+                renderWorkingSprite();
             }
         });
         color_bluescale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         color_grayscale.valueProperty().addListener(new ChangeListener<Color>() {
             @Override
             public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
-                spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), t1, color_bluescale.getValue());
+                renderWorkingSprite();
             }
         });
         color_grayscale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -369,7 +368,7 @@ public class Controller implements Initializable {
                 getWorkingSprite().getInfo().setUseShift(t1);
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(),color_grayscale.getValue(), color_bluescale.getValue());
+                renderWorkingSprite();
             }
         });
         //------- Textboxes
@@ -388,15 +387,15 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = getWorkingSprite();
-
-                if (Integer.parseInt(t1) < sprite.getImageData().getHeight())
+                int value = Integer.parseInt(t1);
+                if (value > canvas.getFitWidth()-2 ||
+                        value <= 0)
                     return;
 
-                sprite.getInfo().setBoundHeight(Integer.parseInt(t1));
+                getWorkingSprite().getInfo().setBoundHeight(value);
 
                 checkSave();
-                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
+                renderWorkingSprite();
             }
         });
         text_boundw.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -414,15 +413,15 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = getWorkingSprite();
-
-                if (Integer.parseInt(t1) < sprite.getImageData().getWidth())
+                int value = Integer.parseInt(t1);
+                if (value > canvas.getFitWidth()-2 ||
+                    value <= 0)
                     return;
 
-                getWorkingSprite().getInfo().setBoundWidth(Integer.parseInt(t1));
+                getWorkingSprite().getInfo().setBoundWidth(value);
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
+                renderWorkingSprite();
             }
         });
         text_hshift.disableProperty().bind(check_shift.selectedProperty().not());
@@ -440,12 +439,10 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = getWorkingSprite();
-
                 getWorkingSprite().getInfo().setOffsetX(Integer.parseInt(t1));
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
+                renderWorkingSprite();
             }
         });
         text_vshift.disableProperty().bind(check_shift.selectedProperty().not());
@@ -463,12 +460,10 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                Sprite sprite = getWorkingSprite();
-
                 getWorkingSprite().getInfo().setOffsetY(Integer.parseInt(t1));
                 checkSave();
 
-                spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
+                renderWorkingSprite();
             }
         });
         text_name.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -611,6 +606,7 @@ public class Controller implements Initializable {
         scroll_canvas.setValue(1);
         scroll_canvas.setMax(entry.frameCount());
         scroll_canvas.setDisable(false);
+        scroll_zoom.setValue(0);
         showEntry(entry, 0);
     }
 
@@ -633,7 +629,6 @@ public class Controller implements Initializable {
         text_boundh.setText(String.valueOf(info.getBoundHeight()));
         text_boundw.setText(String.valueOf(info.getBoundWidth()));
         label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
-        scroll_zoom.setValue(0);
 
         triggerListeners = true;
     }
@@ -696,8 +691,14 @@ public class Controller implements Initializable {
     }
 
     public Sprite getWorkingSprite() {
-        int index = (int)scroll_canvas.getValue();
+        int index = (int)scroll_canvas.getValue()-1;
         return spriteTool.getWorkingCopy().getFrame(index);
+    }
+
+    public void renderWorkingSprite() {
+        spriteTool.getSpriteRenderer().wipeBuffer();
+        spriteTool.getSpriteRenderer().clear();
+        spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), color_bluescale.getValue());
     }
 
     public void loadChoiceBoxes() {
