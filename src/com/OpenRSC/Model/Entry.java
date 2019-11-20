@@ -14,7 +14,9 @@ public class Entry {
 
     public enum TYPE {
         SPRITE,
-        EQUIPMENT,
+        PLAYER_PART,
+        PLAYER_EQUIPPABLE_HASCOMBAT,
+        PLAYER_EQUIPPABLE_NOCOMBAT,
         NPC
     }
 

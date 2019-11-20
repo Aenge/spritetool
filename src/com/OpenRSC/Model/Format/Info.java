@@ -5,8 +5,8 @@ import com.OpenRSC.Render.PlayerRenderer;
 
 public class Info {
 
-    //private Entry.TYPE type;
-    //private PlayerRenderer.LAYER layer;
+    private Entry.TYPE type;
+    private PlayerRenderer.LAYER layer;
     private String filename;
     private String id;
     private int frameCount;
@@ -16,6 +16,7 @@ public class Info {
     private int offsetY;
     private int boundwidth;
     private int boundheight;
+
 
     Info() {}
 
@@ -31,8 +32,8 @@ public class Info {
 
         if (!this.filename.equalsIgnoreCase(info.filename) ||
                 !this.id.equalsIgnoreCase(info.id) ||
-                //this.layer != info.layer ||
-                //this.type != info.type ||
+                this.layer != info.layer ||
+                this.type != info.type ||
                 this.frameCount != info.frameCount ||
                 this.frame != info.frame ||
                 this.useShift != info.useShift ||
@@ -45,6 +46,10 @@ public class Info {
 
         return true;
     }
+    public void setType(Entry.TYPE type) { this.type = type;}
+    public Entry.TYPE getType() { return this.type; }
+    public void setLayer(PlayerRenderer.LAYER layer) { this.layer = layer; }
+    public PlayerRenderer.LAYER getLayer() { return this.layer; }
     public void setFileName(String name) { this.filename = name; }
     public String getFileName() { return this.filename; }
     public void setID(String id) { this.id = id; }
@@ -69,7 +74,8 @@ public class Info {
     //public void setLayer(PlayerRenderer.LAYER layer) { this.layer = layer; }
     public Info clone() {
         Info info = new Info();
-
+        info.setType(this.getType());
+        info.setLayer(this.getLayer());
         info.setFileName(this.getFileName());
         info.setID(this.getID());
         info.setFrame(this.getFrame());

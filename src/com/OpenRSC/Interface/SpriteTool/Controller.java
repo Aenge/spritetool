@@ -5,6 +5,7 @@ import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
+import com.OpenRSC.Render.PlayerRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import java.io.File;
@@ -80,13 +81,19 @@ public class Controller implements Initializable {
     public ProgressBar progress_bar;
 
     @FXML
-    private ChoiceBox choice_basic_head;
+    private ChoiceBox choice_basic_head, choice_type, choice_layer;
 
     private Timer playTimer = new Timer();
     private TimerTask playTask;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        for (Entry.TYPE type : Entry.TYPE.values()) {
+            choice_type.getItems().add(type);
+        }
+        for (PlayerRenderer.LAYER layer : PlayerRenderer.LAYER.values()) {
+            choice_layer.getItems().add(layer);
+        }
         text_search.setLeft(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH, "15px"));
         text_search.setRight(GlyphsDude.createIcon(FontAwesomeIcon.CLOSE, "15px"));
         text_search.getRight().setVisible(false);
@@ -716,13 +723,7 @@ public class Controller implements Initializable {
         //Load from the baked-in animations
         Subspace shippedAnimations = spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations();
         for (Entry entry : shippedAnimations.getEntryList()) {
-            if (entry.getType() == Entry.TYPE.EQUIPMENT) {
-                switch (entry.getLayer()) {
-                    case HEAD_NO_SKIN:
-                        choice_basic_head.getItems().add(entry);
-                        break;
-                }
-            }
+
         }
 
         //Load from the current workspace
