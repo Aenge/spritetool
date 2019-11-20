@@ -1,7 +1,7 @@
 package com.OpenRSC.Model;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Render.PlayerRenderer;
-
+import com.OpenRSC.Render.PlayerRenderer.LAYER;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +10,23 @@ public class Entry {
     private List<Sprite> frames = new ArrayList<>();
     private String id;
     private TYPE type;
-    private PlayerRenderer.LAYER layer;
+    private LAYER layer;
 
     public enum TYPE {
-        SPRITE,
-        PLAYER_PART,
-        PLAYER_EQUIPPABLE_HASCOMBAT,
-        PLAYER_EQUIPPABLE_NOCOMBAT,
-        NPC
+        SPRITE(new LAYER[]{}),
+        PLAYER_PART(new PlayerRenderer.LAYER[]{LAYER.HEAD_NO_SKIN, LAYER.BODY_NO_SKIN, LAYER.LEGS_NO_SKIN}),
+        PLAYER_EQUIPPABLE_HASCOMBAT(LAYER.values().clone()),
+        PLAYER_EQUIPPABLE_NOCOMBAT(new LAYER[]{LAYER.MAIN_HAND}),
+        NPC(new LAYER[]{});
+
+        private LAYER[] layers;
+
+        TYPE(LAYER[] layers) {
+            this.layers = layers;
+        }
+
+        public LAYER[] getLayers() { return this.layers; }
+
     }
 
     @Override
@@ -60,6 +69,10 @@ public class Entry {
 
     public void addFrame(Sprite sprite) {
         this.frames.add(sprite);
+        if (this.frames.size() == 1) {
+            this.type = sprite.getInfo().getType();
+            this.layer = sprite.getInfo().getLayer();
+        }
     }
 
     public String getID() { return id; }
@@ -70,8 +83,8 @@ public class Entry {
     public boolean isAnimation() { return frames.size() > 1; }
     public TYPE getType() { return this.type; }
     public void setType(TYPE type) { this.type = type; }
-    public PlayerRenderer.LAYER getLayer() { return this.layer; }
-    public void setLayer(PlayerRenderer.LAYER layer) { this.layer = layer; }
+    public LAYER getLayer() { return this.layer; }
+    public void setLayer(LAYER layer) { this.layer = layer; }
     public Entry clone() {
         Entry entry = new Entry();
         entry.setID(this.id);

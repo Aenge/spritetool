@@ -34,7 +34,7 @@ import javafx.scene.paint.Color;
 import org.controlsfx.control.textfield.CustomTextField;
 
 public class Controller implements Initializable {
-
+    //TODO: change soulless from item to npc
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -91,9 +91,14 @@ public class Controller implements Initializable {
         for (Entry.TYPE type : Entry.TYPE.values()) {
             choice_type.getItems().add(type);
         }
-        for (PlayerRenderer.LAYER layer : PlayerRenderer.LAYER.values()) {
-            choice_layer.getItems().add(layer);
-        }
+
+        choice_type.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                choice_layer.getItems().clear();
+                choice_layer.getItems().addAll(((Entry.TYPE)t1).getLayers());
+            }
+        });
         text_search.setLeft(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH, "15px"));
         text_search.setRight(GlyphsDude.createIcon(FontAwesomeIcon.CLOSE, "15px"));
         text_search.getRight().setVisible(false);
@@ -723,7 +728,23 @@ public class Controller implements Initializable {
         //Load from the baked-in animations
         Subspace shippedAnimations = spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations();
         for (Entry entry : shippedAnimations.getEntryList()) {
-
+            switch (entry.getType()) {
+                case PLAYER_PART:
+                    switch (entry.getLayer()) {
+                        case HEAD_NO_SKIN:
+                            choice_basic_head.getItems().add(entry);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case PLAYER_EQUIPPABLE_HASCOMBAT:
+                    break;
+                case PLAYER_EQUIPPABLE_NOCOMBAT:
+                    break;
+                default:
+                    break;
+            }
         }
 
         //Load from the current workspace
