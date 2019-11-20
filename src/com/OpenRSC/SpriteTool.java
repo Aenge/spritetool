@@ -2,6 +2,7 @@ package com.OpenRSC;
 import com.OpenRSC.IO.Workspace.WorkspaceReader;
 import com.OpenRSC.Interface.SpriteTool.Controller;
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.SpriteRenderer;
 import com.jfoenix.controls.JFXProgressBar;
@@ -54,6 +55,7 @@ public class SpriteTool extends Application {
     private SpriteRenderer spriteRenderer;
 
     private Entry workingCopy;
+    private int workingCopyIndex = -1;
 
     public void go(String[] args) {
         launch(args);
@@ -197,8 +199,19 @@ public class SpriteTool extends Application {
     public com.OpenRSC.Interface.PopMenu.Controller getMenuController() { return this.menuController; }
     public Controller getMainController() { return this.mainController; }
     public SpriteRenderer getSpriteRenderer() { return this.spriteRenderer; }
+
     public Entry getWorkingCopy() { return this.workingCopy; }
-    public void setWorkingCopy(Entry entry) { this.workingCopy = entry; }
+    public int getWorkingCopyIndex() { return this.workingCopyIndex; }
+
+
+    public void clearWorkingCopy() {
+        this.workingCopy = null;
+        this.workingCopyIndex = -1;
+    }
+    public void setWorkingCopy(Subspace ss, Entry entry) {
+        this.workingCopy = entry;
+        this.workingCopyIndex = ss.getEntryList().indexOf(entry);
+    }
 
     public static int getFilesCount(File file) {
         File[] files = file.listFiles();

@@ -72,6 +72,9 @@ public class Entry {
     public void setLayer(PlayerRenderer.LAYER layer) { this.layer = layer; }
     public Entry clone() {
         Entry entry = new Entry();
+        entry.setID(this.id);
+        entry.setType(this.type);
+        entry.setLayer(this.layer);
         for (Sprite frame : frames)
             entry.addFrame(frame.clone());
         return entry;

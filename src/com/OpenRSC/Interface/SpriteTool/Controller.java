@@ -124,7 +124,7 @@ public class Controller implements Initializable {
         });
         button_open_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT, "23px"));
         button_open_workspace.setOnMouseClicked(e -> {
-            if (needSave()) {
+            if (needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem())) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Loading a new workspace will cause you to lose your unsaved changes.");
                 alert.showAndWait();
                 if (alert.getResult() != ButtonType.OK)
@@ -212,7 +212,7 @@ public class Controller implements Initializable {
                     !triggerListeners)
                     return;
 
-                if (needSave()) {
+                if (needSave(oldSubspace)) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
                     alert.showAndWait();
                     if (alert.getResult() != ButtonType.OK) {
@@ -223,7 +223,7 @@ public class Controller implements Initializable {
                     }
                 }
 
-                spriteTool.setWorkingCopy(null);
+                spriteTool.clearWorkingCopy();
                 scroll_canvas.setDisable(true);
                 scroll_canvas.setMax(1);
                 scroll_canvas.setValue(1);
@@ -247,7 +247,7 @@ public class Controller implements Initializable {
                 if (newEntry == null)
                     return;
 
-                if (needSave(oldEntry)) {
+                if (needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem())) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
                     alert.showAndWait();
                     if (alert.getResult() != ButtonType.OK) {
@@ -256,7 +256,7 @@ public class Controller implements Initializable {
                     }
                 }
                 spriteTool.getSpriteRenderer().reset();
-                spriteTool.setWorkingCopy(newEntry.clone());
+                spriteTool.setWorkingCopy((Subspace)list_subspaces.getSelectionModel().getSelectedItem(),newEntry.clone());
                 checkSave();
                 showEntry(spriteTool.getWorkingCopy());
             }
@@ -651,7 +651,7 @@ public class Controller implements Initializable {
     }
 
     private void checkSave() {
-        if (needSave())
+        if (needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem()))
             button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
         else
             button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
@@ -674,13 +674,22 @@ public class Controller implements Initializable {
 
     public VBox getRoot() { return root; }
 
-    public boolean needSave() { return needSave((Entry)list_entries.getSelectionModel().getSelectedItem());  }
-    public boolean needSave(Entry entry) {
-        if (entry == null
-                || spriteTool.getWorkingCopy() == null)
+    public boolean needSave(Subspace ss) {
+        if (spriteTool.getWorkingCopy() == null)
             return false;
 
-        return !spriteTool.getWorkingCopy().equals(entry);
+        if (spriteTool.getWorkingCopyIndex() == -1)
+            return false;
+
+        Entry savedEntry = ss.getEntryList().get(spriteTool.getWorkingCopyIndex());
+
+        if (savedEntry == null)
+            return false;
+
+        if (!spriteTool.getWorkingCopy().equals(savedEntry))
+            return true;
+
+        return false;
     }
 
     public void stopTimer() {
