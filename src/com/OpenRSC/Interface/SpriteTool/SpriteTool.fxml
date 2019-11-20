@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
 
 <VBox fx:id="root" prefHeight="540.0" prefWidth="738.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
@@ -81,7 +82,7 @@
                         <Slider layoutX="162.0" layoutY="17.0" />
                      </children>
                   </AnchorPane>
-                  <TextField fx:id="text_search" layoutX="-9.0" layoutY="2.0" prefHeight="26.0" prefWidth="133.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+                  <CustomTextField fx:id="text_search" layoutX="5.0" layoutY="1.0" prefHeight="26.0" prefWidth="134.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -105,7 +106,7 @@
                   <JFXCheckBox layoutX="40.0" layoutY="14.0" text="Render Player" />
                   <Line endX="106.00003051757812" layoutX="82.0" layoutY="78.0" startX="-84.9999771118164" />
                   <Line endX="84.60000610351562" layoutX="102.0" layoutY="182.0" startX="-100.0" />
-                  <ChoiceBox layoutX="33.0" layoutY="98.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="choice_basic_head" layoutX="33.0" layoutY="98.0" prefWidth="150.0" />
                   <ChoiceBox layoutX="33.0" layoutY="124.0" prefWidth="150.0" />
                   <ChoiceBox layoutX="33.0" layoutY="150.0" prefWidth="150.0" />
                   <ChoiceBox layoutX="33.0" layoutY="213.0" prefWidth="150.0" />

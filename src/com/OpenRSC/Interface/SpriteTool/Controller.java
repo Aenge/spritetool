@@ -17,6 +17,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -26,9 +27,12 @@ import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.controlsfx.control.textfield.CustomTextField;
+
 public class Controller implements Initializable {
 
     private SpriteTool spriteTool;
@@ -53,7 +57,10 @@ public class Controller implements Initializable {
     private JFXCheckBox check_shift;
 
     @FXML
-    private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh, text_type, text_search;
+    private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh, text_type;
+
+    @FXML
+    private CustomTextField text_search;
 
     @FXML
     private ImageView canvas;
@@ -73,11 +80,37 @@ public class Controller implements Initializable {
     @FXML
     public ProgressBar progress_bar;
 
+    @FXML
+    private ChoiceBox choice_basic_head;
+
     private Timer playTimer = new Timer();
     private TimerTask playTask;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        text_search.setLeft(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH, "15px"));
+        text_search.setRight(GlyphsDude.createIcon(FontAwesomeIcon.CLOSE, "15px"));
+        text_search.getRight().setVisible(false);
+        text_search.getRight().setOnMouseClicked(e -> {
+            if (text_search.getRight().isVisible()) {
+                text_search.setText("");
+            }
+        });
+        text_search.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1.isEmpty()) {
+                    text_search.getRight().setVisible(false);
+                    text_search.getRight().setCursor(Cursor.DEFAULT);
+                } else {
+                    text_search.getRight().setVisible(true);
+                    text_search.getRight().setCursor(Cursor.HAND);
+
+                }
+
+            }
+        });
+
         hbox_menu.setOnMouseExited(e->{
             root.requestFocus();
         });
@@ -314,13 +347,12 @@ public class Controller implements Initializable {
                 scroll_canvas.setValue(t1.intValue());
                 if (scroll_canvas.getValue() == number.intValue())
                     return;
-                spriteTool.getSpriteRenderer().renderPlayer(t1.intValue()-1);
-//
-//                if (spriteTool.getWorkingCopy() == null)
-//                    return;
-//
-//                ((Animation)spriteTool.getWorkingCopy().getSpriteData()).frameProperty().setValue(t1);
-//                showEntry(spriteTool.getWorkingCopy());
+                //spriteTool.getSpriteRenderer().renderPlayer(t1.intValue()-1);
+
+                if (spriteTool.getWorkingCopy() == null)
+                    return;
+
+                showEntry(spriteTool.getWorkingCopy(), t1.intValue()-1);
             }
         });
         //------- Checkbox
@@ -448,7 +480,15 @@ public class Controller implements Initializable {
 //        for (Entry entry : ss.getEntryList()) {
 //            this.l_entries.getItems().add(entry);
 //        }
-        list_entries.setItems(ss.getEntryList());
+        FilteredList<Entry> filteredEntryList = new FilteredList<>(ss.getEntryList(), s -> true);
+        text_search.textProperty().addListener(obs-> {
+            String filter = text_search.getText();
+            if (filter == null || filter.isEmpty()) {
+                filteredEntryList.setPredicate(s -> true);
+            } else
+                filteredEntryList.setPredicate(s -> s.toString().contains(filter));
+        });
+        list_entries.setItems(filteredEntryList);
     }
 
     public void populateSubspaceList(Workspace ws) {
@@ -562,12 +602,17 @@ public class Controller implements Initializable {
         return popup;
     }
 
-    private void showEntry(Entry newEntry) {
+    private void showEntry(Entry entry) {
         scroll_canvas.setValue(1);
-        scroll_canvas.setMax(newEntry.frameCount());
+        scroll_canvas.setMax(entry.frameCount());
         scroll_canvas.setDisable(false);
+        showEntry(entry, 0);
+    }
 
-        Sprite sprite = newEntry.getFrame(0);
+    private void showEntry(Entry newEntry, int frame) {
+        spriteTool.getSpriteRenderer().clear();
+        spriteTool.getSpriteRenderer().wipeBuffer();
+        Sprite sprite = newEntry.getFrame(frame);
 
         if (sprite == null)
             return;
@@ -648,5 +693,23 @@ public class Controller implements Initializable {
     public Sprite getWorkingSprite() {
         int index = (int)scroll_canvas.getValue();
         return spriteTool.getWorkingCopy().getFrame(index);
+    }
+
+    public void loadChoiceBoxes() {
+        choice_basic_head.getItems().clear();
+
+        //Load from the baked-in animations
+        Subspace shippedAnimations = spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations();
+        for (Entry entry : shippedAnimations.getEntryList()) {
+            if (entry.getType() == Entry.TYPE.EQUIPMENT) {
+                switch (entry.getLayer()) {
+                    case HEAD_NO_SKIN:
+                        choice_basic_head.getItems().add(entry);
+                        break;
+                }
+            }
+        }
+
+        //Load from the current workspace
     }
 }

@@ -1,9 +1,12 @@
 package com.OpenRSC.Model.Format;
 
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Render.PlayerRenderer;
 
 public class Info {
 
+    //private Entry.TYPE type;
+    //private PlayerRenderer.LAYER layer;
     private String filename;
     private String id;
     private int frameCount;
@@ -28,6 +31,8 @@ public class Info {
 
         if (!this.filename.equalsIgnoreCase(info.filename) ||
                 !this.id.equalsIgnoreCase(info.id) ||
+                //this.layer != info.layer ||
+                //this.type != info.type ||
                 this.frameCount != info.frameCount ||
                 this.frame != info.frame ||
                 this.useShift != info.useShift ||
@@ -58,7 +63,10 @@ public class Info {
     public int getBoundHeight() { return this.boundheight; }
     public void setUseShift(boolean bool) { this.useShift = bool; }
     public Boolean getUseShift() { return this.useShift; }
-
+   // public Entry.TYPE getType() { return this.type; }
+    //public void setType(Entry.TYPE type) { this.type = type; }
+    //public PlayerRenderer.LAYER getLayer() { return this.layer; }
+    //public void setLayer(PlayerRenderer.LAYER layer) { this.layer = layer; }
     public Info clone() {
         Info info = new Info();
 
@@ -71,6 +79,7 @@ public class Info {
         info.setBoundWidth(this.getBoundWidth());
         info.setBoundHeight(this.getBoundHeight());
         info.setUseShift(this.getUseShift());
+
 
         return info;
     }

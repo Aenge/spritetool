@@ -11,6 +11,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -112,6 +114,18 @@ public class WorkspaceReader {
 
             if (this.progressCounter != null)
                 this.progressCounter.set(this.progressCounter.get() + 2);
+        }
+
+        //Sort animations
+        for (Entry entry : ss.getEntryList()) {
+            if (entry.isAnimation()) {
+                Collections.sort(entry.getFrames(), new Comparator<Sprite>() {
+                    @Override
+                    public int compare(Sprite o1, Sprite o2) {
+                        return o1.getInfo().getFrame() - o2.getInfo().getFrame();
+                    }
+                });
+            }
         }
 
         return ss;

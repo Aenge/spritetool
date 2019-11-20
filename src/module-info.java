@@ -9,6 +9,7 @@ module OpenRSC.Sprite.Tool {
     requires org.apache.commons.io;
     requires java.desktop;
     requires javafx.swing;
+    requires org.controlsfx.controls;
     opens com.OpenRSC.Model;
     opens com.OpenRSC.Model.Format;
     opens com.OpenRSC.Interface.PopMenu;

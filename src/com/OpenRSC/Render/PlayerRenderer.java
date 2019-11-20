@@ -86,8 +86,16 @@ public class PlayerRenderer {
         GLOVES,
         CAPE;
 
-
         public int getIndex() { return this.ordinal(); }
+
+        public LAYER get(int index) {
+            for (LAYER layer : LAYER.values()) {
+                if (layer.getIndex() == index)
+                    return layer;
+            }
+
+            return null;
+        }
     }
     //Frame dirs
 //    0: 4, 0

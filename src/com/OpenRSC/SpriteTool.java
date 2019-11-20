@@ -107,6 +107,8 @@ public class SpriteTool extends Application {
         spriteRenderer = new SpriteRenderer(mainController.getCanvas());
         spriteRenderer.setSpriteTool(this);
 
+        getMainController().loadChoiceBoxes();
+
         getMainController().getRoot().requestFocus();
     }
 

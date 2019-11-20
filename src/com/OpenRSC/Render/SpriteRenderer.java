@@ -67,6 +67,7 @@ public class SpriteRenderer {
 
     public int getWidth2() { return this.width2; }
     public int getHeight2() { return this.height2; }
+    public PlayerRenderer getPlayerRenderer() { return this.playerRenderer; }
 
     public void drawRect(Rectangle2D rectangle2D, Color color) {
         int finalColour = 0xFF << 24;

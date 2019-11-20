@@ -1,5 +1,6 @@
 package com.OpenRSC.Model;
 import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Render.PlayerRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,14 @@ public class Entry {
 
     private List<Sprite> frames = new ArrayList<>();
     private String id;
+    private TYPE type;
+    private PlayerRenderer.LAYER layer;
+
+    public enum TYPE {
+        SPRITE,
+        EQUIPMENT,
+        NPC
+    }
 
     @Override
     public String toString() {
@@ -57,7 +66,10 @@ public class Entry {
     public Sprite getFrame(int index) { return this.frames.get(index); }
     public int frameCount() { return this.frames.size(); }
     public boolean isAnimation() { return frames.size() > 1; }
-
+    public TYPE getType() { return this.type; }
+    public void setType(TYPE type) { this.type = type; }
+    public PlayerRenderer.LAYER getLayer() { return this.layer; }
+    public void setLayer(PlayerRenderer.LAYER layer) { this.layer = layer; }
     public Entry clone() {
         Entry entry = new Entry();
         for (Sprite frame : frames)
