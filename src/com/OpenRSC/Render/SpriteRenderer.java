@@ -33,9 +33,6 @@ public class SpriteRenderer {
         this.clipRight = this.width2;
         this.pixelData = new int[this.height2 * this.width2];
         this.playerRenderer = new PlayerRenderer();
-        playerRenderer.getLayers()[PlayerRenderer.LAYER.LEGS_NO_SKIN.getIndex()] = "legs1";
-        playerRenderer.getLayers()[PlayerRenderer.LAYER.BODY_NO_SKIN.getIndex()] = "body1";
-        playerRenderer.getLayers()[PlayerRenderer.LAYER.HEAD_NO_SKIN.getIndex()] = "head1";
     }
 
     public void reset() {

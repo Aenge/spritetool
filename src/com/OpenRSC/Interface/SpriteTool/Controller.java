@@ -81,7 +81,7 @@ public class Controller implements Initializable {
     public ProgressBar progress_bar;
 
     @FXML
-    private ChoiceBox choice_basic_head, choice_type, choice_layer;
+    private ChoiceBox choice_basic_head, choice_basic_body, choice_basic_legs, choice_type, choice_layer;
 
     private Timer playTimer = new Timer();
     private TimerTask playTask;
@@ -97,6 +97,37 @@ public class Controller implements Initializable {
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 choice_layer.getItems().clear();
                 choice_layer.getItems().addAll(((Entry.TYPE)t1).getLayers());
+            }
+        });
+
+        choice_basic_head.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    spriteTool.getSpriteRenderer().renderPlayer(0);
+                }
+            }
+        });
+        choice_basic_body.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    spriteTool.getSpriteRenderer().renderPlayer(0);
+                }
+            }
+        });
+        choice_basic_legs.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    spriteTool.getSpriteRenderer().renderPlayer(0);
+                }
             }
         });
         text_search.setLeft(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH, "15px"));
@@ -169,6 +200,7 @@ public class Controller implements Initializable {
         button_changepng.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "15px"));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_female.setOnMouseClicked(e -> {
+            loadChoiceBoxes();
             //spriteTool.getSpriteRenderer().renderPlayer();
         });
         button_addframe.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "15px"));
@@ -734,6 +766,12 @@ public class Controller implements Initializable {
                         case HEAD_NO_SKIN:
                             choice_basic_head.getItems().add(entry);
                             break;
+                        case BODY_NO_SKIN:
+                            choice_basic_body.getItems().add(entry);
+                            break;
+                        case LEGS_NO_SKIN:
+                            choice_basic_legs.getItems().add(entry);
+                            break;
                         default:
                             break;
                     }
@@ -748,5 +786,39 @@ public class Controller implements Initializable {
         }
 
         //Load from the current workspace
+        if (spriteTool.getWorkspace() != null) {
+            for (Subspace subspace : spriteTool.getWorkspace().getSubspaces()) {
+                if (subspace != null) {
+                    for (Entry entry : subspace.getEntryList()) {
+                        switch (entry.getType()) {
+                            case PLAYER_PART:
+                                switch (entry.getLayer()) {
+                                    case HEAD_NO_SKIN:
+                                        if (!choice_basic_head.getItems().contains(entry))
+                                            choice_basic_head.getItems().add(entry);
+                                        break;
+                                    case BODY_NO_SKIN:
+                                        if (!choice_basic_body.getItems().contains(entry))
+                                            choice_basic_body.getItems().add(entry);
+                                        break;
+                                    case LEGS_NO_SKIN:
+                                        if (!choice_basic_legs.getItems().contains(entry))
+                                            choice_basic_legs.getItems().add(entry);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case PLAYER_EQUIPPABLE_HASCOMBAT:
+                                break;
+                            case PLAYER_EQUIPPABLE_NOCOMBAT:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

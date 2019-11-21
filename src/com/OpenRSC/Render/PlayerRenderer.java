@@ -11,7 +11,7 @@ public class PlayerRenderer {
 
 
     private Subspace shippedAnimations;
-    private String[] layers = new String[12];
+    private Entry[] layers = new Entry[12];
     private final int[][] animDirLayer_To_CharLayer = new int[][]{{11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 3, 4},
             {11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 3, 4}, {11, 3, 2, 9, 7, 1, 6, 10, 0, 5, 8, 4},
             {3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5}, {3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5},
@@ -24,7 +24,7 @@ public class PlayerRenderer {
         this.shippedAnimations = workspaceReader.loadSubspace(folder.toPath());
     }
 
-    public String[] getLayers() { return this.layers; };
+    public Entry[] getLayers() { return this.layers; };
 
     public Subspace getShippedAnimations() { return this.shippedAnimations; }
 
@@ -34,12 +34,11 @@ public class PlayerRenderer {
 
             for (int lay = 0; lay < 12; ++lay) {
                 int mappedLayer = this.animDirLayer_To_CharLayer[wantedAnimDir][lay];
-                String animID = layers[mappedLayer];
-                if (animID != null) {
+                if (layers[lay] != null) {
                     byte spriteOffsetX = 0;
                     byte spriteOffsetY = 0;
 
-                    Entry entry = shippedAnimations.getEntryByName(animID);
+                    Entry entry = layers[lay];
                     Sprite sprite = entry.getFrame(frame);
                     if (sprite == null)
                         return;

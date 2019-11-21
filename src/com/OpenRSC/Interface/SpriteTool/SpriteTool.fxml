@@ -110,17 +110,17 @@
                         <Line endX="106.00003051757812" layoutX="83.0" layoutY="60.0" startX="-84.9999771118164" />
                         <Line endX="84.60000610351562" layoutX="102.0" layoutY="172.0" startX="-100.0" />
                         <ChoiceBox fx:id="choice_basic_head" layoutX="35.0" layoutY="85.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="111.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="137.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="197.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="223.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="249.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="275.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="301.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="327.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="353.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="379.0" prefWidth="150.0" />
-                        <ChoiceBox layoutX="35.0" layoutY="405.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_basic_body" layoutX="35.0" layoutY="111.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_basic_legs" layoutX="35.0" layoutY="137.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_head" layoutX="35.0" layoutY="197.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_body" layoutX="35.0" layoutY="223.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_legs" layoutX="35.0" layoutY="249.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_main" layoutX="35.0" layoutY="275.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_sub" layoutX="35.0" layoutY="301.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_glove" layoutX="35.0" layoutY="327.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_boot" layoutX="35.0" layoutY="353.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_neck" layoutX="35.0" layoutY="379.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choice_cape" layoutX="35.0" layoutY="405.0" prefWidth="150.0" />
                      </children>
                   </AnchorPane>
                </children>
