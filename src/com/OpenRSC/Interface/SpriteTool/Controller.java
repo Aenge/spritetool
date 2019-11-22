@@ -5,7 +5,6 @@ import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
-import com.OpenRSC.Render.PlayerRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import java.io.File;
@@ -200,8 +199,14 @@ public class Controller implements Initializable {
         button_changepng.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "15px"));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_female.setOnMouseClicked(e -> {
-            loadChoiceBoxes();
-            //spriteTool.getSpriteRenderer().renderPlayer();
+            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
+            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fbody1"));
+            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
+        });
+        button_male.setOnMouseClicked(e -> {
+            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
+            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
+            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_addframe.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "15px"));
         button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -416,6 +421,23 @@ public class Controller implements Initializable {
             }
         });
         //------- Textboxes
+        text_name.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (!triggerListeners)
+                    return;
+
+                if (t1 == null || t1.isEmpty())
+                    return;
+
+                for (Sprite frame : spriteTool.getWorkingCopy().getFrames()) {
+                    frame.getInfo().setID(t1);
+                }
+
+                spriteTool.getWorkingCopy().setID(t1);
+                checkSave();
+            }
+        });
         text_boundh.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         text_boundh.textProperty().addListener(new ChangeListener<String>() {
             @Override

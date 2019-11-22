@@ -89,7 +89,7 @@ public class SpriteRenderer {
     public void renderPlayer(int frame) {
         clear();
         wipeBuffer();
-        playerRenderer.drawPlayer(this,100,100,frame);
+        playerRenderer.bufferPlayer(this,frame);
         render();
     }
 

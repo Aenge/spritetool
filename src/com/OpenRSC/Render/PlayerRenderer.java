@@ -28,20 +28,22 @@ public class PlayerRenderer {
 
     public Subspace getShippedAnimations() { return this.shippedAnimations; }
 
-    public final void drawPlayer(SpriteRenderer spriteRenderer, int x, int y, int frame) {
+    public final void bufferPlayer(SpriteRenderer spriteRenderer, int frame) {
         try {
             int wantedAnimDir = frameToDir[frame];
 
             for (int lay = 0; lay < 12; ++lay) {
                 int mappedLayer = this.animDirLayer_To_CharLayer[wantedAnimDir][lay];
-                if (layers[lay] != null) {
+                if (layers[mappedLayer] != null) {
                     byte spriteOffsetX = 0;
                     byte spriteOffsetY = 0;
 
-                    Entry entry = layers[lay];
+                    Entry entry = layers[mappedLayer];
                     Sprite sprite = entry.getFrame(frame);
                     if (sprite == null)
-                        return;
+                        continue;
+                    int xOffset = (spriteRenderer.getWidth2() - sprite.getInfo().getBoundWidth())/2;
+                    int yOffset = (spriteRenderer.getHeight2() - sprite.getInfo().getBoundHeight())/2;
                     int something1 = sprite.getInfo().getBoundWidth();
                     int something2 = sprite.getInfo().getBoundHeight();
                     int something3 = entry.getFrame(0).getInfo().getBoundWidth();
@@ -56,10 +58,8 @@ public class PlayerRenderer {
 //                            colorMask1 = this.getPlayerClothingColors()[player.colourBottom];
 //                        }
 
-                        int colorMask2 = 15523536;
-
-                        spriteRenderer.bufferSprite(sprite, x, y, something1,
-                                something2, colorMask1, colorMask2, blueScaleColor, false, 0, 1, 0xFFFFFFFF);
+                        spriteRenderer.bufferSprite(sprite, xOffset, yOffset, something1,
+                                something2, colorMask1, 15523536, blueScaleColor, false, 0, 1, 0xFFFFFFFF);
                     }
 
                 }
