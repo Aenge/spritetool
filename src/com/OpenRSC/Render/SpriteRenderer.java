@@ -94,6 +94,8 @@ public class SpriteRenderer {
     }
 
     public void renderSprite(Sprite sprite, Color grayscale, Color bluescale) {
+        if (sprite == null)
+            return;
         int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getInfo().getBoundWidth())/2;
         int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getInfo().getBoundHeight())/2;
         int grayscaleint = 0;

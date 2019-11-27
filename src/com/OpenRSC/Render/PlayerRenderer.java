@@ -17,7 +17,7 @@ public class PlayerRenderer {
             {3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5}, {3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5},
             {4, 3, 2, 9, 7, 1, 6, 10, 8, 11, 0, 5}, {11, 4, 2, 9, 7, 1, 6, 10, 0, 5, 8, 3},
             {11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 4, 3}};
-    private final int[] frameToDir = new int[]{4,4,4,5,5,5,6,6,6,7,7,7,0,0,0,8,8,8};
+    private final int[] frameToDir = new int[]{0,0,0,1,1,1,6,6,6,3,3,3,4,4,4,6,6,6};
     public PlayerRenderer() {
         WorkspaceReader workspaceReader = new WorkspaceReader();
         File folder = new File("resource/animations");

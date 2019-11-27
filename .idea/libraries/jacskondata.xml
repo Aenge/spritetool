@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="jacskondata">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.10.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

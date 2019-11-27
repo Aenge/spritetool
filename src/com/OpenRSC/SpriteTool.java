@@ -5,10 +5,8 @@ import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.SpriteRenderer;
-import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -18,14 +16,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -39,6 +33,9 @@ public class SpriteTool extends Application {
         this.primaryStage = primaryStage;
         initLoaders();
         start();
+    }
+    public static void main(String[] args) {
+        launch(args);
     }
 
     private Stage primaryStage;
@@ -56,10 +53,6 @@ public class SpriteTool extends Application {
 
     private Entry workingCopy;
     private int workingCopyIndex = -1;
-
-    public void go(String[] args) {
-        launch(args);
-    }
 
     public void start() {
         primaryStage.initStyle(StageStyle.UNDECORATED);

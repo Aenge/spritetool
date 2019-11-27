@@ -1,0 +1,28 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="OpenRSC Sprite Tool">
+    <output-path>$PROJECT_DIR$/out/artifacts/OpenRSC_Sprite_Tool</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="SpriteTool" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="OpenRSC_Sprite_Tool.jar">
+        <element id="module-output" name="spritetool" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/com/OpenRSC/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+      <element id="library" level="project" name="commons-io-2.6" />
+      <element id="library" level="project" name="controlsfx-11.0.0" />
+      <element id="library" level="project" name="fontawesomefx-8.9" />
+      <element id="library" level="project" name="jackson" />
+      <element id="library" level="project" name="jfoenix-9.0.9" />
+    </root>
+  </artifact>
+</component>

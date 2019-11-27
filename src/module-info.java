@@ -1,4 +1,4 @@
-module OpenRSC.Sprite.Tool {
+module spritetool {
     requires javafx.fxml;
     requires javafx.controls;
     requires com.jfoenix;

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OpenRSC Sprite Tool.iml" filepath="$PROJECT_DIR$/OpenRSC Sprite Tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spritetool.iml" filepath="$PROJECT_DIR$/spritetool.iml" />
     </modules>
   </component>
 </project>
