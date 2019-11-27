@@ -53,13 +53,13 @@ public class Controller implements Initializable {
     private Label label_status, label_frame, label_framecount;
 
     @FXML
-    private JFXCheckBox check_shift;
+    private JFXCheckBox check_shift, check_render;
 
     @FXML
     private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh, text_type;
 
-    @FXML
-    private CustomTextField text_search;
+   // @FXML
+   // private CustomTextField text_search;
 
     @FXML
     private ImageView canvas;
@@ -105,7 +105,7 @@ public class Controller implements Initializable {
                 if (t1 != null) {
                     Entry entry = (Entry)t1;
                     spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    spriteTool.getSpriteRenderer().renderPlayer(0);
+                    render();
                 }
             }
         });
@@ -115,7 +115,7 @@ public class Controller implements Initializable {
                 if (t1 != null) {
                     Entry entry = (Entry)t1;
                     spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    spriteTool.getSpriteRenderer().renderPlayer(0);
+                    render();
                 }
             }
         });
@@ -125,32 +125,32 @@ public class Controller implements Initializable {
                 if (t1 != null) {
                     Entry entry = (Entry)t1;
                     spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    spriteTool.getSpriteRenderer().renderPlayer(0);
+                    render();
                 }
             }
         });
-        text_search.setLeft(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH, "15px"));
-        text_search.setRight(GlyphsDude.createIcon(FontAwesomeIcon.CLOSE, "15px"));
-        text_search.getRight().setVisible(false);
-        text_search.getRight().setOnMouseClicked(e -> {
-            if (text_search.getRight().isVisible()) {
-                text_search.setText("");
-            }
-        });
-        text_search.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if (t1.isEmpty()) {
-                    text_search.getRight().setVisible(false);
-                    text_search.getRight().setCursor(Cursor.DEFAULT);
-                } else {
-                    text_search.getRight().setVisible(true);
-                    text_search.getRight().setCursor(Cursor.HAND);
-
-                }
-
-            }
-        });
+//        text_search.setLeft(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH, "15px"));
+//        text_search.setRight(GlyphsDude.createIcon(FontAwesomeIcon.CLOSE, "15px"));
+//        text_search.getRight().setVisible(false);
+//        text_search.getRight().setOnMouseClicked(e -> {
+//            if (text_search.getRight().isVisible()) {
+//                text_search.setText("");
+//            }
+//        });
+//        text_search.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+//                if (t1.isEmpty()) {
+//                    text_search.getRight().setVisible(false);
+//                    text_search.getRight().setCursor(Cursor.DEFAULT);
+//                } else {
+//                    text_search.getRight().setVisible(true);
+//                    text_search.getRight().setCursor(Cursor.HAND);
+//
+//                }
+//
+//            }
+//        });
 
         hbox_menu.setOnMouseExited(e->{
             root.requestFocus();
@@ -251,7 +251,7 @@ public class Controller implements Initializable {
         list_subspaces.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildSubspaceMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getX() + list_subspaces.layoutXProperty().intValue(), event.getY() + list_subspaces.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(),event.getSceneX(), event.getSceneY(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
 
         list_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
@@ -287,7 +287,7 @@ public class Controller implements Initializable {
         list_entries.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildEntryMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getX() + list_entries.layoutXProperty().intValue(), event.getY() + list_entries.layoutYProperty().intValue() - popup.getPopupContent().getPrefHeight(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(),event.getSceneX(), event.getSceneY(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
 
         list_entries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Entry>() {
@@ -313,14 +313,14 @@ public class Controller implements Initializable {
         color_bluescale.valueProperty().addListener(new ChangeListener<Color>() {
             @Override
             public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
-                renderWorkingSprite();
+                render();
             }
         });
         color_bluescale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         color_grayscale.valueProperty().addListener(new ChangeListener<Color>() {
             @Override
             public void changed(ObservableValue<? extends Color> observableValue, Color color, Color t1) {
-                renderWorkingSprite();
+                render();
             }
         });
         color_grayscale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -404,6 +404,15 @@ public class Controller implements Initializable {
             }
         });
         //------- Checkbox
+        check_render.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (t1 == null)
+                    return;
+
+                render();
+            }
+        });
         check_shift.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         check_shift.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -417,7 +426,7 @@ public class Controller implements Initializable {
                 getWorkingSprite().getInfo().setUseShift(t1);
                 checkSave();
 
-                renderWorkingSprite();
+                render();
             }
         });
         //------- Textboxes
@@ -461,7 +470,7 @@ public class Controller implements Initializable {
                 getWorkingSprite().getInfo().setBoundHeight(value);
 
                 checkSave();
-                renderWorkingSprite();
+                render();
             }
         });
         text_boundw.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -487,7 +496,7 @@ public class Controller implements Initializable {
                 getWorkingSprite().getInfo().setBoundWidth(value);
                 checkSave();
 
-                renderWorkingSprite();
+                render();
             }
         });
         text_hshift.disableProperty().bind(check_shift.selectedProperty().not());
@@ -508,7 +517,7 @@ public class Controller implements Initializable {
                 getWorkingSprite().getInfo().setOffsetX(Integer.parseInt(t1));
                 checkSave();
 
-                renderWorkingSprite();
+                render();
             }
         });
         text_vshift.disableProperty().bind(check_shift.selectedProperty().not());
@@ -528,8 +537,6 @@ public class Controller implements Initializable {
 
                 getWorkingSprite().getInfo().setOffsetY(Integer.parseInt(t1));
                 checkSave();
-
-                renderWorkingSprite();
             }
         });
         text_name.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -542,18 +549,18 @@ public class Controller implements Initializable {
 //            this.l_entries.getItems().add(entry);
 //        }
         FilteredList<Entry> filteredEntryList = new FilteredList<>(ss.getEntryList(), s -> true);
-        text_search.textProperty().addListener(obs-> {
-            String filter = text_search.getText();
-            if (filter == null || filter.isEmpty()) {
-                filteredEntryList.setPredicate(s -> true);
-            } else
-                filteredEntryList.setPredicate(s -> s.toString().contains(filter));
-
-            if (filteredEntryList.size() == 0)
-                text_search.getStyleClass().add("textField-red");
-            else
-                text_search.getStyleClass().removeAll("textField-red");
-        });
+//        text_search.textProperty().addListener(obs-> {
+//            String filter = text_search.getText();
+//            if (filter == null || filter.isEmpty()) {
+//                filteredEntryList.setPredicate(s -> true);
+//            } else
+//                filteredEntryList.setPredicate(s -> s.toString().contains(filter));
+//
+//            if (filteredEntryList.size() == 0)
+//                text_search.getStyleClass().add("textField-red");
+//            else
+//                text_search.getStyleClass().removeAll("textField-red");
+//        });
         list_entries.setItems(filteredEntryList);
     }
 
@@ -570,8 +577,11 @@ public class Controller implements Initializable {
         JFXPopup popup = new JFXPopup();
         List<JFXButton> buttons = new ArrayList<>();
         JFXButton btn_newCategory = new JFXButton("New Entry");
+        JFXButton btn_cloneCategory = new JFXButton("Clone Entry");
         buttons.add(btn_newCategory);
 
+        if (list_entries.getSelectionModel().getSelectedItem() != null)
+            buttons.add(btn_cloneCategory);
         int height = 0;
         for (JFXButton button : buttons) {
             height += button.getMaxHeight();
@@ -669,6 +679,7 @@ public class Controller implements Initializable {
     }
 
     private void showEntry(Entry entry) {
+        triggerListeners = false;
         scroll_canvas.setValue(1);
         scroll_canvas.setMax(entry.frameCount());
         scroll_canvas.setDisable(false);
@@ -684,8 +695,6 @@ public class Controller implements Initializable {
         if (sprite == null)
             return;
 
-        spriteTool.getSpriteRenderer().renderSprite(sprite,color_grayscale.getValue(), color_bluescale.getValue());
-
         triggerListeners = false;
         Info info = sprite.getInfo();
         text_name.setText(newEntry.getID());
@@ -695,8 +704,9 @@ public class Controller implements Initializable {
         text_boundh.setText(String.valueOf(info.getBoundHeight()));
         text_boundw.setText(String.valueOf(info.getBoundWidth()));
         label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
-
         triggerListeners = true;
+
+        render();
     }
 
     private void playAnimation() {
@@ -767,13 +777,23 @@ public class Controller implements Initializable {
 
     public Sprite getWorkingSprite() {
         int index = (int)scroll_canvas.getValue()-1;
+        if (spriteTool.getWorkingCopy() == null)
+            return null;
+
         return spriteTool.getWorkingCopy().getFrame(index);
     }
 
-    public void renderWorkingSprite() {
+    public void render() {
+        int frame = (int)scroll_canvas.getValue()-1;
         spriteTool.getSpriteRenderer().wipeBuffer();
         spriteTool.getSpriteRenderer().clear();
-        spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), color_bluescale.getValue());
+        if (check_render.selectedProperty().getValue()) {
+            //TODO: add color support
+            spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[getWorkingSprite().getInfo().getLayer().getIndex()] = spriteTool.getWorkingCopy();
+            spriteTool.getSpriteRenderer().renderPlayer(frame);
+        }
+        else
+            spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), color_bluescale.getValue());
     }
 
     public void loadChoiceBoxes() {
