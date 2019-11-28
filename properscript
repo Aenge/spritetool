@@ -1,4 +1,3 @@
 @echo off
 set JLINK_VM_OPTIONS=--add-exports=javafx.graphics/com.sun.javafx.css=org.controlsfx.controls
-set DIR=%~dp0
-"%DIR%\bin\java" %JLINK_VM_OPTIONS% -m spritetool/com.OpenRSC.SpriteTool %*
+start bin\javaw.exe %JLINK_VM_OPTIONS% -m spritetool/com.OpenRSC.SpriteTool %*

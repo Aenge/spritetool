@@ -372,11 +372,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/module-info.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+            <state relative-caret-position="119">
+              <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Workspace.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -451,7 +460,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>red-button</find>
       <find>button-red</find>
       <find>red-butt</find>
       <find>textfield</find>
@@ -481,6 +489,7 @@
       <find>getspritere</find>
       <find>check_</find>
       <find>file:</find>
+      <find>commons.io</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Scott\Documents\OpenRSC Sprite Tool\src</dir>
@@ -536,7 +545,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceReader.java" />
         <option value="$PROJECT_DIR$/resource/style.css" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Workspace.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Info.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java" />
@@ -548,6 +556,7 @@
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" />
         <option value="$PROJECT_DIR$/src/module-info.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Workspace.java" />
       </list>
     </option>
   </component>
@@ -789,7 +798,7 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.22416107" />
@@ -801,7 +810,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.14343163" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.30428955" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30428955" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.29088473" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -812,7 +821,7 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" weight="0.18364611" />
-      <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.308311" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.308311" />
       <window_info anchor="bottom" id="Terminal" order="14" weight="0.3297587" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -966,16 +975,6 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.controls.jar!/javafx/scene/control/ListView.class" />
     <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.controls.jar!/javafx/scene/control/SelectionModel.class" />
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Workspace.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resource/animations/body1_0.info">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1116,8 +1115,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/module-info.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+        <state relative-caret-position="119">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Workspace.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
         </state>
       </provider>
     </entry>
