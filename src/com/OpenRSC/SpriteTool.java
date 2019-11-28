@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 
 public class SpriteTool extends Application {
@@ -43,8 +44,6 @@ public class SpriteTool extends Application {
 
     private Parent splashRoot;
     private com.OpenRSC.Interface.Splash.Controller splashController;
-    private VBox menuRoot;
-    private com.OpenRSC.Interface.PopMenu.Controller menuController;
     private Parent mainRoot;
     private com.OpenRSC.Interface.SpriteTool.Controller mainController;
     private Parent createWorkspaceRoot;
@@ -62,21 +61,19 @@ public class SpriteTool extends Application {
 
     private void initLoaders() {
         try {
-            FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("Interface/Splash/Splash.fxml"));
-            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("Interface/PopMenu/PopMenu.fxml"));
-            FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("Interface/SpriteTool/SpriteTool.fxml"));
-            FXMLLoader createWorkspaceLoader = new FXMLLoader(getClass().getResource("Interface/CreateWorkspace/CreateWorkspace.fxml"));
+            URL splashURL = new File("src/com/OpenRSC/Interface/Splash/Splash.fxml").toURI().toURL();
+            URL mainURL = new File("src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml").toURI().toURL();
+            URL createWorkspaceURL = new File("src/com/OpenRSC/Interface/CreateWorkspace/CreateWorkspace.fxml").toURI().toURL();
+            FXMLLoader splashLoader = new FXMLLoader(splashURL);
+            FXMLLoader mainLoader = new FXMLLoader(mainURL);
+            FXMLLoader createWorkspaceLoader = new FXMLLoader(createWorkspaceURL);
             this.splashRoot = splashLoader.load();
-            this.menuRoot = menuLoader.load();
             this.mainRoot = mainLoader.load();
             this.createWorkspaceRoot = createWorkspaceLoader.load();
-            this.menuRoot.setStyle("-fx-background-color: #3C3C3C");
             this.splashController = splashLoader.getController();
-            this.menuController = menuLoader.getController();
             this.mainController = mainLoader.getController();
             this.createWorkspaceController = createWorkspaceLoader.getController();
             this.splashController.setSpriteTool(this);
-            this.menuController.setSpriteTool(this);
             this.mainController.setSpriteTool(this);
             this.createWorkspaceController.setSpriteTool(this);
         } catch (IOException a) {
@@ -186,10 +183,8 @@ public class SpriteTool extends Application {
     public Workspace getWorkspace() { return this.workspace; }
     public Parent getSplashRoot() { return this.splashRoot; }
     public Parent getMainRoot() { return this.mainRoot; }
-    public VBox getMenuRoot() { return this.menuRoot; }
     public Parent getCreateWorkspaceRoot() { return this.createWorkspaceRoot; }
     public com.OpenRSC.Interface.Splash.Controller getSplashController() { return this.splashController; }
-    public com.OpenRSC.Interface.PopMenu.Controller getMenuController() { return this.menuController; }
     public Controller getMainController() { return this.mainController; }
     public SpriteRenderer getSpriteRenderer() { return this.spriteRenderer; }
 

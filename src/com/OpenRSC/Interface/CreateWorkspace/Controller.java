@@ -2,9 +2,6 @@ package com.OpenRSC.Interface.CreateWorkspace;
 
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.JFXButton;
-import de.jensd.fx.glyphs.GlyphsDude;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import org.controlsfx.glyphfont.FontAwesome;
 
 import java.io.File;
 import java.net.URL;
@@ -65,7 +63,7 @@ public class Controller implements Initializable {
 
         label_display.visibleProperty().bind(label_workspace_path.textProperty().isNotEmpty());
 
-        button_choose_directory.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN, "20px"));
+        button_choose_directory.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_OPEN));
         button_choose_directory.setOnMouseClicked(e -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
 

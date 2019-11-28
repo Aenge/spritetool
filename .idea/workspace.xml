@@ -333,8 +333,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="97" column="68" selection-start-line="97" selection-start-column="68" selection-end-line="97" selection-end-column="68" />
+            <state relative-caret-position="289">
+              <caret line="228" column="13" selection-start-line="228" selection-start-column="13" selection-end-line="228" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -343,12 +343,16 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Info/InfoReader.java">
+        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="156">
+              <caret line="65" column="43" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3034#3035#0" expanded="true" />
+                <element signature="e#3078#3079#0" expanded="true" />
+                <element signature="e#3123#3124#0" expanded="true" />
+                <element signature="e#3194#3195#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -357,8 +361,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="64" column="26" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="26" />
+            <state relative-caret-position="242">
+              <caret line="62" column="13" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1235#1236#0" expanded="true" />
@@ -371,8 +375,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/module-info.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+            <state relative-caret-position="136">
+              <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -447,7 +451,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>scroll_canvas.va</find>
       <find>red-button</find>
       <find>button-red</find>
       <find>red-butt</find>
@@ -477,6 +480,7 @@
       <find>check</find>
       <find>getspritere</find>
       <find>check_</find>
+      <find>file:</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Scott\Documents\OpenRSC Sprite Tool\src</dir>
@@ -518,9 +522,7 @@
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/ClientRenderer.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/style.css" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/PopMenu/PopMenu.fxml" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/PopMenu/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/CreateWorkspace.fxml" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/ImageData.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Info/InfoWriter.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java" />
@@ -540,8 +542,10 @@
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Controller.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/PopMenu/Controller.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" />
         <option value="$PROJECT_DIR$/src/module-info.java" />
       </list>
@@ -566,34 +570,70 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
               <item name="resource" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="OpenRSC Sprite Tool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenRSC Sprite Tool" type="462c0819:PsiDirectoryNode" />
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
+              <item name="Interface" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
+              <item name="Interface" type="462c0819:PsiDirectoryNode" />
+              <item name="CreateWorkspace" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
+              <item name="Interface" type="462c0819:PsiDirectoryNode" />
+              <item name="Splash" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
+              <item name="Interface" type="462c0819:PsiDirectoryNode" />
+              <item name="SpriteTool" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -613,8 +653,8 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/javafx/lib" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -749,9 +789,10 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.19932885" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.22416107" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -771,7 +812,7 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" weight="0.18364611" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.308311" />
+      <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.308311" />
       <window_info anchor="bottom" id="Terminal" order="14" weight="0.3297587" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -798,8 +839,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.graphics.jar!/com/sun/javafx/tk/Toolkit.class" />
-    <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.graphics.jar!/com/sun/javafx/tk/quantum/QuantumToolkit.class" />
     <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.graphics.jar!/com/sun/javafx/tk/quantum/QuantumRenderer.class" />
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/ClientRenderer.java" />
     <entry file="jar://$PROJECT_DIR$/lib/jfoenix-9.0.9.jar!/com/jfoenix/skins/JFXTextFieldSkin.class">
@@ -888,31 +927,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="92" column="52" selection-start-line="92" selection-start-column="52" selection-end-line="92" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3034#3035#0" expanded="true" />
-            <element signature="e#3078#3079#0" expanded="true" />
-            <element signature="e#3123#3124#0" expanded="true" />
-            <element signature="e#3194#3195#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/PopMenu/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#923#924#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.controls.jar!/javafx/scene/control/ListCell.class" />
     <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.controls.jar!/javafx/scene/control/Cell.class" />
     <entry file="jar://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.controls.jar!/javafx/scene/control/MultipleSelectionModelBase.class" />
@@ -989,16 +1003,6 @@
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Main.java" />
     <entry file="file://$PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib/javafx.properties" />
     <entry file="file://$PROJECT_DIR$/lib/javafx/fa" />
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="97" column="68" selection-start-line="97" selection-start-column="68" selection-end-line="97" selection-end-column="68" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Info/InfoReader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -1016,13 +1020,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -1056,10 +1053,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/PopMenu/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="25" column="89" selection-start-line="25" selection-start-column="89" selection-end-line="25" selection-end-column="89" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#881#882#0" expanded="true" />
+            <element signature="e#923#924#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="228" column="13" selection-start-line="228" selection-start-column="13" selection-end-line="228" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="65" column="43" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3034#3035#0" expanded="true" />
+            <element signature="e#3078#3079#0" expanded="true" />
+            <element signature="e#3123#3124#0" expanded="true" />
+            <element signature="e#3194#3195#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/work/org.apache.commons.io/module-info.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="64" column="26" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="26" />
+        <state relative-caret-position="242">
+          <caret line="62" column="13" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1235#1236#0" expanded="true" />
@@ -1068,10 +1111,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/commons-io-2.6.jar!/module-info.class">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/module-info.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+        <state relative-caret-position="136">
+          <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -1134,7 +1180,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -1142,7 +1187,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>lib</last-edited>
+          <last-edited>controlsfx-11.0.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

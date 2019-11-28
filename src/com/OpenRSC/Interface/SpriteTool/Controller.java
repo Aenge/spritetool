@@ -12,8 +12,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.Timer;
 
-import de.jensd.fx.glyphs.GlyphsDude;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.controlsfx.control.textfield.CustomTextField;
+import org.controlsfx.glyphfont.FontAwesome;
 
 public class Controller implements Initializable {
     //TODO: change soulless from item to npc
@@ -160,11 +160,11 @@ public class Controller implements Initializable {
         button_new_workspace.setOnMouseEntered(e -> button_new_workspace.requestFocus());
         button_open_workspace.setOnMouseEntered(e -> button_open_workspace.requestFocus());
         button_save_workspace.setOnMouseEntered(e -> button_save_workspace.requestFocus());
-        button_new_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "23px"));
+        button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
         });
-        button_open_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT, "23px"));
+        button_open_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_OPEN_ALT));
         button_open_workspace.setOnMouseClicked(e -> {
             if (needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem())) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Loading a new workspace will cause you to lose your unsaved changes.");
@@ -174,7 +174,7 @@ public class Controller implements Initializable {
             }
             spriteTool.openWorkspace();
         });
-        button_save_workspace.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.SAVE, "23px"));
+        button_save_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
         button_save_workspace.setOnMouseClicked(e -> {
             Subspace ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem();
             Entry entry = (Entry)list_entries.getSelectionModel().getSelectedItem();
@@ -196,7 +196,7 @@ public class Controller implements Initializable {
         });
 
         //--------- Other Buttons
-        button_changepng.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT, "15px"));
+        button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_female.setOnMouseClicked(e -> {
             choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
@@ -208,27 +208,27 @@ public class Controller implements Initializable {
             choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
             choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
-        button_addframe.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS, "15px"));
+        button_addframe.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
         button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
-        button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLAY, "15px"));
+        button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY));
         button_play.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_play.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if (t1) {
-                    button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.STOP, "15px"));
+                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.STOP));
                     button_play.getStyleClass().add("red-icon");
                     button_play.setText("stop");
                     playAnimation();
                 } else {
-                    button_play.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLAY, "15px"));
+                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY));
                     button_play.getStyleClass().remove("red-icon");
                     button_play.setText("play");
                     stopAnimation();
                 }
             }
         });
-        button_male.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.MALE,"15px"));
+        button_male.setGraphic(new FontAwesome().create(FontAwesome.Glyph.MALE));
         button_male.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -237,7 +237,7 @@ public class Controller implements Initializable {
                 root.requestFocus();
             }
         });
-        button_female.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.FEMALE,"15px"));
+        button_female.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FEMALE));
         button_female.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
