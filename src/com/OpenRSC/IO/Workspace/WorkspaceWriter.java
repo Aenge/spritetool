@@ -8,20 +8,31 @@ import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Path;
 
 public class WorkspaceWriter {
 
     private Workspace ws;
+    private Path home;
 
     public WorkspaceWriter(Workspace ws) {
         this.ws = ws;
     }
 
+    public WorkspaceWriter(Path home, Workspace ws) {
+        this.home = home;
+        this.ws = ws;
+    }
+
     public boolean createSubspace(Subspace ss) {
-        if (ws == null)
+        if (ws == null ||
+            home == null)
             return false;
 
-        File directory = ss.getPath().toFile();
+        File directory = new File(home.toString(), ss.getName());
         if (directory.exists())
             return false;
 
@@ -55,9 +66,16 @@ public class WorkspaceWriter {
         if (oldSprite.equals(newSprite))
             return true;
 
+        if (home == null)
+            return false;
+
+        File subspaceHome = new File(home.toString(), subspace.getName());
+        if (!subspaceHome.exists())
+            return false;
+
         if (!oldSprite.getInfo().equals(newSprite.getInfo())) {
-            File oldFile = new File(subspace.getPath().toString(), oldSprite.getFileName() + ".info");
-            File newFile = new File(subspace.getPath().toString(), newSprite.getFileName() + ".info");
+            File oldFile = new File(subspaceHome.toString(), oldSprite.getFileName() + ".info");
+            File newFile = new File(subspaceHome.toString(), newSprite.getFileName() + ".info");
 
             InfoWriter infoWriter = new InfoWriter(newFile, newSprite.getInfo());
 
@@ -69,8 +87,8 @@ public class WorkspaceWriter {
         }
 
         if (!oldSprite.getImageData().equals(newSprite.getImageData())) {
-            File oldFile = new File(subspace.getPath().toString(), oldSprite.getFileName() + ".png");
-            File newFile = new File(subspace.getPath().toString(), newSprite.getFileName() + ".png");
+            File oldFile = new File(subspaceHome.toString(), oldSprite.getFileName() + ".png");
+            File newFile = new File(subspaceHome.toString(), newSprite.getFileName() + ".png");
 
 
             ImageWriter imageWriter = new ImageWriter(newFile, newSprite.getImageData());
@@ -86,14 +104,21 @@ public class WorkspaceWriter {
     }
 
     public boolean writeSprite(Subspace subspace, Sprite sprite) {
-        File newFile = new File(subspace.getPath().toString(), sprite.getFileName() + ".info");
+        if (home == null)
+            return false;
+
+        File subspaceHome = new File(home.toString(), subspace.getName());
+        if (!subspaceHome.exists())
+            return false;
+
+        File newFile = new File(subspaceHome, sprite.getFileName() + ".info");
 
         InfoWriter infoWriter = new InfoWriter(newFile, sprite.getInfo());
 
         if (!infoWriter.write())
             return false;
 
-        newFile = new File(subspace.getPath().toString(), sprite.getFileName() + ".png");
+        newFile = new File(subspaceHome, sprite.getFileName() + ".png");
 
         ImageWriter imageWriter = new ImageWriter(newFile, sprite.getImageData());
 

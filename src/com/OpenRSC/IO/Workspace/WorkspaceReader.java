@@ -40,11 +40,14 @@ public class WorkspaceReader {
         return ws;
     }
 
-    public Subspace loadSubspace(Path path) {
+    public Subspace loadSubspace(Path home) {
+        String name = home.toFile().getName();
+        final Subspace ss = new Subspace(name);
+        File subspaceHome = home.toFile();
+        if (!subspaceHome.exists())
+            return null;
 
-        final Subspace ss = new Subspace(path);
-
-        File[] files = ss.getPath().toFile().listFiles(File::isFile);
+        File[] files = subspaceHome.listFiles(File::isFile);
 
         if (files == null) {
             return null;
@@ -82,8 +85,8 @@ public class WorkspaceReader {
         //Generate entries
         for (String pair : pairs) {
             InfoReader reader = new InfoReader();
-            File infoFile = new File(ss.getPath().toString(), pair + ".info");
-            File pngFile = new File(ss.getPath().toString(), pair + ".png");
+            File infoFile = new File(subspaceHome, pair + ".info");
+            File pngFile = new File(subspaceHome, pair + ".png");
             if (!infoFile.exists()
                     || !pngFile.exists()) {
                 System.out.print("An expected file did not exist.");

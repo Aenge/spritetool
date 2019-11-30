@@ -10,27 +10,23 @@ import javafx.util.Callback;
 import java.nio.file.Path;
 
 public class Subspace {
-
-    private Path path;
-    private StringProperty pather = new SimpleStringProperty();
-    private ObservableList<Entry> entryList = FXCollections.observableArrayList();
+    private StringProperty name = new SimpleStringProperty();
+    private transient ObservableList<Entry> entryList = FXCollections.observableArrayList();
 
     @Override
     public String toString() { return getName(); }
 
     public static Callback<Subspace, Observable[]> extractor() {
-        return (Subspace p) -> new Observable[]{p.pather};
+        return (Subspace p) -> new Observable[]{p.name};
     }
-    public Subspace(Path path) {
-        setPath(path);
+    public Subspace(String name) {
+        this.name.set(name);
     }
 
-    public Path getPath() { return this.path; }
-    public void setPath(Path path) {
-        this.path = path;
-        pather.set(path.getFileName().toString());
+    public void setName(String name) {
+        this.name.set(name);
     }
-    public String getName() { return pather.getValue().toString(); }
+    public String getName() { return name.getValue(); }
     public ObservableList<Entry> getEntryList() { return entryList; }
 
     public int getEntryCount() { return this.entryList.size(); }

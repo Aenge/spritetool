@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="372.0" prefWidth="600.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.CreateEntry.Controller">
+   <children>
+      <Label layoutX="234.0" layoutY="25.0" text="Create New Entry">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="text_image" editable="false" layoutX="86.0" layoutY="70.0" prefHeight="26.0" prefWidth="450.0" />
+      <Label layoutX="14.0" layoutY="75.0" prefHeight="18.0" prefWidth="71.0" text="Select Image" />
+      <JFXButton fx:id="button_select" buttonType="RAISED" layoutX="534.0" layoutY="71.0" />
+      <ImageView fx:id="image_preview" fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="244.0" layoutY="270.0" text="Sprite Information">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="317.0" text="Name" />
+      <ChoiceBox fx:id="choice_type" layoutX="383.0" layoutY="304.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="choice_slot" layoutX="383.0" layoutY="334.0" prefWidth="150.0" />
+      <TextField fx:id="text_name" layoutX="95.0" layoutY="313.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="311.0" layoutY="308.0" text="Entry Type" />
+      <Label layoutX="346.0" layoutY="338.0" text="Slot" />
+   </children>
+</AnchorPane>

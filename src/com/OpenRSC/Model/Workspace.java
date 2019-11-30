@@ -4,24 +4,22 @@ import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.apache.commons.io.FileUtils;
 
 public class Workspace {
 
-    private Path home;
     private String name;
-    private ObservableList<Subspace> subspaces = FXCollections.observableArrayList(Subspace.extractor());
+    private transient ObservableList<Subspace> subspaces = FXCollections.observableArrayList(Subspace.extractor());
 
     public Workspace(Path directory) {
-        this.home = directory;
         this.name = directory.getFileName().toString();
     }
 
-    public Path getHome() { return this.home; }
     public String getName() { return this.name; }
 
     public ObservableList<Subspace> getSubspaces() {
@@ -61,14 +59,14 @@ public class Workspace {
         return animationCount;
     }
 
-    public boolean createSubspace(String name) {
+    public boolean createSubspace(Path home, String name) {
 
         if (home == null)
             return false;
 
         Subspace ss;
         try {
-            ss = new Subspace(Paths.get(home.toString(),name));
+            ss = new Subspace(name);
         } catch (InvalidPathException a) {
             Alert invalid = new Alert(Alert.AlertType.ERROR);
             invalid.setHeaderText("Invalid category name.");
@@ -77,7 +75,7 @@ public class Workspace {
         }
 
 
-        WorkspaceWriter wswriter = new WorkspaceWriter(this);
+        WorkspaceWriter wswriter = new WorkspaceWriter(home,this);
         if (wswriter.createSubspace(ss)) {
             subspaces.add(ss);
             return true;
@@ -86,13 +84,13 @@ public class Workspace {
         return false;
     }
 
-    public boolean deleteSubspace(Subspace ss) {
+    public boolean deleteSubspace(Path home, Subspace ss) {
         if (!subspaces.contains(ss))
             return false;
 
         subspaces.remove(ss);
         try {
-            FileUtils.deleteDirectory(ss.getPath().toFile());
+            FileUtils.deleteDirectory(new File(home.toString(), ss.getName()));
         } catch (IOException a) {
             a.printStackTrace();
             return false;

@@ -8,11 +8,11 @@ import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.Timer;
 
-import de.jensd.fx.glyphs.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
@@ -29,8 +30,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import org.controlsfx.control.textfield.CustomTextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.Glyph;
+import org.controlsfx.glyphfont.GlyphFont;
+import org.controlsfx.glyphfont.GlyphFontRegistry;
+
 
 public class Controller implements Initializable {
     //TODO: change soulless from item to npc
@@ -157,32 +163,24 @@ public class Controller implements Initializable {
         });
 
         //--------- Menu buttons
-        button_new_workspace.setOnMouseEntered(e -> button_new_workspace.requestFocus());
-        button_open_workspace.setOnMouseEntered(e -> button_open_workspace.requestFocus());
-        button_save_workspace.setOnMouseEntered(e -> button_save_workspace.requestFocus());
-        button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
+       // root.getStylesheets().clear();
+        button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(Color.GREEN).size(30));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
         });
         button_open_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_OPEN_ALT));
         button_open_workspace.setOnMouseClicked(e -> {
-            if (needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem())) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Loading a new workspace will cause you to lose your unsaved changes.");
-                alert.showAndWait();
-                if (alert.getResult() != ButtonType.OK)
-                    return;
-            }
             spriteTool.openWorkspace();
         });
         button_save_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
         button_save_workspace.setOnMouseClicked(e -> {
             Subspace ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem();
-            Entry entry = (Entry)list_entries.getSelectionModel().getSelectedItem();
+            Entry entry = (Entry)list_entries.getItems().get(spriteTool.getWorkingCopyIndex());
 
             if (ss == null || entry == null)
                 return;
 
-            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspace());
+            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspaceHome(), spriteTool.getWorkspace());
 
             if (wsWriter.updateEntry(ss, entry, spriteTool.getWorkingCopy())) {
                 int index = ss.getEntryList().indexOf(entry);
@@ -234,7 +232,6 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if (t1)
                     button_female.setSelected(false);
-                root.requestFocus();
             }
         });
         button_female.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FEMALE));
@@ -243,7 +240,6 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if (t1)
                     button_male.setSelected(false);
-                root.requestFocus();
             }
         });
 
@@ -258,7 +254,7 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Subspace> observableValue, Subspace oldSubspace, Subspace newSubspace) {
                 if (newSubspace == null ||
-                    !triggerListeners)
+                        !triggerListeners)
                     return;
 
                 if (needSave(oldSubspace)) {
@@ -293,14 +289,17 @@ public class Controller implements Initializable {
         list_entries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Entry>() {
             @Override
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
-                if (newEntry == null)
+                if (newEntry == null ||
+                        !triggerListeners)
                     return;
 
-                if (needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem())) {
+                if (needSave()) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
                     alert.showAndWait();
                     if (alert.getResult() != ButtonType.OK) {
+                        triggerListeners = false;
                         list_entries.getSelectionModel().select(oldEntry);
+                        triggerListeners = true;
                         return;
                     }
                 }
@@ -577,11 +576,26 @@ public class Controller implements Initializable {
         JFXPopup popup = new JFXPopup();
         List<JFXButton> buttons = new ArrayList<>();
         JFXButton btn_newCategory = new JFXButton("New Entry");
-        JFXButton btn_cloneCategory = new JFXButton("Clone Entry");
+        btn_newCategory.setOnMouseClicked(e -> {
+            popup.hide();
+            try { spriteTool.spinCreateEntry(); } catch (IOException a) { a.printStackTrace(); return; }
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(spriteTool.getCreateEntryRoot());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.show();
+        });
         buttons.add(btn_newCategory);
 
-        if (list_entries.getSelectionModel().getSelectedItem() != null)
+        if (list_entries.getSelectionModel().getSelectedItem() != null) {
+            JFXButton btn_cloneCategory = new JFXButton("Clone " + list_entries.getSelectionModel().getSelectedItem());
+            btn_cloneCategory.setOnMouseClicked(e -> {
+                popup.hide();
+            });
             buttons.add(btn_cloneCategory);
+        }
+
         int height = 0;
         for (JFXButton button : buttons) {
             height += button.getMaxHeight();
@@ -613,7 +627,7 @@ public class Controller implements Initializable {
             if (td.getEditor().getText().isEmpty())
                 return;
 
-            spriteTool.getWorkspace().createSubspace(td.getEditor().getText());
+            spriteTool.getWorkspace().createSubspace(spriteTool.getWorkspaceHome(),td.getEditor().getText());
         });
         btn_newCategory.setPadding(new Insets(10));
         buttons.add(btn_newCategory);
@@ -627,7 +641,7 @@ public class Controller implements Initializable {
                 confirm.setHeaderText("Are you sure you want to remove category " + ss.getName() + "? This action can't be undone.");
                 confirm.showAndWait();
                 if (confirm.getResult().getButtonData().isDefaultButton()) {
-                    if (!spriteTool.getWorkspace().deleteSubspace(ss)) {
+                    if (!spriteTool.getWorkspace().deleteSubspace(spriteTool.getWorkspaceHome(), ss)) {
                         showError("Could not delete subspace.");
                     }
                 }
@@ -641,7 +655,7 @@ public class Controller implements Initializable {
                 td.showAndWait();
                 if (td.getEditor().getText().isEmpty())
                     return;
-                File path = ss.getPath().toFile();
+                File path = new File(spriteTool.getWorkspaceHome().toString(), ss.getName());
                 File newPath = new File(path.getParent().toString(), td.getEditor().getText());
 
                 if (newPath.exists()) {
@@ -654,7 +668,7 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                ss.setPath(newPath.toPath());
+                ss.setName(td.getEditor().getText());
             });
             buttons.add(btn_delCategory);
             buttons.add(btn_renameCategory);
@@ -727,7 +741,7 @@ public class Controller implements Initializable {
     }
 
     private void checkSave() {
-        if (needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem()))
+        if (needSave())
             button_save_workspace.getStyleClass().addAll("button-red", "edit-icon");
         else
             button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
@@ -750,6 +764,7 @@ public class Controller implements Initializable {
 
     public VBox getRoot() { return root; }
 
+    public boolean needSave() { return needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem()); }
     public boolean needSave(Subspace ss) {
         if (spriteTool.getWorkingCopy() == null)
             return false;
@@ -775,7 +790,7 @@ public class Controller implements Initializable {
         playTimer.cancel();
     }
 
-    public Sprite getWorkingSprite() {
+    private Sprite getWorkingSprite() {
         int index = (int)scroll_canvas.getValue()-1;
         if (spriteTool.getWorkingCopy() == null)
             return null;
@@ -783,7 +798,7 @@ public class Controller implements Initializable {
         return spriteTool.getWorkingCopy().getFrame(index);
     }
 
-    public void render() {
+    private void render() {
         int frame = (int)scroll_canvas.getValue()-1;
         spriteTool.getSpriteRenderer().wipeBuffer();
         spriteTool.getSpriteRenderer().clear();

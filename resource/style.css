@@ -4,11 +4,6 @@
     -fx-base: #111;
     -fx-control-inner-background: derive(-fx-base,50%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
-    -icons-color: #0f9d58;
-}
-
-.label{
-    -fx-text-fill: lightgray;
 }
 
 .separator *.line {
@@ -21,25 +16,11 @@
     -fx-background-color: derive(-fx-base,45%)
 }
 
-.button:default {
-
-}
-
 .button-red {
 -fx-background-color: red;
 -fx-text-fill: black
 }
 
-.glyph-icon {
- -fx-text-fill: -icons-color;
- -fx-fill: -icons-color;
-}
-
-
-.edit-icon {
--glyph-name: "EDIT";
--icons-color: black;
-}
 .glass-grey {
     -fx-background-color: #141414;
     -fx-background-radius: 5,4,3,5;

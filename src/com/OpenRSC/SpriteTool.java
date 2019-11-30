@@ -16,8 +16,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ButtonType;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.File;
@@ -32,7 +33,6 @@ public class SpriteTool extends Application {
         //SpriteTool spriteTool = new SpriteTool(primaryStage);
         //spriteTool.start();
         this.primaryStage = primaryStage;
-        initLoaders();
         start();
     }
     public static void main(String[] args) {
@@ -41,51 +41,65 @@ public class SpriteTool extends Application {
 
     private Stage primaryStage;
     private Workspace workspace;
-
+    private Path workspaceHome;
     private Parent splashRoot;
     private com.OpenRSC.Interface.Splash.Controller splashController;
     private Parent mainRoot;
     private com.OpenRSC.Interface.SpriteTool.Controller mainController;
     private Parent createWorkspaceRoot;
     private com.OpenRSC.Interface.CreateWorkspace.Controller createWorkspaceController;
+    private Parent createEntryRoot;
+    private com.OpenRSC.Interface.CreateEntry.Controller createEntryController;
     private SpriteRenderer spriteRenderer;
 
     private Entry workingCopy;
     private int workingCopyIndex = -1;
 
-    public void start() {
+    private void start(){
+        try { spinSplash(); } catch (IOException a) { a.printStackTrace(); return; }
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(getSplashRoot(), 675, 400));
         primaryStage.show();
     }
 
-    private void initLoaders() {
-        try {
-            URL splashURL = new File("src/com/OpenRSC/Interface/Splash/Splash.fxml").toURI().toURL();
-            URL mainURL = new File("src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml").toURI().toURL();
-            URL createWorkspaceURL = new File("src/com/OpenRSC/Interface/CreateWorkspace/CreateWorkspace.fxml").toURI().toURL();
-            FXMLLoader splashLoader = new FXMLLoader(splashURL);
-            FXMLLoader mainLoader = new FXMLLoader(mainURL);
-            FXMLLoader createWorkspaceLoader = new FXMLLoader(createWorkspaceURL);
-            this.splashRoot = splashLoader.load();
-            this.mainRoot = mainLoader.load();
-            this.createWorkspaceRoot = createWorkspaceLoader.load();
-            this.splashController = splashLoader.getController();
-            this.mainController = mainLoader.getController();
-            this.createWorkspaceController = createWorkspaceLoader.getController();
-            this.splashController.setSpriteTool(this);
-            this.mainController.setSpriteTool(this);
-            this.createWorkspaceController.setSpriteTool(this);
-        } catch (IOException a) {
-            a.printStackTrace();
-        }
+    private void spinSplash() throws IOException {
+        URL splashURL = new File("src/com/OpenRSC/Interface/Splash/Splash.fxml").toURI().toURL();
+        FXMLLoader splashLoader = new FXMLLoader(splashURL);
+        this.splashRoot = splashLoader.load();
+        this.splashController = splashLoader.getController();
+        this.splashController.setSpriteTool(this);
+    }
 
+    private void spinMain() throws IOException {
+        URL mainURL = new File("src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml").toURI().toURL();
+        FXMLLoader mainLoader = new FXMLLoader(mainURL);
+        this.mainRoot = mainLoader.load();
+        this.mainController = mainLoader.getController();
+        this.mainController.setSpriteTool(this);
+    }
+
+    private void spinCreateWorkspace() throws IOException {
+        URL createWorkspaceURL = new File("src/com/OpenRSC/Interface/CreateWorkspace/CreateWorkspace.fxml").toURI().toURL();
+        FXMLLoader createWorkspaceLoader = new FXMLLoader(createWorkspaceURL);
+        this.createWorkspaceRoot = createWorkspaceLoader.load();
+        this.createWorkspaceController = createWorkspaceLoader.getController();
+        this.createWorkspaceController.setSpriteTool(this);
+    }
+
+    public void spinCreateEntry() throws IOException {
+        URL createEntryURL = new File("src/com/OpenRSC/Interface/CreateEntry/CreateEntry.fxml").toURI().toURL();
+        FXMLLoader createEntryLoader = new FXMLLoader(createEntryURL);
+        this.createEntryRoot = createEntryLoader.load();
+        this.createEntryController = createEntryLoader.getController();
+        this.createEntryController.setSpriteTool(this);
     }
 
     public void closeSplash() {
+        try { spinMain(); } catch (IOException a) { a.printStackTrace(); return; }
+        primaryStage.close();
+
         Stage newStage = new Stage();
         newStage.setTitle("OpenRSC Sprite Tool");
-
         Scene scene = new Scene(this.mainRoot, 750, 540);
         newStage.setScene(scene);
         newStage.setOnCloseRequest(e -> {
@@ -93,23 +107,21 @@ public class SpriteTool extends Application {
         });
         newStage.setResizable(false);
         newStage.show();
-        primaryStage.hide();
 
         setPrimaryStage(newStage);
         spriteRenderer = new SpriteRenderer(mainController.getCanvas());
         spriteRenderer.setSpriteTool(this);
 
         getMainController().loadChoiceBoxes();
-
         getMainController().getRoot().requestFocus();
     }
 
     public void createWorkspace() {
-        if (workspace != null)
-            return;
+        try { spinCreateWorkspace(); } catch (IOException a) { a.printStackTrace(); return; }
 
         Stage stage = new Stage();
         Scene scene = new Scene(createWorkspaceRoot);
+        stage.initModality(Modality.APPLICATION_MODAL);
 
         stage.setScene(scene);
         stage.show();
@@ -157,10 +169,16 @@ public class SpriteTool extends Application {
 
     public void openWorkspace(Path path) { openWorkspace(path, null); }
     public void openWorkspace(Path path, SimpleIntegerProperty countProgress) {
+        if (getMainController().needSave()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Loading a new workspace will cause you to lose your unsaved changes.");
+            alert.showAndWait();
+            if (alert.getResult() != ButtonType.OK)
+                return;
+        }
         WorkspaceReader reader = new WorkspaceReader();
         reader.setProgressCounter(countProgress);
         this.workspace = reader.loadWorkspace(path);
-
+        this.workspaceHome = path;
         if (this.workspace == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open workspace.");
             alert.showAndWait();
@@ -181,9 +199,11 @@ public class SpriteTool extends Application {
     public Stage getPrimaryStage() { return this.primaryStage; }
 
     public Workspace getWorkspace() { return this.workspace; }
+    public Path getWorkspaceHome() { return this.workspaceHome; }
     public Parent getSplashRoot() { return this.splashRoot; }
     public Parent getMainRoot() { return this.mainRoot; }
     public Parent getCreateWorkspaceRoot() { return this.createWorkspaceRoot; }
+    public Parent getCreateEntryRoot() { return this.createEntryRoot; }
     public com.OpenRSC.Interface.Splash.Controller getSplashController() { return this.splashController; }
     public Controller getMainController() { return this.mainController; }
     public SpriteRenderer getSpriteRenderer() { return this.spriteRenderer; }
