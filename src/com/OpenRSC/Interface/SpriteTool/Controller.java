@@ -32,14 +32,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.glyphfont.FontAwesome;
-import org.controlsfx.glyphfont.Glyph;
-import org.controlsfx.glyphfont.GlyphFont;
-import org.controlsfx.glyphfont.GlyphFontRegistry;
-
 
 public class Controller implements Initializable {
     //TODO: change soulless from item to npc
+    //TODO: unsaved changes -> search for another one -> select it -> press cancel -> error message. need select proper thing
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -64,8 +62,8 @@ public class Controller implements Initializable {
     @FXML
     private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh, text_type;
 
-   // @FXML
-   // private CustomTextField text_search;
+   @FXML
+   private CustomTextField text_search;
 
     @FXML
     private ImageView canvas;
@@ -135,28 +133,28 @@ public class Controller implements Initializable {
                 }
             }
         });
-//        text_search.setLeft(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH, "15px"));
-//        text_search.setRight(GlyphsDude.createIcon(FontAwesomeIcon.CLOSE, "15px"));
-//        text_search.getRight().setVisible(false);
-//        text_search.getRight().setOnMouseClicked(e -> {
-//            if (text_search.getRight().isVisible()) {
-//                text_search.setText("");
-//            }
-//        });
-//        text_search.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-//                if (t1.isEmpty()) {
-//                    text_search.getRight().setVisible(false);
-//                    text_search.getRight().setCursor(Cursor.DEFAULT);
-//                } else {
-//                    text_search.getRight().setVisible(true);
-//                    text_search.getRight().setCursor(Cursor.HAND);
-//
-//                }
-//
-//            }
-//        });
+        text_search.setLeft(new FontAwesome().create(FontAwesome.Glyph.SEARCH).color(SpriteTool.accentColor).size(15));
+        text_search.setRight(new FontAwesome().create(FontAwesome.Glyph.CLOSE).color(SpriteTool.accentColor).size(15));
+        text_search.getRight().setVisible(false);
+        text_search.getRight().setOnMouseClicked(e -> {
+            if (text_search.getRight().isVisible()) {
+                text_search.setText("");
+            }
+        });
+        text_search.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1.isEmpty()) {
+                    text_search.getRight().setVisible(false);
+                    text_search.getRight().setCursor(Cursor.DEFAULT);
+                } else {
+                    text_search.getRight().setVisible(true);
+                    text_search.getRight().setCursor(Cursor.HAND);
+
+                }
+
+            }
+        });
 
         hbox_menu.setOnMouseExited(e->{
             root.requestFocus();
@@ -164,15 +162,15 @@ public class Controller implements Initializable {
 
         //--------- Menu buttons
        // root.getStylesheets().clear();
-        button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(Color.GREEN).size(30));
+        button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(SpriteTool.accentColor).size(20));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
         });
-        button_open_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_OPEN_ALT));
+        button_open_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_OPEN_ALT).color(SpriteTool.accentColor).size(20));
         button_open_workspace.setOnMouseClicked(e -> {
             spriteTool.openWorkspace();
         });
-        button_save_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
+        button_save_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE).color(SpriteTool.accentColor).size(20));
         button_save_workspace.setOnMouseClicked(e -> {
             Subspace ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem();
             Entry entry = (Entry)list_entries.getItems().get(spriteTool.getWorkingCopyIndex());
@@ -543,23 +541,19 @@ public class Controller implements Initializable {
 
     //------------------ private methods
     private void populateEntryList(Subspace ss) {
-//        this.l_entries.getItems().clear();
-//        for (Entry entry : ss.getEntryList()) {
-//            this.l_entries.getItems().add(entry);
-//        }
         FilteredList<Entry> filteredEntryList = new FilteredList<>(ss.getEntryList(), s -> true);
-//        text_search.textProperty().addListener(obs-> {
-//            String filter = text_search.getText();
-//            if (filter == null || filter.isEmpty()) {
-//                filteredEntryList.setPredicate(s -> true);
-//            } else
-//                filteredEntryList.setPredicate(s -> s.toString().contains(filter));
-//
-//            if (filteredEntryList.size() == 0)
-//                text_search.getStyleClass().add("textField-red");
-//            else
-//                text_search.getStyleClass().removeAll("textField-red");
-//        });
+        text_search.textProperty().addListener(obs-> {
+            String filter = text_search.getText();
+            if (filter == null || filter.isEmpty()) {
+                filteredEntryList.setPredicate(s -> true);
+            } else
+                filteredEntryList.setPredicate(s -> s.toString().contains(filter));
+
+            if (filteredEntryList.size() == 0)
+                text_search.getStyleClass().add("textField-red");
+            else
+                text_search.getStyleClass().removeAll("textField-red");
+        });
         list_entries.setItems(filteredEntryList);
     }
 
@@ -602,7 +596,6 @@ public class Controller implements Initializable {
             button.setMaxWidth(Double.MAX_VALUE);
             button.setPadding(new Insets(10));
             button.setButtonType(JFXButton.ButtonType.RAISED);
-            button.setOnMouseEntered(e -> button.requestFocus());
         }
 
         VBox vbox = new VBox();

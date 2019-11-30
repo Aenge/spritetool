@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
 
 <VBox fx:id="root" prefHeight="550.0" prefWidth="752.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
@@ -43,7 +44,7 @@
                <children>
                   <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="562.0">
                      <children>
-                        <JFXListView fx:id="list_entries" layoutX="29.0" layoutY="30.0" prefHeight="402.0" prefWidth="134.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="25.0" />
+                        <JFXListView fx:id="list_entries" layoutX="29.0" layoutY="31.0" prefHeight="399.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="31.0" />
                         <AnchorPane layoutX="139.0" layoutY="52.0" prefHeight="427.0" prefWidth="104.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Label layoutX="2.0" layoutY="-2.0" prefHeight="26.0" prefWidth="122.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0" />
@@ -84,6 +85,7 @@
                               <Slider layoutX="78.0" layoutY="76.0" />
                            </children>
                         </AnchorPane>
+                        <CustomTextField fx:id="text_search" layoutX="6.0" layoutY="2.0" prefHeight="14.0" prefWidth="130.0" AnchorPane.leftAnchor="5.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="425.0" prefWidth="190.0">

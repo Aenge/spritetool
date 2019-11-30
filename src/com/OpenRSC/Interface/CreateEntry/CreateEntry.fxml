@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="372.0" prefWidth="600.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.CreateEntry.Controller">
+<AnchorPane fx:id="root" prefHeight="401.0" prefWidth="498.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.CreateEntry.Controller">
    <children>
-      <Label layoutX="234.0" layoutY="25.0" text="Create New Entry">
+      <Label layoutX="184.0" layoutY="21.0" text="Create New Entry">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="text_image" editable="false" layoutX="86.0" layoutY="70.0" prefHeight="26.0" prefWidth="450.0" />
-      <Label layoutX="14.0" layoutY="75.0" prefHeight="18.0" prefWidth="71.0" text="Select Image" />
-      <JFXButton fx:id="button_select" buttonType="RAISED" layoutX="534.0" layoutY="71.0" />
-      <ImageView fx:id="image_preview" fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="244.0" layoutY="270.0" text="Sprite Information">
+      <TextField fx:id="text_image" editable="false" layoutX="91.0" layoutY="68.0" prefHeight="26.0" prefWidth="362.0" />
+      <Label layoutX="14.0" layoutY="72.0" prefHeight="18.0" prefWidth="71.0" text="Select Image" />
+      <JFXButton fx:id="button_select" buttonType="RAISED" layoutX="452.0" layoutY="68.0" prefHeight="26.0" prefWidth="32.0" />
+      <ImageView fx:id="image_preview" fitHeight="150.0" fitWidth="200.0" layoutX="149.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="193.0" layoutY="282.0" text="Sprite Information">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="50.0" layoutY="317.0" text="Name" />
-      <ChoiceBox fx:id="choice_type" layoutX="383.0" layoutY="304.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="choice_slot" layoutX="383.0" layoutY="334.0" prefWidth="150.0" />
-      <TextField fx:id="text_name" layoutX="95.0" layoutY="313.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="311.0" layoutY="308.0" text="Entry Type" />
-      <Label layoutX="346.0" layoutY="338.0" text="Slot" />
+      <Label layoutX="14.0" layoutY="315.0" text="Name" />
+      <ChoiceBox fx:id="choice_type" layoutX="328.0" layoutY="302.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="choice_slot" layoutX="328.0" layoutY="332.0" prefWidth="150.0" />
+      <TextField fx:id="text_name" layoutX="59.0" layoutY="311.0" prefHeight="26.0" prefWidth="150.0" />
+      <Label layoutX="263.0" layoutY="306.0" text="Entry Type" />
+      <Label layoutX="299.0" layoutY="336.0" text="Slot" />
+      <Line endX="100.0" layoutX="248.0" layoutY="110.0" startX="-100.0" />
+      <Line endX="26.500015258789062" endY="56.5" layoutX="121.0" layoutY="202.0" startX="26.500015258789062" startY="-91.49998474121094" />
+      <Line endX="101.0" layoutX="247.0" layoutY="259.0" startX="-99.0" />
+      <Line endX="-28.0" endY="82.0" layoutX="377.0" layoutY="177.0" startX="-28.0" startY="-66.99998474121094" />
+      <Button fx:id="button_accept" layoutX="167.0" layoutY="358.0" mnemonicParsing="false" text="Accept" />
+      <Button fx:id="button_cancel" layoutX="273.0" layoutY="358.0" mnemonicParsing="false" text="Cancel" />
    </children>
 </AnchorPane>

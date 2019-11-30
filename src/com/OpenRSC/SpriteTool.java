@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -54,6 +55,8 @@ public class SpriteTool extends Application {
 
     private Entry workingCopy;
     private int workingCopyIndex = -1;
+
+    public static final Color accentColor = Color.rgb(0,123,255);
 
     private void start(){
         try { spinSplash(); } catch (IOException a) { a.printStackTrace(); return; }
