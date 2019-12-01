@@ -38,6 +38,8 @@ import org.controlsfx.glyphfont.FontAwesome;
 public class Controller implements Initializable {
     //TODO: change soulless from item to npc
     //TODO: unsaved changes -> search for another one -> select it -> press cancel -> error message. need select proper thing
+    //TODO: switching use offset should adjust the bounding boxes (pfp example)
+    //TODO: loading a new workspace should clear the current entries
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -178,7 +180,7 @@ public class Controller implements Initializable {
             if (ss == null || entry == null)
                 return;
 
-            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspaceHome(), spriteTool.getWorkspace());
+            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspace());
 
             if (wsWriter.updateEntry(ss, entry, spriteTool.getWorkingCopy())) {
                 int index = ss.getEntryList().indexOf(entry);
@@ -620,7 +622,7 @@ public class Controller implements Initializable {
             if (td.getEditor().getText().isEmpty())
                 return;
 
-            spriteTool.getWorkspace().createSubspace(spriteTool.getWorkspaceHome(),td.getEditor().getText());
+            spriteTool.getWorkspace().createSubspace(td.getEditor().getText());
         });
         btn_newCategory.setPadding(new Insets(10));
         buttons.add(btn_newCategory);
@@ -634,7 +636,7 @@ public class Controller implements Initializable {
                 confirm.setHeaderText("Are you sure you want to remove category " + ss.getName() + "? This action can't be undone.");
                 confirm.showAndWait();
                 if (confirm.getResult().getButtonData().isDefaultButton()) {
-                    if (!spriteTool.getWorkspace().deleteSubspace(spriteTool.getWorkspaceHome(), ss)) {
+                    if (!spriteTool.getWorkspace().deleteSubspace(ss)) {
                         showError("Could not delete subspace.");
                     }
                 }
@@ -648,8 +650,9 @@ public class Controller implements Initializable {
                 td.showAndWait();
                 if (td.getEditor().getText().isEmpty())
                     return;
-                File path = new File(spriteTool.getWorkspaceHome().toString(), ss.getName());
-                File newPath = new File(path.getParent().toString(), td.getEditor().getText());
+
+                File path = new File(spriteTool.getWorkspace().getHome().toString(), ss.getName());
+                File newPath = new File(path.getParent(), td.getEditor().getText());
 
                 if (newPath.exists()) {
                     showError("That category already exists.");
@@ -804,6 +807,7 @@ public class Controller implements Initializable {
             spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), color_bluescale.getValue());
     }
 
+    public Subspace getCurrentSubspace() { return (Subspace)list_subspaces.getSelectionModel().getSelectedItem(); }
     public void loadChoiceBoxes() {
         choice_basic_head.getItems().clear();
 

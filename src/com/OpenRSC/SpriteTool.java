@@ -42,7 +42,6 @@ public class SpriteTool extends Application {
 
     private Stage primaryStage;
     private Workspace workspace;
-    private Path workspaceHome;
     private Parent splashRoot;
     private com.OpenRSC.Interface.Splash.Controller splashController;
     private Parent mainRoot;
@@ -181,7 +180,6 @@ public class SpriteTool extends Application {
         WorkspaceReader reader = new WorkspaceReader();
         reader.setProgressCounter(countProgress);
         this.workspace = reader.loadWorkspace(path);
-        this.workspaceHome = path;
         if (this.workspace == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open workspace.");
             alert.showAndWait();
@@ -202,7 +200,6 @@ public class SpriteTool extends Application {
     public Stage getPrimaryStage() { return this.primaryStage; }
 
     public Workspace getWorkspace() { return this.workspace; }
-    public Path getWorkspaceHome() { return this.workspaceHome; }
     public Parent getSplashRoot() { return this.splashRoot; }
     public Parent getMainRoot() { return this.mainRoot; }
     public Parent getCreateWorkspaceRoot() { return this.createWorkspaceRoot; }

@@ -13,15 +13,17 @@ import org.apache.commons.io.FileUtils;
 
 public class Workspace {
 
+    private Path home;
     private String name;
     private transient ObservableList<Subspace> subspaces = FXCollections.observableArrayList(Subspace.extractor());
 
-    public Workspace(Path directory) {
-        this.name = directory.getFileName().toString();
+    public Workspace(Path home) {
+        this.home = home;
+        this.name = home.getFileName().toString();
     }
 
     public String getName() { return this.name; }
-
+    public Path getHome() { return this.home; }
     public ObservableList<Subspace> getSubspaces() {
         return this.subspaces;
     }
@@ -59,7 +61,7 @@ public class Workspace {
         return animationCount;
     }
 
-    public boolean createSubspace(Path home, String name) {
+    public boolean createSubspace(String name) {
 
         if (home == null)
             return false;
@@ -84,7 +86,7 @@ public class Workspace {
         return false;
     }
 
-    public boolean deleteSubspace(Path home, Subspace ss) {
+    public boolean deleteSubspace(Subspace ss) {
         if (!subspaces.contains(ss))
             return false;
 

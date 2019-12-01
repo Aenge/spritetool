@@ -1,6 +1,7 @@
 package com.OpenRSC.Interface.CreateEntry;
 
 import com.OpenRSC.Model.Entry;
+import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Render.PlayerRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.JFXButton;
@@ -29,6 +30,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private SpriteTool spriteTool;
+    private File image;
 
     @FXML
     private AnchorPane root;
@@ -50,6 +52,11 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         button_accept.disableProperty().bind(Bindings.or(text_name.textProperty().isEmpty(), image_preview.imageProperty().isNull()));
+        button_accept.setOnMouseClicked(e -> {
+            Subspace subspace = spriteTool.getMainController().getCurrentSubspace();
+            subspace.createEntry(text_name.getText(), image, (Entry.TYPE)choice_type.getValue(), (PlayerRenderer.LAYER)choice_slot.getValue());
+        });
+
         button_cancel.setOnMouseClicked(e -> {
             ((Stage)root.getScene().getWindow()).close();
         });
@@ -58,13 +65,13 @@ public class Controller implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files", "*.png"));
 
-            File selectedImage = fileChooser.showOpenDialog(root.getScene().getWindow());
+            image = fileChooser.showOpenDialog(root.getScene().getWindow());
 
-            if (selectedImage == null ||
-                     !selectedImage.exists())
+            if (image == null ||
+                     !image.exists())
                 return;
 
-            Image preview = new Image(selectedImage.toURI().toString());
+            Image preview = new Image(image.toURI().toString());
 
             if (preview != null) {
                 double ratioX = image_preview.getFitWidth() / preview.getWidth();

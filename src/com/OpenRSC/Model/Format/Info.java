@@ -18,7 +18,11 @@ public class Info {
     private int boundheight;
 
 
-    Info() {}
+    public Info() {
+        useShift = false;
+        offsetX = 0;
+        offsetY = 0;
+    }
 
     @Override
     public boolean equals(Object o) {

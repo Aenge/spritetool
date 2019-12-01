@@ -6,6 +6,7 @@ import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
+import com.OpenRSC.Render.PlayerRenderer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +27,8 @@ public class WorkspaceWriter {
         this.home = home;
         this.ws = ws;
     }
+
+
 
     public boolean createSubspace(Subspace ss) {
         if (ws == null ||

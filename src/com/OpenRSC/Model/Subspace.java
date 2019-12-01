@@ -1,17 +1,22 @@
 package com.OpenRSC.Model;
 
+import com.OpenRSC.Model.Format.Info;
+import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Render.PlayerRenderer;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.util.Callback;
 
-import java.nio.file.Path;
+import java.io.File;
 
 public class Subspace {
     private StringProperty name = new SimpleStringProperty();
-    private transient ObservableList<Entry> entryList = FXCollections.observableArrayList();
+    private ObservableList<Entry> entryList = FXCollections.observableArrayList();
 
     @Override
     public String toString() { return getName(); }
@@ -56,5 +61,41 @@ public class Subspace {
         }
 
         return null;
+    }
+
+    public boolean createEntry(String name, File image, Entry.TYPE type, PlayerRenderer.LAYER layer) {
+        if (getEntryByName(name) != null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An entry with that name already exists.");
+            alert.showAndWait();
+            return false;
+        }
+
+        Entry newEntry = new Entry();
+        newEntry.setID(name);
+
+        Info info = new Info();
+        info.setID(name);
+        info.setType(type);
+        info.setLayer(layer);
+        info.setFrame(1);
+        info.setFrameCount(1);
+        switch (type) {
+            case SPRITE:
+                info.setBoundWidth(48);
+                info.setBoundHeight(32);
+                break;
+            case PLAYER_PART:
+            case PLAYER_EQUIPPABLE_NOCOMBAT:
+            case PLAYER_EQUIPPABLE_HASCOMBAT:
+                info.setBoundWidth(64);
+                info.setBoundHeight(102);
+                break;
+        }
+
+        Sprite newSprite = new Sprite(image, info);
+        newEntry.addFrame(newSprite);
+
+        entryList.add(newEntry);
+        return true;
     }
 }
