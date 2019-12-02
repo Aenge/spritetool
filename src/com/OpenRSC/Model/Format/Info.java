@@ -2,12 +2,13 @@ package com.OpenRSC.Model.Format;
 
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Render.PlayerRenderer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Info {
 
     private Entry.TYPE type;
     private PlayerRenderer.LAYER layer;
-    private String filename;
     private String id;
     private int frameCount;
     private int frame;
@@ -16,7 +17,6 @@ public class Info {
     private int offsetY;
     private int boundwidth;
     private int boundheight;
-
 
     public Info() {
         useShift = false;
@@ -34,8 +34,7 @@ public class Info {
 
         Info info = (Info)o;
 
-        if (!this.filename.equalsIgnoreCase(info.filename) ||
-                !this.id.equalsIgnoreCase(info.id) ||
+        if (!this.id.equalsIgnoreCase(info.id) ||
                 this.layer != info.layer ||
                 this.type != info.type ||
                 this.frameCount != info.frameCount ||
@@ -45,6 +44,7 @@ public class Info {
                 this.offsetY != info.offsetY ||
                 this.boundwidth != info.boundwidth ||
                 this.boundheight != info.boundheight)
+
             return false;
 
 
@@ -54,8 +54,6 @@ public class Info {
     public Entry.TYPE getType() { return this.type; }
     public void setLayer(PlayerRenderer.LAYER layer) { this.layer = layer; }
     public PlayerRenderer.LAYER getLayer() { return this.layer; }
-    public void setFileName(String name) { this.filename = name; }
-    public String getFileName() { return this.filename; }
     public void setID(String id) { this.id = id; }
     public String getID() { return this.id; }
     public void setFrame(int frame) { this.frame = frame; }
@@ -80,7 +78,6 @@ public class Info {
         Info info = new Info();
         info.setType(this.getType());
         info.setLayer(this.getLayer());
-        info.setFileName(this.getFileName());
         info.setID(this.getID());
         info.setFrame(this.getFrame());
         info.setFrameCount(this.getFrameCount());
@@ -89,7 +86,6 @@ public class Info {
         info.setBoundWidth(this.getBoundWidth());
         info.setBoundHeight(this.getBoundHeight());
         info.setUseShift(this.getUseShift());
-
 
         return info;
     }

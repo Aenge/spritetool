@@ -68,7 +68,7 @@ public class Workspace {
 
         Subspace ss;
         try {
-            ss = new Subspace(name);
+            ss = new Subspace(name, home);
         } catch (InvalidPathException a) {
             Alert invalid = new Alert(Alert.AlertType.ERROR);
             invalid.setHeaderText("Invalid category name.");
@@ -77,7 +77,7 @@ public class Workspace {
         }
 
 
-        WorkspaceWriter wswriter = new WorkspaceWriter(home,this);
+        WorkspaceWriter wswriter = new WorkspaceWriter(this.home);
         if (wswriter.createSubspace(ss)) {
             subspaces.add(ss);
             return true;

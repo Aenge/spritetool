@@ -42,93 +42,50 @@ public class WorkspaceReader {
 
     public Subspace loadSubspace(Path home) {
         String name = home.toFile().getName();
-        final Subspace ss = new Subspace(name);
+        final Subspace ss = new Subspace(name, home);
         File subspaceHome = home.toFile();
         if (!subspaceHome.exists())
             return null;
 
-        File[] files = subspaceHome.listFiles(File::isFile);
+        File[] entries = subspaceHome.listFiles(File::isDirectory);
 
-        if (files == null) {
+        if (entries == null)
             return null;
-        }
 
-        //Pair .png files to their .info
-        List<String> pngFiles = new ArrayList<String>();
-        List<String> infoFiles = new ArrayList<String>();
+        for (File entry : entries) {
+            File[] files = entry.listFiles(File::isFile);
 
-
-        for (File file : files) {
-
-            String[] fileName = splitFileName(file);
-            if (fileName == null)
+            if (files == null) {
+                entry.delete();
                 continue;
-            if (fileName[1].equalsIgnoreCase("png"))
-                pngFiles.add(fileName[0]);
-            else if (fileName[1].equalsIgnoreCase("info"))
-                infoFiles.add(fileName[0]);
-        }
-        List<String> pairs = new ArrayList<String>();
-        List<String> noPairs = new ArrayList<String>();
-
-        for (String png : pngFiles) {
-            if (infoFiles.contains(png))
-                pairs.add(png);
-            else
-                noPairs.add(png);
-        }
-
-        if (noPairs.size() > 0) {
-            System.out.print("Looks like a new png was added.");
-        }
-
-        //Generate entries
-        for (String pair : pairs) {
-            InfoReader reader = new InfoReader();
-            File infoFile = new File(subspaceHome, pair + ".info");
-            File pngFile = new File(subspaceHome, pair + ".png");
-            if (!infoFile.exists()
-                    || !pngFile.exists()) {
-                System.out.print("An expected file did not exist.");
-                return null;
             }
 
-            Info info = reader.read(infoFile);
-            info.setFileName(pair);
+            Entry newEntry = new Entry();
 
-            Sprite sprite = new Sprite(pngFile, info);
+            for (File file : files) {
+                if (file.getName().endsWith(".info"))
+                    continue;
 
-            boolean exists = false;
-            for (int i = 0; i < ss.getEntryCount(); ++i) {
-                Entry entry = ss.getEntryList().get(i);
-                if (entry != null &&
-                        entry.getID().equalsIgnoreCase(info.getID())) {
-                    exists = true;
-                    entry.addFrame(sprite);
+                String[] filename = file.getName().split(Pattern.quote("."));
+                File infoFile = new File(file.getParent(), filename[0] + ".info");
+
+                Sprite newSprite = new Sprite(file, infoFile);
+                newEntry.addFrame(newSprite);
+                if (this.progressCounter != null)
+                    this.progressCounter.set(this.progressCounter.get() + 2);
+            }
+
+            Collections.sort(newEntry.getFrames(), new Comparator<Sprite>() {
+                @Override
+                public int compare(Sprite o1, Sprite o2) {
+                    return o1.getInfo().getFrame() - o2.getInfo().getFrame();
                 }
-            }
+            });
 
-            if (!exists) {
-                Entry entry = new Entry();
-                entry.setID(info.getID());
-                entry.addFrame(sprite);
-                ss.getEntryList().add(entry);
-            }
-
-            if (this.progressCounter != null)
-                this.progressCounter.set(this.progressCounter.get() + 2);
-        }
-
-        //Sort animations
-        for (Entry entry : ss.getEntryList()) {
-            if (entry.isAnimation()) {
-                Collections.sort(entry.getFrames(), new Comparator<Sprite>() {
-                    @Override
-                    public int compare(Sprite o1, Sprite o2) {
-                        return o1.getInfo().getFrame() - o2.getInfo().getFrame();
-                    }
-                });
-            }
+            newEntry.setID(newEntry.getFrame(0).getID());
+            newEntry.setLayer(newEntry.getFrame(0).getInfo().getLayer());
+            newEntry.setType(newEntry.getFrame(0).getInfo().getType());
+            ss.getEntryList().add(newEntry);
         }
 
         return ss;

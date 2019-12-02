@@ -1,5 +1,6 @@
 package com.OpenRSC.Model;
 
+import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Render.PlayerRenderer;
@@ -13,8 +14,10 @@ import javafx.scene.image.Image;
 import javafx.util.Callback;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class Subspace {
+    private Path home;
     private StringProperty name = new SimpleStringProperty();
     private ObservableList<Entry> entryList = FXCollections.observableArrayList();
 
@@ -24,7 +27,8 @@ public class Subspace {
     public static Callback<Subspace, Observable[]> extractor() {
         return (Subspace p) -> new Observable[]{p.name};
     }
-    public Subspace(String name) {
+    public Subspace(String name, Path home) {
+        this.home = home;
         this.name.set(name);
     }
 
@@ -79,6 +83,7 @@ public class Subspace {
         info.setLayer(layer);
         info.setFrame(1);
         info.setFrameCount(1);
+
         switch (type) {
             case SPRITE:
                 info.setBoundWidth(48);
@@ -96,6 +101,9 @@ public class Subspace {
         newEntry.addFrame(newSprite);
 
         entryList.add(newEntry);
+
+        WorkspaceWriter workspaceWriter = new WorkspaceWriter(home);
+        workspaceWriter.updateEntry(this, null, newEntry);
         return true;
     }
 }

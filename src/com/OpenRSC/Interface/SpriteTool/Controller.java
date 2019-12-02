@@ -36,10 +36,14 @@ import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.glyphfont.FontAwesome;
 
 public class Controller implements Initializable {
-    //TODO: change soulless from item to npc
+    //TODO: remove add picture to create entry, make it add a template depending on the type.
     //TODO: unsaved changes -> search for another one -> select it -> press cancel -> error message. need select proper thing
     //TODO: switching use offset should adjust the bounding boxes (pfp example)
     //TODO: loading a new workspace should clear the current entries
+    //TODO: audit create/update subspace/entry/sprite. make them consistent.
+    //TODO: put entries into their own folders
+    //TODO: remove filename in info
+    //TODO: needsave doesn't verify that selectedindex != -1 -> create new entry, open workspace, bug.
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -158,10 +162,6 @@ public class Controller implements Initializable {
             }
         });
 
-        hbox_menu.setOnMouseExited(e->{
-            root.requestFocus();
-        });
-
         //--------- Menu buttons
        // root.getStylesheets().clear();
         button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(SpriteTool.accentColor).size(20));
@@ -180,7 +180,7 @@ public class Controller implements Initializable {
             if (ss == null || entry == null)
                 return;
 
-            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspace());
+            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspace().getHome());
 
             if (wsWriter.updateEntry(ss, entry, spriteTool.getWorkingCopy())) {
                 int index = ss.getEntryList().indexOf(entry);
@@ -247,7 +247,7 @@ public class Controller implements Initializable {
         list_subspaces.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildSubspaceMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getSceneX(), event.getSceneY(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(),event.getSceneX(), event.getSceneY(),JFXPopup.PopupVPosition.BOTTOM, JFXPopup.PopupHPosition.RIGHT,0,0);
         });
 
         list_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
@@ -592,17 +592,13 @@ public class Controller implements Initializable {
             buttons.add(btn_cloneCategory);
         }
 
-        int height = 0;
         for (JFXButton button : buttons) {
-            height += button.getMaxHeight();
             button.setMaxWidth(Double.MAX_VALUE);
-            button.setPadding(new Insets(10));
-            button.setButtonType(JFXButton.ButtonType.RAISED);
+            button.setPadding(new Insets(8));
         }
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(buttons);
-        vbox.setPrefHeight(height);
 
         popup.setPopupContent(vbox);
         return popup;
@@ -611,6 +607,7 @@ public class Controller implements Initializable {
     private JFXPopup buildSubspaceMenu() {
         if (spriteTool.getWorkspace() == null)
             return null;
+
         JFXPopup popup = new JFXPopup();
         List<JFXButton> buttons = new ArrayList<>();
         JFXButton btn_newCategory = new JFXButton("New Category");
@@ -624,7 +621,6 @@ public class Controller implements Initializable {
 
             spriteTool.getWorkspace().createSubspace(td.getEditor().getText());
         });
-        btn_newCategory.setPadding(new Insets(10));
         buttons.add(btn_newCategory);
         Subspace ss;
         if ((ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem()) != null) {
@@ -673,16 +669,10 @@ public class Controller implements Initializable {
         VBox vbox = new VBox();
         vbox.getChildren().addAll(buttons);
 
-        int height = 0;
         for (JFXButton button : buttons) {
-            height += button.getMaxHeight();
             button.setMaxWidth(Double.MAX_VALUE);
-            button.setPadding(new Insets(10));
-            button.setButtonType(JFXButton.ButtonType.RAISED);
-            button.setOnMouseEntered(e -> button.requestFocus());
+            button.setPadding(new Insets(8));
         }
-
-        vbox.setPrefHeight(height);
 
         popup.setPopupContent(vbox);
         return popup;

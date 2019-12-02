@@ -5,34 +5,19 @@ import com.OpenRSC.IO.Info.InfoWriter;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
-import com.OpenRSC.Model.Workspace;
-import com.OpenRSC.Render.PlayerRenderer;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 
 public class WorkspaceWriter {
-
-    private Workspace ws;
     private Path home;
 
-    public WorkspaceWriter(Workspace ws) {
-        this.ws = ws;
-    }
-
-    public WorkspaceWriter(Path home, Workspace ws) {
+    public WorkspaceWriter(Path home) {
         this.home = home;
-        this.ws = ws;
     }
-
 
 
     public boolean createSubspace(Subspace ss) {
-        if (ws == null ||
-            home == null)
+        if (home == null)
             return false;
 
         File directory = new File(home.toString(), ss.getName());
@@ -44,9 +29,11 @@ public class WorkspaceWriter {
 
         return false;
     }
+
     public boolean updateEntry(Subspace subspace, Entry oldEntry, Entry newEntry) {
         for (int i = 0; i < newEntry.frameCount(); ++i) {
-            if (i < oldEntry.frameCount()) {
+            if (oldEntry != null &&
+                    i < oldEntry.frameCount()) {
                 if (!oldEntry.getFrame(i).equals(newEntry.getFrame(i))) {
                     if (!updateSprite(subspace, oldEntry.getFrame(i), newEntry.getFrame(i)))
                         return false;
