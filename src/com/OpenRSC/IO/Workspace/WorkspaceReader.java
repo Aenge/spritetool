@@ -49,14 +49,10 @@ public class WorkspaceReader {
 
         File[] entries = subspaceHome.listFiles(File::isDirectory);
 
-        if (entries == null)
-            return null;
-
         for (File entry : entries) {
             File[] files = entry.listFiles(File::isFile);
 
-            if (files == null) {
-                entry.delete();
+            if (files.length == 0) {
                 continue;
             }
 

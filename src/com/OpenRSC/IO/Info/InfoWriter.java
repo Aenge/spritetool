@@ -14,8 +14,6 @@ public class InfoWriter {
     public InfoWriter(File infoFile, Info info) {
         this.file = infoFile;
         this.info = info;
-        if (!infoFile.canWrite())
-            this.file = null;
     }
 
     public boolean write() {

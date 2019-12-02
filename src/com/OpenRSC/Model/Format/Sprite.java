@@ -43,7 +43,7 @@ public class Sprite {
     private void setInfo(Info info) { this.info = info; }
     private void setImageData(ImageData data) { this.imageData = data; }
     public String getFileName() {
-        return String.join(this.info.getID(), "_", String.valueOf(this.info.getFrame()));
+        return String.join("_", this.info.getID(), String.valueOf(this.info.getFrame()));
     }
     public String getID() { return this.getInfo().getID(); }
 

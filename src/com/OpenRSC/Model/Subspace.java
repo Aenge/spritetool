@@ -12,9 +12,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.util.Callback;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.regex.Pattern;
 
 public class Subspace {
     private Path home;
@@ -36,6 +41,8 @@ public class Subspace {
         this.name.set(name);
     }
     public String getName() { return name.getValue(); }
+    public Path getHome() { return this.home; }
+
     public ObservableList<Entry> getEntryList() { return entryList; }
 
     public int getEntryCount() { return this.entryList.size(); }
@@ -67,38 +74,53 @@ public class Subspace {
         return null;
     }
 
-    public boolean createEntry(String name, File image, Entry.TYPE type, PlayerRenderer.LAYER layer) {
-        if (getEntryByName(name) != null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "An entry with that name already exists.");
+    public boolean createEntry(String name, Entry.TYPE type, PlayerRenderer.LAYER layer) {
+        File checkExists = new File(home.toString(), name);
+        if (checkExists.exists()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "That entry already exists.");
             alert.showAndWait();
             return false;
         }
 
-        Entry newEntry = new Entry();
-        newEntry.setID(name);
-
-        Info info = new Info();
-        info.setID(name);
-        info.setType(type);
-        info.setLayer(layer);
-        info.setFrame(1);
-        info.setFrameCount(1);
+        File copyPath = null;
 
         switch (type) {
-            case SPRITE:
-                info.setBoundWidth(48);
-                info.setBoundHeight(32);
-                break;
             case PLAYER_PART:
-            case PLAYER_EQUIPPABLE_NOCOMBAT:
-            case PLAYER_EQUIPPABLE_HASCOMBAT:
-                info.setBoundWidth(64);
-                info.setBoundHeight(102);
+                copyPath = new File("resource/animations/head1");
+                break;
+            default:
                 break;
         }
 
-        Sprite newSprite = new Sprite(image, info);
-        newEntry.addFrame(newSprite);
+        if (copyPath == null)
+            return false;
+
+        Entry newEntry = new Entry();
+
+        File[] files = copyPath.listFiles(File::isFile);
+
+        for (File file : files) {
+            if (file.getName().endsWith(".info"))
+                continue;
+
+            String[] filename = file.getName().split(Pattern.quote("."));
+            File infoFile = new File(file.getParent(), filename[0] + ".info");
+
+            Sprite newSprite = new Sprite(file, infoFile);
+            newSprite.getInfo().setID(name);
+            newEntry.addFrame(newSprite);
+        }
+
+        Collections.sort(newEntry.getFrames(), new Comparator<Sprite>() {
+            @Override
+            public int compare(Sprite o1, Sprite o2) {
+                return o1.getInfo().getFrame() - o2.getInfo().getFrame();
+            }
+        });
+
+        newEntry.setID(name);
+        newEntry.setType(type);
+        newEntry.setLayer(layer);
 
         entryList.add(newEntry);
 

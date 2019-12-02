@@ -31,6 +31,10 @@ public class WorkspaceWriter {
     }
 
     public boolean updateEntry(Subspace subspace, Entry oldEntry, Entry newEntry) {
+        File entryHome = new File(subspace.getHome().toString(), newEntry.getID());
+        if (!entryHome.exists())
+            entryHome.mkdir();
+
         for (int i = 0; i < newEntry.frameCount(); ++i) {
             if (oldEntry != null &&
                     i < oldEntry.frameCount()) {
@@ -94,21 +98,20 @@ public class WorkspaceWriter {
     }
 
     public boolean writeSprite(Subspace subspace, Sprite sprite) {
-        if (home == null)
-            return false;
-
-        File subspaceHome = new File(home.toString(), subspace.getName());
+        File subspaceHome = subspace.getHome().toFile();
         if (!subspaceHome.exists())
             return false;
 
-        File newFile = new File(subspaceHome, sprite.getFileName() + ".info");
+        File entryHome = new File(subspaceHome, sprite.getID());
+
+        File newFile = new File(entryHome, sprite.getFileName() + ".info");
 
         InfoWriter infoWriter = new InfoWriter(newFile, sprite.getInfo());
 
         if (!infoWriter.write())
             return false;
 
-        newFile = new File(subspaceHome, sprite.getFileName() + ".png");
+        newFile = new File(entryHome, sprite.getFileName() + ".png");
 
         ImageWriter imageWriter = new ImageWriter(newFile, sprite.getImageData());
 
