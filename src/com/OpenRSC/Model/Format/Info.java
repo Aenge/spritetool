@@ -2,9 +2,8 @@ package com.OpenRSC.Model.Format;
 
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Render.PlayerRenderer;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Info {
 
     private Entry.TYPE type;

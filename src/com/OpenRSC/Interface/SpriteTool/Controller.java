@@ -704,6 +704,8 @@ public class Controller implements Initializable {
         text_boundh.setText(String.valueOf(info.getBoundHeight()));
         text_boundw.setText(String.valueOf(info.getBoundWidth()));
         label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
+        choice_type.setValue(info.getType());
+        choice_layer.setValue(info.getLayer());
         triggerListeners = true;
 
         render();
@@ -790,6 +792,8 @@ public class Controller implements Initializable {
         spriteTool.getSpriteRenderer().clear();
         if (check_render.selectedProperty().getValue()) {
             //TODO: add color support
+            //TODO: make it so you don't need a workspace open to render the player
+            //TODO: make it so monsters and sprites don't try to render as player equipment
             spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[getWorkingSprite().getInfo().getLayer().getIndex()] = spriteTool.getWorkingCopy();
             spriteTool.getSpriteRenderer().renderPlayer(frame);
         }
