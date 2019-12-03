@@ -32,8 +32,6 @@ public class PlayerRenderer {
         return this.layers;
     }
 
-    ;
-
     public Subspace getShippedAnimations() {
         return this.shippedAnimations;
     }
@@ -68,6 +66,9 @@ public class PlayerRenderer {
                     entry = layers[mappedLayer];
                 }
 
+                if (frame >= entry.getFrames().size())
+                    continue;
+
                 Sprite sprite = entry.getFrame(frame);
                 if (sprite == null)
                     continue;
@@ -86,7 +87,7 @@ public class PlayerRenderer {
 //                        }
 
                     spriteRenderer.bufferSprite(sprite, xOffset, yOffset, something1,
-                            something2, grayscaleint, 0, bluescaleint, false, 0, 1, 0xFFFFFFFF);
+                            something2, grayscaleint, 15523536, bluescaleint, false, 0, 1, 0xFFFFFFFF);
                 }
             }
 

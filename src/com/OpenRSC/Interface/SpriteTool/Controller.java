@@ -6,6 +6,7 @@ import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
+import com.OpenRSC.Render.PlayerRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 import java.io.File;
@@ -93,7 +94,7 @@ public class Controller implements Initializable {
     public ProgressBar progress_bar;
 
     @FXML
-    private ChoiceBox choice_basic_head, choice_basic_body, choice_basic_legs, choice_type, choice_layer;
+    private ChoiceBox choice_basic_head, choice_basic_body, choice_basic_legs, choice_type, choice_layer, choice_head, choice_body, choice_legs, choice_main, choice_sub, choice_glove, choice_boot, choice_neck, choice_cape;
 
     private Timer playTimer = new Timer();
     private TimerTask playTask;
@@ -133,6 +134,118 @@ public class Controller implements Initializable {
             }
         });
         choice_basic_legs.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    render();
+                }
+            }
+        });
+        choice_head.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (o != null)
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    if (entry.getLayer() == PlayerRenderer.LAYER.HEAD_NO_SKIN)
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.HEAD_WITH_SKIN.getIndex()] = null;
+                    else
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.HEAD_NO_SKIN.getIndex()] = (Entry)choice_basic_head.getValue();
+                    render();
+                } else
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+            }
+        });
+        choice_body.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (o != null)
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    if (entry.getLayer() == PlayerRenderer.LAYER.BODY_NO_SKIN)
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.BODY_WITH_SKIN.getIndex()] = null;
+                    else
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.BODY_NO_SKIN.getIndex()] = (Entry)choice_basic_body.getValue();
+                } else
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+
+                render();
+            }
+        });
+        choice_legs.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    if (entry.getLayer() == PlayerRenderer.LAYER.LEGS_NO_SKIN)
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.LEGS_WITH_SKIN.getIndex()] = null;
+                    else
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.LEGS_NO_SKIN.getIndex()] = (Entry)choice_basic_legs.getValue();
+                    render();
+                } else
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+            }
+        });
+        choice_main.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    render();
+                }
+            }
+        });
+        choice_sub.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    render();
+                }
+            }
+        });
+        choice_glove.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    render();
+                }
+            }
+        });
+        choice_boot.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    render();
+                }
+            }
+        });
+        choice_neck.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if (t1 != null) {
+                    Entry entry = (Entry)t1;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
+                    render();
+                }
+            }
+        });
+        choice_cape.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 if (t1 != null) {
@@ -817,7 +930,24 @@ public class Controller implements Initializable {
     public Subspace getCurrentSubspace() { return (Subspace)list_subspaces.getSelectionModel().getSelectedItem(); }
     public void loadChoiceBoxes() {
         choice_basic_head.getItems().clear();
-
+        choice_basic_head.getItems().add(null);
+        choice_basic_body.getItems().clear();
+        choice_basic_legs.getItems().clear();
+        choice_head.getItems().clear();
+        choice_head.getItems().add(null);
+        choice_body.getItems().clear();
+        choice_body.getItems().add(null);
+        choice_legs.getItems().clear();
+        choice_legs.getItems().add(null);
+        choice_main.getItems().clear();
+        choice_main.getItems().add(null);
+        choice_sub.getItems().clear();
+        choice_sub.getItems().add(null);
+        choice_glove.getItems().clear();
+        choice_glove.getItems().add(null);
+        choice_boot.getItems().clear();
+        choice_neck.getItems().clear();
+        choice_cape.getItems().clear();
         //Load from the baked-in animations
         Subspace shippedAnimations = spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations();
         for (Entry entry : shippedAnimations.getEntryList()) {
@@ -871,8 +1001,41 @@ public class Controller implements Initializable {
                                 }
                                 break;
                             case PLAYER_EQUIPPABLE_HASCOMBAT:
-                                break;
                             case PLAYER_EQUIPPABLE_NOCOMBAT:
+                                switch (entry.getLayer()) {
+                                    case HEAD_NO_SKIN:
+                                    case HEAD_WITH_SKIN:
+                                        choice_head.getItems().add(entry);
+                                        break;
+                                    case BODY_NO_SKIN:
+                                    case BODY_WITH_SKIN:
+                                        choice_body.getItems().add(entry);
+                                        break;
+                                    case LEGS_NO_SKIN:
+                                    case LEGS_WITH_SKIN:
+                                        choice_legs.getItems().add(entry);
+                                        break;
+                                    case MAIN_HAND:
+                                        choice_main.getItems().add(entry);
+                                        break;
+                                    case OFF_HAND:
+                                        choice_sub.getItems().add(entry);
+                                        break;
+                                    case GLOVES:
+                                        choice_glove.getItems().add(entry);
+                                        break;
+                                    case BOOTS:
+                                        choice_boot.getItems().add(entry);
+                                        break;
+                                    case NECK:
+                                        choice_neck.getItems().add(entry);
+                                        break;
+                                    case CAPE:
+                                        choice_cape.getItems().add(entry);
+                                        break;
+                                    default:
+                                        break;
+                                }
                                 break;
                             default:
                                 break;
