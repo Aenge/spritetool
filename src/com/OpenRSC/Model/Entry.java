@@ -13,11 +13,11 @@ public class Entry {
     private LAYER layer;
 
     public enum TYPE {
-        SPRITE(null),
-        PLAYER_PART(new PlayerRenderer.LAYER[]{LAYER.HEAD_NO_SKIN, LAYER.BODY_NO_SKIN, LAYER.LEGS_NO_SKIN}),
+        SPRITE(new LAYER[]{}),
+        PLAYER_PART(new LAYER[]{LAYER.HEAD_NO_SKIN, LAYER.BODY_NO_SKIN, LAYER.LEGS_NO_SKIN}),
         PLAYER_EQUIPPABLE_HASCOMBAT(LAYER.values().clone()),
         PLAYER_EQUIPPABLE_NOCOMBAT(new LAYER[]{LAYER.MAIN_HAND, LAYER.OFF_HAND}),
-        NPC(null);
+        NPC(new LAYER[]{});
 
         private LAYER[] layers;
 

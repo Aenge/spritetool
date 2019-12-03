@@ -107,7 +107,7 @@ public class SpriteRenderer {
         bluescaleint |= (int)(bluescale.getGreen() * 255) << 8;
         bluescaleint |= (int)(bluescale.getBlue() * 255);
         Rectangle2D boundingBox = new Rectangle2D(xOffset - 1, yOffset - 1, sprite.getInfo().getBoundWidth() + 2, sprite.getInfo().getBoundHeight() + 2);
-        spriteTool.getSpriteRenderer().drawRect(boundingBox, Color.rgb(15,157,88));
+        spriteTool.getSpriteRenderer().drawRect(boundingBox, spriteTool.accentColor);
         spriteTool.getSpriteRenderer().bufferSprite(sprite,
                 xOffset,
                 yOffset,

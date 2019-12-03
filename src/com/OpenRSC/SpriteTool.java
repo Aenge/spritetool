@@ -55,7 +55,7 @@ public class SpriteTool extends Application {
     private Entry workingCopy;
     private int workingCopyIndex = -1;
 
-    public static final Color accentColor = Color.rgb(0,123,255);
+    public static final Color accentColor = Color.rgb(2,98,201);
 
     private void start(){
         try { spinSplash(); } catch (IOException a) { a.printStackTrace(); return; }
@@ -102,7 +102,7 @@ public class SpriteTool extends Application {
 
         Stage newStage = new Stage();
         newStage.setTitle("OpenRSC Sprite Tool");
-        Scene scene = new Scene(this.mainRoot, 750, 540);
+        Scene scene = new Scene(this.mainRoot, 752, 550);
         newStage.setScene(scene);
         newStage.setOnCloseRequest(e -> {
             getMainController().stopTimer();

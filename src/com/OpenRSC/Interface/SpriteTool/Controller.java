@@ -44,6 +44,7 @@ public class Controller implements Initializable {
     //TODO: put entries into their own folders
     //TODO: remove filename in info
     //TODO: needsave doesn't verify that selectedindex != -1 -> create new entry, open workspace, bug.
+    //TODO: fix the slot/layer connectors in create entry interface
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -78,10 +79,10 @@ public class Controller implements Initializable {
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_unpack, button_pack;
 
     @FXML
-    private ToggleButton button_play, button_male, button_female;
+    private ToggleButton button_play;
 
     @FXML
     private ColorPicker color_grayscale, color_bluescale;
@@ -164,7 +165,7 @@ public class Controller implements Initializable {
 
         //--------- Menu buttons
        // root.getStylesheets().clear();
-        button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(SpriteTool.accentColor).size(20));
+        button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor).size(20));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
         });
@@ -192,9 +193,10 @@ public class Controller implements Initializable {
 
             checkSave();
         });
-
+        button_pack.setGraphic(new FontAwesome().create(FontAwesome.Glyph.ARCHIVE).color(SpriteTool.accentColor).size(20));
+        button_unpack.setGraphic(new FontAwesome().create(FontAwesome.Glyph.DROPBOX).color(SpriteTool.accentColor).size(20));
         //--------- Other Buttons
-        button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT));
+        button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(SpriteTool.accentColor));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_female.setOnMouseClicked(e -> {
             choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
@@ -206,7 +208,7 @@ public class Controller implements Initializable {
             choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
             choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
-        button_addframe.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
+        button_addframe.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor));
         button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY));
         button_play.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -216,32 +218,16 @@ public class Controller implements Initializable {
                 if (t1) {
                     button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.STOP));
                     button_play.getStyleClass().add("red-icon");
-                    button_play.setText("stop");
                     playAnimation();
                 } else {
                     button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY));
                     button_play.getStyleClass().remove("red-icon");
-                    button_play.setText("play");
                     stopAnimation();
                 }
             }
         });
         button_male.setGraphic(new FontAwesome().create(FontAwesome.Glyph.MALE));
-        button_male.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                if (t1)
-                    button_female.setSelected(false);
-            }
-        });
         button_female.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FEMALE));
-        button_female.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                if (t1)
-                    button_male.setSelected(false);
-            }
-        });
 
         //--------- subspace list
         list_subspaces.setOnContextMenuRequested(event -> {
@@ -583,14 +569,6 @@ public class Controller implements Initializable {
             stage.show();
         });
         buttons.add(btn_newCategory);
-
-        if (list_entries.getSelectionModel().getSelectedItem() != null) {
-            JFXButton btn_cloneCategory = new JFXButton("Clone " + list_entries.getSelectionModel().getSelectedItem());
-            btn_cloneCategory.setOnMouseClicked(e -> {
-                popup.hide();
-            });
-            buttons.add(btn_cloneCategory);
-        }
 
         for (JFXButton button : buttons) {
             button.setMaxWidth(Double.MAX_VALUE);
