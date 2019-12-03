@@ -8,7 +8,7 @@
    <children>
       <ImageView fitHeight="395.0" fitWidth="667.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@splash.png" />
+            <Image url="file:resource/splash.png" />
          </image>
       </ImageView>
    </children>

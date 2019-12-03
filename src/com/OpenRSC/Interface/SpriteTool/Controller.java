@@ -1,4 +1,5 @@
 package com.OpenRSC.Interface.SpriteTool;
+import com.OpenRSC.IO.Archive.Packer;
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Info;
@@ -30,6 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
@@ -194,7 +196,32 @@ public class Controller implements Initializable {
             checkSave();
         });
         button_pack.setGraphic(new FontAwesome().create(FontAwesome.Glyph.ARCHIVE).color(SpriteTool.accentColor).size(20));
+        button_pack.setOnMouseClicked(e -> {
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("ORSC Archive", ".orsc");
+            fileChooser.getExtensionFilters().add(filter);
+
+            File archiveFile = fileChooser.showSaveDialog(root.getScene().getWindow());
+
+            if (archiveFile == null)
+                return;
+
+            if (archiveFile.exists()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, archiveFile.toString() + " already exists. Overwrite?");
+                alert.showAndWait();
+                if (alert.getResult() != ButtonType.OK)
+                    return;
+
+                archiveFile.delete();
+            }
+
+            Packer packer = new Packer();
+            //packer.pack(archiveFile, spriteTool.getWorkspace());
+        });
         button_unpack.setGraphic(new FontAwesome().create(FontAwesome.Glyph.DROPBOX).color(SpriteTool.accentColor).size(20));
+        button_unpack.setOnMouseClicked(e -> {
+
+        });
         //--------- Other Buttons
         button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(SpriteTool.accentColor));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -662,6 +689,11 @@ public class Controller implements Initializable {
         scroll_canvas.setMax(entry.frameCount());
         scroll_canvas.setDisable(false);
         scroll_zoom.setValue(0);
+        if (entry.getLayer() == null) {
+            check_render.setSelected(false);
+            check_render.setDisable(true);
+        } else
+            check_render.setDisable(false);
         showEntry(entry, 0);
     }
 
@@ -769,11 +801,14 @@ public class Controller implements Initializable {
         spriteTool.getSpriteRenderer().wipeBuffer();
         spriteTool.getSpriteRenderer().clear();
         if (check_render.selectedProperty().getValue()) {
-            //TODO: add color support
-            //TODO: make it so you don't need a workspace open to render the player
-            //TODO: make it so monsters and sprites don't try to render as player equipment
-            spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[getWorkingSprite().getInfo().getLayer().getIndex()] = spriteTool.getWorkingCopy();
-            spriteTool.getSpriteRenderer().renderPlayer(frame);
+            Entry override = null;
+
+            if (spriteTool.getWorkingCopy() != null) {
+                if (spriteTool.getWorkingCopy().getLayer() != null)
+                    override = spriteTool.getWorkingCopy();
+            }
+
+            spriteTool.getSpriteRenderer().renderPlayer(frame, override, color_grayscale.getValue(), color_bluescale.getValue());
         }
         else
             spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), color_bluescale.getValue());

@@ -1,5 +1,6 @@
 package com.OpenRSC.Render;
 
+import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Sprite;
 import com.OpenRSC.SpriteTool;
 import javafx.geometry.Rectangle2D;
@@ -32,7 +33,7 @@ public class SpriteRenderer {
         this.clipLeft = 0;
         this.clipRight = this.width2;
         this.pixelData = new int[this.height2 * this.width2];
-        this.playerRenderer = new PlayerRenderer();
+        this.playerRenderer = new PlayerRenderer(this);
     }
 
     public void reset() {
@@ -86,10 +87,10 @@ public class SpriteRenderer {
         }
     }
 
-    public void renderPlayer(int frame) {
+    public void renderPlayer(int frame, Entry override, Color grayscale, Color bluescale) {
         clear();
         wipeBuffer();
-        playerRenderer.bufferPlayer(this,frame);
+        playerRenderer.bufferPlayer(frame, override, grayscale, bluescale);
         render();
     }
 
