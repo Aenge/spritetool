@@ -49,6 +49,7 @@ public class Controller implements Initializable {
     //TODO: remove filename in info
     //TODO: needsave doesn't verify that selectedindex != -1 -> create new entry, open workspace, bug.
     //TODO: fix the slot/layer connectors in create entry interface
+    //TODO: file chooser default path set it to something good
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -384,8 +385,8 @@ public class Controller implements Initializable {
                 }
             }
         });
-        button_male.setGraphic(new FontAwesome().create(FontAwesome.Glyph.MALE));
-        button_female.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FEMALE));
+        button_male.setGraphic(new FontAwesome().create(FontAwesome.Glyph.MALE).color(spriteTool.accentColor));
+        button_female.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FEMALE).color(spriteTool.accentColor));
 
         //--------- subspace list
         list_subspaces.setOnContextMenuRequested(event -> {
