@@ -40,6 +40,7 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 public class Controller implements Initializable {
     //TODO: remove add picture to create entry, make it add a template depending on the type.
+    //TODO: fixup render player. need a layer handler / add null & null handlers to all
     //TODO: unsaved changes -> search for another one -> select it -> press cancel -> error message. need select proper thing
     //TODO: switching use offset should adjust the bounding boxes (pfp example)
     //TODO: loading a new workspace should clear the current entries
@@ -96,11 +97,15 @@ public class Controller implements Initializable {
     @FXML
     private ChoiceBox choice_basic_head, choice_basic_body, choice_basic_legs, choice_type, choice_layer, choice_head, choice_body, choice_legs, choice_main, choice_sub, choice_glove, choice_boot, choice_neck, choice_cape;
 
+    @FXML
+    private JFXSlider slider_period;
+
     private Timer playTimer = new Timer();
     private TimerTask playTask;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        choice_type.getItems().add(null);
         for (Entry.TYPE type : Entry.TYPE.values()) {
             choice_type.getItems().add(type);
         }
@@ -109,7 +114,9 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 choice_layer.getItems().clear();
-                choice_layer.getItems().addAll(((Entry.TYPE)t1).getLayers());
+
+                if (t1 != null)
+                    choice_layer.getItems().addAll(((Entry.TYPE)t1).getLayers());
             }
         });
 
@@ -350,19 +357,27 @@ public class Controller implements Initializable {
         });
         button_addframe.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor));
         button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
-        button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY));
+        button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY).color(Color.GREEN));
         button_play.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_play.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if (t1) {
-                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.STOP));
-                    button_play.getStyleClass().add("red-icon");
+                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.STOP).color(Color.RED));
                     playAnimation();
                 } else {
-                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY));
-                    button_play.getStyleClass().remove("red-icon");
+                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY).color(Color.GREEN));
                     stopAnimation();
+                }
+            }
+        });
+
+        slider_period.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if (button_play.isSelected()) {
+                    stopAnimation();
+                    playAnimation();
                 }
             }
         });
@@ -415,8 +430,7 @@ public class Controller implements Initializable {
         list_entries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Entry>() {
             @Override
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
-                if (newEntry == null ||
-                        !triggerListeners)
+                if (!triggerListeners)
                     return;
 
                 if (needSave()) {
@@ -430,7 +444,10 @@ public class Controller implements Initializable {
                     }
                 }
                 spriteTool.getSpriteRenderer().reset();
-                spriteTool.setWorkingCopy((Subspace)list_subspaces.getSelectionModel().getSelectedItem(),newEntry.clone());
+                if (newEntry == null) {
+                    spriteTool.clearWorkingCopy();
+                } else
+                    spriteTool.setWorkingCopy((Subspace)list_subspaces.getSelectionModel().getSelectedItem(),newEntry.clone());
                 checkSave();
                 showEntry(spriteTool.getWorkingCopy());
             }
@@ -799,38 +816,56 @@ public class Controller implements Initializable {
     private void showEntry(Entry entry) {
         triggerListeners = false;
         scroll_canvas.setValue(1);
-        scroll_canvas.setMax(entry.frameCount());
         scroll_canvas.setDisable(false);
         scroll_zoom.setValue(0);
-        if (entry.getLayer() == null) {
-            check_render.setSelected(false);
-            check_render.setDisable(true);
-        } else
+        if (entry == null) {
             check_render.setDisable(false);
+            scroll_canvas.setMax(1);
+        } else {
+            scroll_canvas.setMax(entry.frameCount());
+            if (entry.getLayer() == null) {
+                check_render.setSelected(false);
+                check_render.setDisable(true);
+            }
+        }
+
         showEntry(entry, 0);
     }
 
     private void showEntry(Entry newEntry, int frame) {
         spriteTool.getSpriteRenderer().clear();
         spriteTool.getSpriteRenderer().wipeBuffer();
-        Sprite sprite = newEntry.getFrame(frame);
-
-        if (sprite == null)
-            return;
-
         triggerListeners = false;
-        Info info = sprite.getInfo();
-        text_name.setText(newEntry.getID());
-        check_shift.setSelected(info.getUseShift());
-        text_hshift.setText(String.valueOf(info.getOffsetX()));
-        text_vshift.setText(String.valueOf(info.getOffsetX()));
-        text_boundh.setText(String.valueOf(info.getBoundHeight()));
-        text_boundw.setText(String.valueOf(info.getBoundWidth()));
-        label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
-        choice_type.setValue(info.getType());
-        choice_layer.setValue(info.getLayer());
-        triggerListeners = true;
+        if (newEntry != null) {
+            Sprite sprite = newEntry.getFrame(frame);
 
+            if (sprite == null)
+                return;
+
+            Info info = sprite.getInfo();
+            text_name.setText(newEntry.getID());
+            check_shift.setSelected(info.getUseShift());
+            text_hshift.setText(String.valueOf(info.getOffsetX()));
+            text_vshift.setText(String.valueOf(info.getOffsetX()));
+            text_boundh.setText(String.valueOf(info.getBoundHeight()));
+            text_boundw.setText(String.valueOf(info.getBoundWidth()));
+            label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
+            choice_type.setValue(info.getType());
+            choice_layer.setValue(info.getLayer());
+
+        } else {
+            text_name.clear();
+            check_shift.setSelected(false);
+            text_hshift.clear();
+            text_vshift.clear();
+            text_boundh.clear();
+            text_boundw.clear();
+            label_frame.setText("");
+            choice_type.setValue(null);
+            choice_layer.getItems().clear();
+        }
+
+        triggerListeners = true;
         render();
     }
 
@@ -844,7 +879,7 @@ public class Controller implements Initializable {
                     Platform.runLater(()->scroll_canvas.setValue(curFrame + 1));
             }
         };
-        playTimer.schedule(playTask, 1000, 1000);
+        playTimer.schedule(playTask, 200, (int)slider_period.getValue());
     }
 
     private void stopAnimation() {
@@ -929,120 +964,123 @@ public class Controller implements Initializable {
 
     public Subspace getCurrentSubspace() { return (Subspace)list_subspaces.getSelectionModel().getSelectedItem(); }
     public void loadChoiceBoxes() {
-        choice_basic_head.getItems().clear();
-        choice_basic_head.getItems().add(null);
-        choice_basic_body.getItems().clear();
-        choice_basic_legs.getItems().clear();
-        choice_head.getItems().clear();
-        choice_head.getItems().add(null);
-        choice_body.getItems().clear();
-        choice_body.getItems().add(null);
-        choice_legs.getItems().clear();
-        choice_legs.getItems().add(null);
-        choice_main.getItems().clear();
-        choice_main.getItems().add(null);
-        choice_sub.getItems().clear();
-        choice_sub.getItems().add(null);
-        choice_glove.getItems().clear();
-        choice_glove.getItems().add(null);
-        choice_boot.getItems().clear();
-        choice_neck.getItems().clear();
-        choice_cape.getItems().clear();
-        //Load from the baked-in animations
-        Subspace shippedAnimations = spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations();
-        for (Entry entry : shippedAnimations.getEntryList()) {
-            switch (entry.getType()) {
-                case PLAYER_PART:
-                    switch (entry.getLayer()) {
-                        case HEAD_NO_SKIN:
-                            choice_basic_head.getItems().add(entry);
-                            break;
-                        case BODY_NO_SKIN:
-                            choice_basic_body.getItems().add(entry);
-                            break;
-                        case LEGS_NO_SKIN:
-                            choice_basic_legs.getItems().add(entry);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case PLAYER_EQUIPPABLE_HASCOMBAT:
-                    break;
-                case PLAYER_EQUIPPABLE_NOCOMBAT:
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //Load from the current workspace
-        if (spriteTool.getWorkspace() != null) {
-            for (Subspace subspace : spriteTool.getWorkspace().getSubspaces()) {
-                if (subspace != null) {
-                    for (Entry entry : subspace.getEntryList()) {
-                        switch (entry.getType()) {
-                            case PLAYER_PART:
-                                switch (entry.getLayer()) {
-                                    case HEAD_NO_SKIN:
-                                        if (!choice_basic_head.getItems().contains(entry))
-                                            choice_basic_head.getItems().add(entry);
-                                        break;
-                                    case BODY_NO_SKIN:
-                                        if (!choice_basic_body.getItems().contains(entry))
-                                            choice_basic_body.getItems().add(entry);
-                                        break;
-                                    case LEGS_NO_SKIN:
-                                        if (!choice_basic_legs.getItems().contains(entry))
-                                            choice_basic_legs.getItems().add(entry);
-                                        break;
-                                    default:
-                                        break;
-                                }
+        Platform.runLater(() -> {
+            choice_basic_head.getItems().clear();
+            choice_basic_head.getItems().add(null);
+            choice_basic_body.getItems().clear();
+            choice_basic_legs.getItems().clear();
+            choice_head.getItems().clear();
+            choice_head.getItems().add(null);
+            choice_body.getItems().clear();
+            choice_body.getItems().add(null);
+            choice_legs.getItems().clear();
+            choice_legs.getItems().add(null);
+            choice_main.getItems().clear();
+            choice_main.getItems().add(null);
+            choice_sub.getItems().clear();
+            choice_sub.getItems().add(null);
+            choice_glove.getItems().clear();
+            choice_glove.getItems().add(null);
+            choice_boot.getItems().clear();
+            choice_neck.getItems().clear();
+            choice_cape.getItems().clear();
+            //Load from the baked-in animations
+            Subspace shippedAnimations = spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations();
+            for (Entry entry : shippedAnimations.getEntryList()) {
+                switch (entry.getType()) {
+                    case PLAYER_PART:
+                        switch (entry.getLayer()) {
+                            case HEAD_NO_SKIN:
+                                choice_basic_head.getItems().add(entry);
                                 break;
-                            case PLAYER_EQUIPPABLE_HASCOMBAT:
-                            case PLAYER_EQUIPPABLE_NOCOMBAT:
-                                switch (entry.getLayer()) {
-                                    case HEAD_NO_SKIN:
-                                    case HEAD_WITH_SKIN:
-                                        choice_head.getItems().add(entry);
-                                        break;
-                                    case BODY_NO_SKIN:
-                                    case BODY_WITH_SKIN:
-                                        choice_body.getItems().add(entry);
-                                        break;
-                                    case LEGS_NO_SKIN:
-                                    case LEGS_WITH_SKIN:
-                                        choice_legs.getItems().add(entry);
-                                        break;
-                                    case MAIN_HAND:
-                                        choice_main.getItems().add(entry);
-                                        break;
-                                    case OFF_HAND:
-                                        choice_sub.getItems().add(entry);
-                                        break;
-                                    case GLOVES:
-                                        choice_glove.getItems().add(entry);
-                                        break;
-                                    case BOOTS:
-                                        choice_boot.getItems().add(entry);
-                                        break;
-                                    case NECK:
-                                        choice_neck.getItems().add(entry);
-                                        break;
-                                    case CAPE:
-                                        choice_cape.getItems().add(entry);
-                                        break;
-                                    default:
-                                        break;
-                                }
+                            case BODY_NO_SKIN:
+                                choice_basic_body.getItems().add(entry);
+                                break;
+                            case LEGS_NO_SKIN:
+                                choice_basic_legs.getItems().add(entry);
                                 break;
                             default:
                                 break;
                         }
+                        break;
+                    case PLAYER_EQUIPPABLE_HASCOMBAT:
+                        break;
+                    case PLAYER_EQUIPPABLE_NOCOMBAT:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            //Load from the current workspace
+            if (spriteTool.getWorkspace() != null) {
+                for (Subspace subspace : spriteTool.getWorkspace().getSubspaces()) {
+                    if (subspace != null) {
+                        for (Entry entry : subspace.getEntryList()) {
+                            switch (entry.getType()) {
+                                case PLAYER_PART:
+                                    switch (entry.getLayer()) {
+                                        case HEAD_NO_SKIN:
+                                            if (!choice_basic_head.getItems().contains(entry))
+                                                choice_basic_head.getItems().add(entry);
+                                            break;
+                                        case BODY_NO_SKIN:
+                                            if (!choice_basic_body.getItems().contains(entry))
+                                                choice_basic_body.getItems().add(entry);
+                                            break;
+                                        case LEGS_NO_SKIN:
+                                            if (!choice_basic_legs.getItems().contains(entry))
+                                                choice_basic_legs.getItems().add(entry);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case PLAYER_EQUIPPABLE_HASCOMBAT:
+                                case PLAYER_EQUIPPABLE_NOCOMBAT:
+                                    switch (entry.getLayer()) {
+                                        case HEAD_NO_SKIN:
+                                        case HEAD_WITH_SKIN:
+                                            choice_head.getItems().add(entry);
+                                            break;
+                                        case BODY_NO_SKIN:
+                                        case BODY_WITH_SKIN:
+                                            choice_body.getItems().add(entry);
+                                            break;
+                                        case LEGS_NO_SKIN:
+                                        case LEGS_WITH_SKIN:
+                                            choice_legs.getItems().add(entry);
+                                            break;
+                                        case MAIN_HAND:
+                                            choice_main.getItems().add(entry);
+                                            break;
+                                        case OFF_HAND:
+                                            choice_sub.getItems().add(entry);
+                                            break;
+                                        case GLOVES:
+                                            choice_glove.getItems().add(entry);
+                                            break;
+                                        case BOOTS:
+                                            choice_boot.getItems().add(entry);
+                                            break;
+                                        case NECK:
+                                            choice_neck.getItems().add(entry);
+                                            break;
+                                        case CAPE:
+                                            choice_cape.getItems().add(entry);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                     }
                 }
             }
-        }
+        });
+
     }
 }

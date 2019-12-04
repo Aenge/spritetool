@@ -3,13 +3,13 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSlider?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.ImageView?>
@@ -60,7 +60,7 @@
                         <ImageView fx:id="canvas" fitHeight="300.0" fitWidth="300.0" layoutX="243.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" />
                         <Line endX="198.0" endY="-1.0" layoutX="346.0" layoutY="301.0" startX="-102.5" startY="-0.5" AnchorPane.topAnchor="299.2928931713104" />
                         <Line endX="0.70709228515625" endY="248.29290771484375" layoutX="544.0" layoutY="104.0" startY="-51.00000762939453" AnchorPane.topAnchor="0.0" />
-                        <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="244.0" layoutY="301.0" min="1.0" prefHeight="14.0" prefWidth="300.0" />
+                        <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="244.0" layoutY="301.0" max="1.0" min="1.0" prefHeight="14.0" prefWidth="300.0" value="1.0" />
                         <ScrollBar fx:id="scroll_zoom" layoutX="545.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="0.0" />
                         <AnchorPane fx:id="pane_animation" layoutX="242.0" layoutY="315.0" maxHeight="112.0" prefHeight="112.0" prefWidth="418.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0">
                            <children>
@@ -72,14 +72,14 @@
                               <Label layoutX="175.0" layoutY="59.0" prefHeight="18.0" prefWidth="39.0" text="Frame" AnchorPane.leftAnchor="175.0" />
                               <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="225.0" layoutY="76.0" prefHeight="28.0" prefWidth="30.0" styleClass="glass-grey" />
                               <Label fx:id="label_frame" layoutX="220.0" layoutY="60.0" prefHeight="18.0" prefWidth="49.0" />
-                              <Slider layoutX="148.0" layoutY="44.0" prefHeight="14.0" prefWidth="130.0" />
                               <Label layoutX="8.0" layoutY="7.0" text="Animation Type" />
                               <Label layoutX="7.0" layoutY="60.0" text="Slot" AnchorPane.leftAnchor="7.0" />
                               <ChoiceBox fx:id="choice_type" layoutX="5.0" layoutY="29.0" prefHeight="26.0" prefWidth="130.0" />
                               <ChoiceBox fx:id="choice_layer" layoutX="5.0" layoutY="77.0" prefHeight="26.0" prefWidth="130.0" />
                               <Line endX="-11.60003662109375" endY="47.599998474121094" layoutX="156.0" layoutY="55.0" startX="-11.60003662109375" startY="-61.0" AnchorPane.bottomAnchor="0.0" />
                               <Line endX="5.0" endY="45.0" layoutX="283.0" layoutY="63.0" startX="5.0" startY="-63.0" AnchorPane.bottomAnchor="0.0" />
-                              <ToggleButton fx:id="button_play" layoutX="203.0" layoutY="12.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="30.0" text="ToggleButton" />
+                              <ToggleButton fx:id="button_play" layoutX="203.0" layoutY="12.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="30.0" />
+                              <JFXSlider fx:id="slider_period" layoutX="145.0" layoutY="46.0" max="1000.0" min="100.0" value="550.0" />
                            </children>
                         </AnchorPane>
                         <CustomTextField fx:id="text_search" layoutX="6.0" layoutY="2.0" prefHeight="14.0" prefWidth="130.0" AnchorPane.leftAnchor="5.0" />

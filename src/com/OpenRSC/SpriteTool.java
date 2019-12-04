@@ -160,6 +160,7 @@ public class SpriteTool extends Application {
             @Override
             protected Void call() throws Exception {
                 openWorkspace(selectedDirectory.toPath(), countProgress);
+                clearWorkingCopy();
                 getMainController().loadChoiceBoxes();
                 return null;
             }
