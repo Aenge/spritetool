@@ -26,7 +26,7 @@ public class Controller implements Initializable {
         @Override
         public void run() {
             try {
-                Thread.sleep(3);
+                Thread.sleep(2000);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

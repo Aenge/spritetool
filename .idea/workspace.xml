@@ -330,30 +330,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="379" column="36" selection-start-line="379" selection-start-column="36" selection-end-line="379" selection-end-column="36" />
+            <state relative-caret-position="244">
+              <caret line="109" selection-start-line="109" selection-end-line="109" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#21223#21224#0" expanded="true" />
                 <element signature="e#21263#21264#0" expanded="true" />
                 <element signature="e#21600#21601#0" expanded="true" />
                 <element signature="e#21640#21641#0" expanded="true" />
-                <element signature="e#37998#37999#0" expanded="true" />
-                <element signature="e#38387#38388#0" expanded="true" />
+                <element signature="e#38130#38131#0" expanded="true" />
+                <element signature="e#38519#38520#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml">
+        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Splash.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="62" column="156" selection-start-line="62" selection-start-column="156" selection-end-line="62" selection-end-column="156" />
+            <state relative-caret-position="170">
+              <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Controller.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="28" column="30" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resource/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -441,7 +462,6 @@
       <find>choice_basic_head</find>
       <find>list_ent</find>
       <find>list_entries.</find>
-      <find>scroll</find>
       <find>list_entries</find>
       <find>workingCopy =</find>
       <find>workingCopy = null</find>
@@ -451,6 +471,7 @@
       <find>playani</find>
       <find>.PLAY</find>
       <find>button_play</find>
+      <find>scroll</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Scott\Documents\OpenRSC Sprite Tool\src</dir>
@@ -510,14 +531,14 @@
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Sprite.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateEntry/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java" />
-        <option value="$PROJECT_DIR$/resource/style.css" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Splash.fxml" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java" />
+        <option value="$PROJECT_DIR$/resource/style.css" />
       </list>
     </option>
   </component>
@@ -788,7 +809,7 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.1818792" />
@@ -891,7 +912,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java</url>
-          <line>432</line>
+          <line>435</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
@@ -1112,31 +1133,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Splash.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="28" column="30" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resource/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1224">
@@ -1176,14 +1172,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="62" column="156" selection-start-line="62" selection-start-column="156" selection-end-line="62" selection-end-column="156" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -1194,19 +1182,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Splash.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="379" column="36" selection-start-line="379" selection-start-column="36" selection-end-line="379" selection-end-column="36" />
+        <state relative-caret-position="244">
+          <caret line="109" selection-start-line="109" selection-end-line="109" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#21223#21224#0" expanded="true" />
             <element signature="e#21263#21264#0" expanded="true" />
             <element signature="e#21600#21601#0" expanded="true" />
             <element signature="e#21640#21641#0" expanded="true" />
-            <element signature="e#37998#37999#0" expanded="true" />
-            <element signature="e#38387#38388#0" expanded="true" />
+            <element signature="e#38130#38131#0" expanded="true" />
+            <element signature="e#38519#38520#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/SpriteTool.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="62" column="156" selection-start-line="62" selection-start-column="156" selection-end-line="62" selection-end-column="156" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/Splash/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="28" column="30" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
         </state>
       </provider>
     </entry>

@@ -105,6 +105,9 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        check_render.setCheckedColor(spriteTool.accentColor);
+        check_shift.setCheckedColor(spriteTool.accentColor);
+
         choice_type.getItems().add(null);
         for (Entry.TYPE type : Entry.TYPE.values()) {
             choice_type.getItems().add(type);
