@@ -1,19 +1,15 @@
 package com.OpenRSC.IO.Workspace;
 
-import com.OpenRSC.IO.Info.InfoReader;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Info;
-import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class WorkspaceReader {
@@ -65,15 +61,15 @@ public class WorkspaceReader {
                 String[] filename = file.getName().split(Pattern.quote("."));
                 File infoFile = new File(file.getParent(), filename[0] + ".info");
 
-                Sprite newSprite = new Sprite(file, infoFile);
+                Frame newSprite = new Frame(file, infoFile);
                 newEntry.addFrame(newSprite);
                 if (this.progressCounter != null)
                     this.progressCounter.set(this.progressCounter.get() + 2);
             }
 
-            Collections.sort(newEntry.getFrames(), new Comparator<Sprite>() {
+            Collections.sort(newEntry.getFrames(), new Comparator<Frame>() {
                 @Override
-                public int compare(Sprite o1, Sprite o2) {
+                public int compare(Frame o1, Frame o2) {
                     return o1.getInfo().getFrame() - o2.getInfo().getFrame();
                 }
             });

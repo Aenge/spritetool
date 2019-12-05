@@ -5,31 +5,31 @@ import com.OpenRSC.IO.Info.InfoReader;
 
 import java.io.File;
 
-public class Sprite {
+public class Frame {
 
-    private Info info;
-    private ImageData imageData;
+    public Info info;
+    public ImageData imageData;
 
-    public Sprite(File imageFile, File infoFile) {
+    public Frame(File imageFile, File infoFile) {
         this.loadInfo(infoFile);
         this.loadImageData(imageFile);
     }
 
-    public Sprite(File imageFile, Info info) {
+    public Frame(File imageFile, Info info) {
         this.info = info;
         this.loadImageData(imageFile);
     }
-    Sprite() {}
+    public Frame() {}
 
     @Override
     public boolean equals(Object o) {
         if (o == null)
             return false;
 
-        if (!Sprite.class.isAssignableFrom(o.getClass()))
+        if (!Frame.class.isAssignableFrom(o.getClass()))
             return false;
 
-        Sprite sprite = (Sprite)o;
+        Frame sprite = (Frame)o;
 
         if (!this.getInfo().equals(sprite.getInfo()))
             return false;
@@ -60,8 +60,8 @@ public class Sprite {
     public Info getInfo() { return this.info; }
     public ImageData getImageData() { return this.imageData; }
 
-    public Sprite clone() {
-        Sprite sprite = new Sprite();
+    public Frame clone() {
+        Frame sprite = new Frame();
         sprite.setInfo(this.getInfo().clone());
         sprite.setImageData(this.getImageData().clone());
         return sprite;

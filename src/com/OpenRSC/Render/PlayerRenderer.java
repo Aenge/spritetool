@@ -2,7 +2,7 @@ package com.OpenRSC.Render;
 
 import com.OpenRSC.IO.Workspace.WorkspaceReader;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Model.Subspace;
 import javafx.scene.paint.Color;
 
@@ -69,7 +69,7 @@ public class PlayerRenderer {
                 if (frame >= entry.getFrames().size())
                     continue;
 
-                Sprite sprite = entry.getFrame(frame);
+                Frame sprite = entry.getFrame(frame);
                 if (sprite == null)
                     continue;
                 int xOffset = (spriteRenderer.getWidth2() - sprite.getInfo().getBoundWidth()) / 2;
@@ -115,13 +115,8 @@ public class PlayerRenderer {
             return this.ordinal();
         }
 
-        public LAYER get(int index) {
-            for (LAYER layer : LAYER.values()) {
-                if (layer.getIndex() == index)
-                    return layer;
-            }
-
-            return null;
+        public static LAYER get(int index) {
+            return LAYER.values()[index];
         }
     }
 

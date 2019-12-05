@@ -24,11 +24,9 @@ public class ImageReader {
         WritablePixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbPreInstance();
         pixelReader.getPixels(0, 0, (int)image.getWidth(), (int)image.getHeight(), pixelFormat, imageData.getPixels(), 0, (int)image.getWidth());
 
-        for (int i = 0; i < imageData.getPixels().length; ++i) {
-            if ((imageData.getPixels()[i] & 0xFFFFFF)  == 0) {
-                imageData.getPixels()[i] = 0;
-            }
-        }
+        for (int i = 0; i < imageData.getPixels().length; ++i)
+            imageData.getPixels()[i] &= 0xFFFFFF;
+
 
         return imageData;
     }

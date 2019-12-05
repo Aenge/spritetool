@@ -1,9 +1,10 @@
 package com.OpenRSC.Interface.SpriteTool;
 import com.OpenRSC.IO.Archive.Packer;
+import com.OpenRSC.IO.Archive.Unpacker;
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Info;
-import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.PlayerRenderer;
@@ -339,7 +340,7 @@ public class Controller implements Initializable {
                 archiveFile.delete();
             }
 
-            Packer packer = new Packer();
+            //Packer packer = new Packer();
             //packer.pack(archiveFile, spriteTool.getWorkspace());
         });
         button_unpack.setGraphic(new FontAwesome().create(FontAwesome.Glyph.DROPBOX).color(SpriteTool.accentColor).size(20));
@@ -355,9 +356,16 @@ public class Controller implements Initializable {
             choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_male.setOnMouseClicked(e -> {
-            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
-            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
-            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
+            Entry hi = spriteTool.getWorkingCopy();
+            Packer test = new Packer(hi);
+            test.pack(new File("C:/temp/test/" + hi.getID()));
+            Unpacker test2 = new Unpacker();
+            Entry hey = test2.unpack(new File("C:/temp/test/" + hi.getID()));
+            if (hi.equals(hey))
+                System.out.println("butternut SQUASH!!!");
+            //choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
+            //choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
+            //choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_addframe.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor));
         button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -585,7 +593,7 @@ public class Controller implements Initializable {
                 if (t1 == null || t1.isEmpty())
                     return;
 
-                for (Sprite frame : spriteTool.getWorkingCopy().getFrames()) {
+                for (Frame frame : spriteTool.getWorkingCopy().getFrames()) {
                     frame.getInfo().setID(t1);
                 }
 
@@ -841,7 +849,7 @@ public class Controller implements Initializable {
         spriteTool.getSpriteRenderer().wipeBuffer();
         triggerListeners = false;
         if (newEntry != null) {
-            Sprite sprite = newEntry.getFrame(frame);
+            Frame sprite = newEntry.getFrame(frame);
 
             if (sprite == null)
                 return;
@@ -940,7 +948,7 @@ public class Controller implements Initializable {
         playTimer.cancel();
     }
 
-    private Sprite getWorkingSprite() {
+    private Frame getWorkingSprite() {
         int index = (int)scroll_canvas.getValue()-1;
         if (spriteTool.getWorkingCopy() == null)
             return null;

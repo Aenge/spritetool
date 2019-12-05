@@ -11,11 +11,11 @@ public class Info {
     private String id;
     private int frameCount;
     private int frame;
-    private boolean useShift;
-    private int offsetX;
-    private int offsetY;
-    private int boundwidth;
-    private int boundheight;
+    public boolean useShift;
+    public int offsetX;
+    public int offsetY;
+    public int boundwidth;
+    public int boundheight;
 
     public Info() {
         useShift = false;

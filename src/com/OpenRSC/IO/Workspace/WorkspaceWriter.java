@@ -3,7 +3,7 @@ package com.OpenRSC.IO.Workspace;
 import com.OpenRSC.IO.Image.ImageWriter;
 import com.OpenRSC.IO.Info.InfoWriter;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Model.Subspace;
 import java.io.File;
 import java.nio.file.Path;
@@ -51,7 +51,7 @@ public class WorkspaceWriter {
     }
 
     //Returns if operation successful
-    public boolean updateSprite(Subspace subspace, Sprite oldSprite, Sprite newSprite) {
+    public boolean updateSprite(Subspace subspace, Frame oldSprite, Frame newSprite) {
         if (subspace == null ||
             oldSprite == null ||
             newSprite == null)
@@ -97,7 +97,7 @@ public class WorkspaceWriter {
         return true;
     }
 
-    public boolean writeSprite(Subspace subspace, Sprite sprite) {
+    public boolean writeSprite(Subspace subspace, Frame sprite) {
         File subspaceHome = subspace.getHome().toFile();
         if (!subspaceHome.exists())
             return false;

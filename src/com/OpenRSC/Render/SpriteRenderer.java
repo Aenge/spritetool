@@ -1,7 +1,7 @@
 package com.OpenRSC.Render;
 
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.SpriteTool;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
@@ -94,7 +94,7 @@ public class SpriteRenderer {
         render();
     }
 
-    public void renderSprite(Sprite sprite, Color grayscale, Color bluescale) {
+    public void renderSprite(Frame sprite, Color grayscale, Color bluescale) {
         if (sprite == null)
             return;
         int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getInfo().getBoundWidth())/2;
@@ -120,8 +120,8 @@ public class SpriteRenderer {
 
     public void setSpriteTool(SpriteTool spriteTool) { this.spriteTool = spriteTool; }
 
-    public void bufferSprite(Sprite e, int x, int y, int width, int height, int colorMask, int colorMask2, int blueMask,
-                                   boolean mirrorX, int topPixelSkew, int dummy, int colourTransform) {
+    public void bufferSprite(Frame e, int x, int y, int width, int height, int colorMask, int colorMask2, int blueMask,
+                             boolean mirrorX, int topPixelSkew, int dummy, int colourTransform) {
         try {
             try {
 

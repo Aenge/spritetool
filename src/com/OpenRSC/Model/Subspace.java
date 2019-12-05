@@ -1,8 +1,7 @@
 package com.OpenRSC.Model;
 
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
-import com.OpenRSC.Model.Format.Info;
-import com.OpenRSC.Model.Format.Sprite;
+import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Render.PlayerRenderer;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,12 +9,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import javafx.util.Callback;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Comparator;
@@ -106,14 +102,14 @@ public class Subspace {
             String[] filename = file.getName().split(Pattern.quote("."));
             File infoFile = new File(file.getParent(), filename[0] + ".info");
 
-            Sprite newSprite = new Sprite(file, infoFile);
+            Frame newSprite = new Frame(file, infoFile);
             newSprite.getInfo().setID(name);
             newEntry.addFrame(newSprite);
         }
 
-        Collections.sort(newEntry.getFrames(), new Comparator<Sprite>() {
+        Collections.sort(newEntry.getFrames(), new Comparator<Frame>() {
             @Override
-            public int compare(Sprite o1, Sprite o2) {
+            public int compare(Frame o1, Frame o2) {
                 return o1.getInfo().getFrame() - o2.getInfo().getFrame();
             }
         });

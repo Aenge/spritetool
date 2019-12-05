@@ -5,9 +5,9 @@ import javafx.scene.image.Image;
 import java.util.Arrays;
 
 public class ImageData {
-    private int width;
-    private int height;
-    private int[] pixels;
+    public int width;
+    public int height;
+    public int[] pixels;
 
     public ImageData(int width, int height) {
         this.width = width;
@@ -15,7 +15,7 @@ public class ImageData {
         this.pixels = new int[height * width];
     }
 
-    ImageData() {}
+    public ImageData() {}
 
     @Override
     public boolean equals(Object o) {

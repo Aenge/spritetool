@@ -1,13 +1,12 @@
 package com.OpenRSC.Model;
-import com.OpenRSC.Model.Format.Sprite;
-import com.OpenRSC.Render.PlayerRenderer;
+import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Render.PlayerRenderer.LAYER;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Entry {
 
-    private List<Sprite> frames = new ArrayList<>();
+    private List<Frame> frames = new ArrayList<>();
     private String id;
     private TYPE type;
     private LAYER layer;
@@ -27,6 +26,7 @@ public class Entry {
 
         public LAYER[] getLayers() { return this.layers; }
 
+        public static TYPE get(int index) { return TYPE.values()[index]; }
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Entry {
 
     public Entry() {}
 
-    public void addFrame(Sprite sprite) {
+    public void addFrame(Frame sprite) {
         this.frames.add(sprite);
         if (this.frames.size() == 1) {
             this.type = sprite.getInfo().getType();
@@ -77,8 +77,8 @@ public class Entry {
 
     public String getID() { return id; }
     public void setID(String id) { this.id = id; }
-    public List<Sprite> getFrames() { return this.frames; }
-    public Sprite getFrame(int index) { return this.frames.get(index); }
+    public List<Frame> getFrames() { return this.frames; }
+    public Frame getFrame(int index) { return this.frames.get(index); }
     public int frameCount() { return this.frames.size(); }
     public boolean isAnimation() { return frames.size() > 1; }
     public TYPE getType() { return this.type; }
@@ -90,7 +90,7 @@ public class Entry {
         entry.setID(this.id);
         entry.setType(this.type);
         entry.setLayer(this.layer);
-        for (Sprite frame : frames)
+        for (Frame frame : frames)
             entry.addFrame(frame.clone());
         return entry;
     }
