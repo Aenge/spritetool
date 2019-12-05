@@ -39,7 +39,7 @@ public class Controller implements Initializable {
         button_accept.disableProperty().bind(Bindings.or(text_name.textProperty().isEmpty(), choice_type.valueProperty().isNull()));
         button_accept.setOnMouseClicked(e -> {
             Subspace subspace = spriteTool.getMainController().getCurrentSubspace();
-            subspace.createEntry(text_name.getText(), (Entry.TYPE)choice_type.getValue(), (PlayerRenderer.LAYER)choice_slot.getValue());
+            //subspace.createEntry(text_name.getText(), (Entry.TYPE)choice_type.getValue(), (PlayerRenderer.LAYER)choice_slot.getValue());
             Stage stage = (Stage)root.getScene().getWindow();
             stage.close();
         });

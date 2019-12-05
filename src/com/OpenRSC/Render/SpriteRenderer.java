@@ -97,8 +97,8 @@ public class SpriteRenderer {
     public void renderSprite(Frame sprite, Color grayscale, Color bluescale) {
         if (sprite == null)
             return;
-        int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getInfo().getBoundWidth())/2;
-        int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getInfo().getBoundHeight())/2;
+        int xOffset = (spriteTool.getSpriteRenderer().getWidth2() - sprite.getBoundWidth())/2;
+        int yOffset = (spriteTool.getSpriteRenderer().getHeight2() - sprite.getBoundHeight())/2;
         int grayscaleint = 0;
         grayscaleint |= (int)(grayscale.getRed() * 255) << 16;
         grayscaleint |= (int)(grayscale.getGreen() * 255) << 8;
@@ -107,13 +107,13 @@ public class SpriteRenderer {
         bluescaleint |= (int)(bluescale.getRed() * 255) << 16;
         bluescaleint |= (int)(bluescale.getGreen() * 255) << 8;
         bluescaleint |= (int)(bluescale.getBlue() * 255);
-        Rectangle2D boundingBox = new Rectangle2D(xOffset - 1, yOffset - 1, sprite.getInfo().getBoundWidth() + 2, sprite.getInfo().getBoundHeight() + 2);
+        Rectangle2D boundingBox = new Rectangle2D(xOffset - 1, yOffset - 1, sprite.getBoundWidth() + 2, sprite.getBoundHeight() + 2);
         spriteTool.getSpriteRenderer().drawRect(boundingBox, spriteTool.accentColor);
         spriteTool.getSpriteRenderer().bufferSprite(sprite,
                 xOffset,
                 yOffset,
-                sprite.getInfo().getBoundWidth(),
-                sprite.getInfo().getBoundHeight(),
+                sprite.getBoundWidth(),
+                sprite.getBoundHeight(),
                 grayscaleint, 0, bluescaleint, false, 0, 1, 0xFFFFFFFF);
         spriteTool.getSpriteRenderer().render();
     }
@@ -136,8 +136,8 @@ public class SpriteRenderer {
                 if (blueMask == 0)
                     blueMask = 0xFFFFFF;
 
-                int spriteWidth = e.getImageData().getWidth();
-                int spriteHeight = e.getImageData().getHeight();
+                int spriteWidth = e.getWidth();
+                int spriteHeight = e.getHeight();
                 int srcStartX = 0;
                 int srcStartY = 0;
                 int destFirstColumn = topPixelSkew << 16;
@@ -146,21 +146,21 @@ public class SpriteRenderer {
                 int destColumnSkewPerRow = -(topPixelSkew << 16) / height;
                 int destRowHead;
                 int skipEveryOther;
-                if (e.getInfo().getUseShift()) {
-                    destRowHead = e.getInfo().getBoundWidth();
-                    skipEveryOther = e.getInfo().getBoundHeight();
+                if (e.getUseShift()) {
+                    destRowHead = e.getBoundWidth();
+                    skipEveryOther = e.getBoundHeight();
                     if (destRowHead == 0 || skipEveryOther == 0) {
                         return;
                     }
 
                     scaleX = (destRowHead << 16) / width;
                     scaleY = (skipEveryOther << 16) / height;
-                    int var21 = e.getInfo().getOffsetX();
+                    int var21 = e.getOffsetX();
                     if (mirrorX) {
-                        var21 = destRowHead - e.getImageData().getWidth() - var21;
+                        var21 = destRowHead - e.getWidth() - var21;
                     }
 
-                    int var22 = e.getInfo().getOffsetY();
+                    int var22 = e.getOffsetY();
                     x += (destRowHead + var21 * width - 1) / destRowHead;
                     int var23 = (var22 * height + skipEveryOther - 1) / skipEveryOther;
                     if (var21 * width % destRowHead != 0) {
@@ -173,8 +173,8 @@ public class SpriteRenderer {
                         srcStartY = (skipEveryOther - height * var22 % skipEveryOther << 16) / height;
                     }
 
-                    width = (scaleX + ((e.getImageData().getWidth() << 16) - (srcStartX + 1))) / scaleX;
-                    height = ((e.getImageData().getHeight() << 16) - srcStartY - (1 - scaleY)) / scaleY;
+                    width = (scaleX + ((e.getWidth() << 16) - (srcStartX + 1))) / scaleX;
+                    height = ((e.getHeight() << 16) - srcStartY - (1 - scaleY)) / scaleY;
                 }
 
                 destRowHead = this.width2 * y;
@@ -198,25 +198,25 @@ public class SpriteRenderer {
                 }
 
                 if (colorMask2 == 0xFFFFFF) {
-                    if (null != e.getImageData().getPixels()) {
+                    if (null != e.getPixels()) {
                         if (mirrorX) {
-                            this.plot_tran_scale_with_mask(dummy ^ 74, e.getImageData().getPixels(), scaleY, 0,
-                                    srcStartY, (e.getImageData().getWidth() << 16) - (srcStartX + 1), width,
+                            this.plot_tran_scale_with_mask(dummy ^ 74, e.getPixels(), scaleY, 0,
+                                    srcStartY, (e.getWidth() << 16) - (srcStartX + 1), width,
                                     this.pixelData, height, destColumnSkewPerRow, destRowHead, -scaleX, destFirstColumn,
                                     spriteWidth, skipEveryOther, colorMask, colourTransform, blueMask);
                         } else {
-                            this.plot_tran_scale_with_mask(dummy + 89, e.getImageData().getPixels(), scaleY, 0,
+                            this.plot_tran_scale_with_mask(dummy + 89, e.getPixels(), scaleY, 0,
                                     srcStartY, srcStartX, width, this.pixelData, height, destColumnSkewPerRow,
                                     destRowHead, scaleX, destFirstColumn, spriteWidth, skipEveryOther, colorMask, colourTransform, blueMask);
                         }
                     }
                 } else if (mirrorX) {
-                    this.plot_trans_scale_with_2_masks(this.pixelData, e.getImageData().getPixels(), width,
+                    this.plot_trans_scale_with_2_masks(this.pixelData, e.getPixels(), width,
                             destColumnSkewPerRow, destFirstColumn, dummy + 1603920391, 0, colorMask2, scaleY, -scaleX,
-                            (e.getImageData().getWidth() << 16) - srcStartX - 1, skipEveryOther, srcStartY, spriteWidth,
+                            (e.getWidth() << 16) - srcStartX - 1, skipEveryOther, srcStartY, spriteWidth,
                             colorMask, height, destRowHead, colourTransform, blueMask);
                 } else {
-                    this.plot_trans_scale_with_2_masks(this.pixelData, e.getImageData().getPixels(), width,
+                    this.plot_trans_scale_with_2_masks(this.pixelData, e.getPixels(), width,
                             destColumnSkewPerRow, destFirstColumn, 1603920392, 0, colorMask2, scaleY, scaleX, srcStartX,
                             skipEveryOther, srcStartY, spriteWidth, colorMask, height, destRowHead, colourTransform, blueMask);
                 }

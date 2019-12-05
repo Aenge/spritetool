@@ -35,13 +35,13 @@ public class Packer {
                 dOS.writeByte((byte)(entry.getLayer().ordinal() & 0xFF));
 
             //Write the framecount
-            dOS.writeByte((byte)(entry.getFrames().size() & 0xFF));
+            dOS.writeByte((byte)(entry.getFrames().length & 0xFF));
 
             //Generate color table
             ArrayList<Integer> colors = new ArrayList<>();
 
-            for (int i=0; i < this.entry.getFrames().size(); ++i) {
-                for (int color : this.entry.getFrame(i).getImageData().getPixels()) {
+            for (int i=0; i < this.entry.getFrames().length; ++i) {
+                for (int color : this.entry.getFrames()[i].getPixels()) {
                     if (!colors.contains(color))
                         colors.add(color);
                 }
@@ -61,17 +61,17 @@ public class Packer {
             }
 
             //Write the frames
-            for (Frame sprite : entry.getFrames()) {
-                dOS.writeShort((short) (sprite.getImageData().getWidth() & 0xFFFF));
-                dOS.writeShort((short) (sprite.getImageData().getHeight() & 0xFFFF));
+            for (Frame frame : entry.getFrames()) {
+                dOS.writeShort((short) (frame.getWidth() & 0xFFFF));
+                dOS.writeShort((short) (frame.getHeight() & 0xFFFF));
 
-                dOS.writeByte((byte)  (sprite.getInfo().useShift ? 1 : 0));
-                dOS.writeShort((short) (sprite.getInfo().getOffsetX() & 0xFFFF));
-                dOS.writeShort((short) (sprite.getInfo().getOffsetY() & 0xFFFF));
-                dOS.writeShort((short) (sprite.getInfo().getBoundWidth() & 0xFFFF));
-                dOS.writeShort((short) (sprite.getInfo().getBoundHeight() & 0xFFFF));
+                dOS.writeByte((byte)  (frame.getUseShift()? 1 : 0));
+                dOS.writeShort((short) (frame.getOffsetX() & 0xFFFF));
+                dOS.writeShort((short) (frame.getOffsetY() & 0xFFFF));
+                dOS.writeShort((short) (frame.getBoundWidth() & 0xFFFF));
+                dOS.writeShort((short) (frame.getBoundHeight() & 0xFFFF));
 
-                for (int pixel : sprite.getImageData().getPixels()) {
+                for (int pixel : frame.getPixels()) {
                     int index = colors.indexOf(pixel);
                     dOS.writeByte((byte)(index & 0xFF));
                 }

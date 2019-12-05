@@ -24,7 +24,7 @@ public class PlayerRenderer {
     public PlayerRenderer(SpriteRenderer spriteRenderer) {
         WorkspaceReader workspaceReader = new WorkspaceReader();
         File folder = new File("resource/animations");
-        this.shippedAnimations = workspaceReader.loadSubspace(folder.toPath());
+        this.shippedAnimations = workspaceReader.loadSubspace(folder);
         this.spriteRenderer = spriteRenderer;
     }
 
@@ -36,10 +36,10 @@ public class PlayerRenderer {
         return this.shippedAnimations;
     }
 
-    public final void bufferPlayer(int frame, Entry override, Color grayscale, Color bluescale) {
+    public final void bufferPlayer(int frameIndex, Entry override, Color grayscale, Color bluescale) {
         try {
 
-            int wantedAnimDir = frameToDir[frame];
+            int wantedAnimDir = frameToDir[frameIndex];
 
             for (int lay = 0; lay < 12; ++lay) {
                 int mappedLayer = this.animDirLayer_To_CharLayer[wantedAnimDir][lay];
@@ -66,29 +66,20 @@ public class PlayerRenderer {
                     entry = layers[mappedLayer];
                 }
 
-                if (frame >= entry.getFrames().size())
+                if (frameIndex >= entry.getFrames().length)
                     continue;
 
-                Frame sprite = entry.getFrame(frame);
-                if (sprite == null)
+                Frame frame = entry.getFrames()[frameIndex];
+                if (frame == null)
                     continue;
-                int xOffset = (spriteRenderer.getWidth2() - sprite.getInfo().getBoundWidth()) / 2;
-                int yOffset = (spriteRenderer.getHeight2() - sprite.getInfo().getBoundHeight()) / 2;
-                int something1 = sprite.getInfo().getBoundWidth();
-                int something2 = sprite.getInfo().getBoundHeight();
-                int something3 = entry.getFrame(0).getInfo().getBoundWidth();
-                if (something1 != 0 && something2 != 0 && something3 != 0) {
-//                        if (colorMask1 == 1) {
-//                            colorMask1 = this.getPlayerHairColors()[player.colourHair];
-//                        } else if (colorMask1 == 2) {
-//                            colorMask1 = this.getPlayerClothingColors()[player.colourTop];
-//                        } else if (colorMask1 == 3) {
-//                            colorMask1 = this.getPlayerClothingColors()[player.colourBottom];
-//                        }
-
-                    spriteRenderer.bufferSprite(sprite, xOffset, yOffset, something1,
+                int xOffset = (spriteRenderer.getWidth2() - frame.getBoundWidth()) / 2;
+                int yOffset = (spriteRenderer.getHeight2() - frame.getBoundHeight()) / 2;
+                int something1 = frame.getBoundWidth();
+                int something2 = frame.getBoundHeight();
+                //int something3 = entry.frame(0).getInfo().getBoundWidth();
+                if (something1 != 0 && something2 != 0)
+                    spriteRenderer.bufferSprite(frame, xOffset, yOffset, something1,
                             something2, grayscaleint, 15523536, bluescaleint, false, 0, 1, 0xFFFFFFFF);
-                }
             }
 
         } catch (RuntimeException a) {
@@ -139,45 +130,4 @@ public class PlayerRenderer {
 //    15: 8, 0
 //    16: 8, 1
 //    17: 8, 2
-    public enum ORSCharacterDirection {
-        NORTH(0, 0, -1),
-        NORTH_WEST(1, 1, -1),
-        WEST(2, 1, 0),
-        SOUTH_WEST(3, 1, 1),
-        SOUTH(4, 0, 1),
-        SOUTH_EAST(5, -1, 1),
-        EAST(6, -1, 0),
-        NORTH_EAST(7, -1, -1),
-        COMBAT_A(8, 0, 0),
-        COMBAT_B(9, 0, 0);
-        private static final ORSCharacterDirection[] rsDir_Lookup;
-
-        static {
-            int max = 0;
-            for (ORSCharacterDirection c : values())
-                max = Math.max(max, c.rsDir + 1);
-            rsDir_Lookup = new ORSCharacterDirection[max];
-            for (ORSCharacterDirection c : values())
-                rsDir_Lookup[c.rsDir] = c;
-        }
-
-        public final int x0, z0;
-        public final int rsDir;
-
-        private ORSCharacterDirection(int rsDir, int x0, int z0) {
-            this.rsDir = rsDir;
-            this.x0 = x0;
-            this.z0 = z0;
-        }
-
-        public static ORSCharacterDirection lookup(int rsDir) {
-            if (rsDir >= 0 && rsDir < rsDir_Lookup.length)
-                return rsDir_Lookup[rsDir];
-            for (ORSCharacterDirection c : values())
-                if (c.rsDir == rsDir)
-                    return c;
-            System.out.println("Lookup fail: " + rsDir);
-            return null;
-        }
-    }
 }

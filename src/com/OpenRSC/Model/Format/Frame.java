@@ -7,19 +7,25 @@ import java.io.File;
 
 public class Frame {
 
-    public Info info;
-    public ImageData imageData;
+    private int width;
+    private int height;
+    private int[] pixels;
+    private boolean useShift;
+    private int offsetX;
+    private int offsetY;
+    private int boundWidth;
+    private int boundHeight;
 
-    public Frame(File imageFile, File infoFile) {
-        this.loadInfo(infoFile);
-        this.loadImageData(imageFile);
+    public Frame(int width, int height, boolean useShift, int offsetX, int offsetY, int boundWidth, int boundHeight ) {
+        this.width = width;
+        this.height = height;
+        this.useShift = useShift;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.boundWidth = boundWidth;
+        this.boundHeight = boundHeight;
+        this.pixels = new int[width * height];
     }
-
-    public Frame(File imageFile, Info info) {
-        this.info = info;
-        this.loadImageData(imageFile);
-    }
-    public Frame() {}
 
     @Override
     public boolean equals(Object o) {
@@ -29,41 +35,55 @@ public class Frame {
         if (!Frame.class.isAssignableFrom(o.getClass()))
             return false;
 
-        Frame sprite = (Frame)o;
+        Frame frame = (Frame)o;
 
-        if (!this.getInfo().equals(sprite.getInfo()))
+        if (this.width != frame.width ||
+                this.height != frame.height ||
+                this.useShift != frame.useShift ||
+                this.offsetX != frame.offsetX ||
+                this.offsetY != frame.offsetY ||
+                this.boundWidth != frame.boundWidth ||
+                this.boundHeight != frame.boundHeight)
+
             return false;
 
-        if (!this.getImageData().equals(sprite.getImageData()))
-            return false;
+        for (int i = 0; i < pixels.length; ++i){
+            if (this.pixels[i] != frame.pixels[i])
+                return false;
+        }
 
         return true;
     }
 
-    private void setInfo(Info info) { this.info = info; }
-    private void setImageData(ImageData data) { this.imageData = data; }
-    public String getFileName() {
-        return String.join("_", this.info.getID(), String.valueOf(this.info.getFrame()));
-    }
-    public String getID() { return this.getInfo().getID(); }
+    public int getWidth() { return this.width; }
+    public int getHeight() { return this.height; }
+    public int[] getPixels() { return this.pixels; }
+    public boolean getUseShift() { return this.useShift; }
+    public int getOffsetX() { return this.offsetX; }
+    public int getOffsetY() { return this.offsetY; }
+    public int getBoundWidth() { return this.boundWidth; }
+    public int getBoundHeight() { return this.boundHeight; }
 
-    private void loadImageData(File file) {
-        ImageReader imageReader = new ImageReader();
-        this.imageData  = imageReader.read(file);
-    }
-
-    private void loadInfo(File file) {
-        InfoReader infoReader = new InfoReader();
-        this.info = infoReader.read(file);
-    }
-
-    public Info getInfo() { return this.info; }
-    public ImageData getImageData() { return this.imageData; }
+    public void changeUseShift(Boolean use) { this.useShift = use; }
+    public void changeOffsetX(int value) { this.offsetX = value; }
+    public void changeOffsetY(int value) { this.offsetY = value; }
+    public void changeBoundWidth(int value) { this.boundWidth = value; }
+    public void changeBoundHeight(int value) { this.boundHeight = value; }
 
     public Frame clone() {
-        Frame sprite = new Frame();
-        sprite.setInfo(this.getInfo().clone());
-        sprite.setImageData(this.getImageData().clone());
-        return sprite;
+        Frame frame = new Frame(
+                this.width,
+                this.height,
+                this.useShift,
+                this.offsetX,
+                this.offsetY,
+                this.boundWidth,
+                this.boundHeight
+        );
+
+        for (int i = 0; i < this.getPixels().length; ++i)
+            frame.getPixels()[i] = this.getPixels()[i];
+
+        return frame;
     }
 }

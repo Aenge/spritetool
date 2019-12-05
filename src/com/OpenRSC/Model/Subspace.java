@@ -46,7 +46,7 @@ public class Subspace {
     public int getSpriteCount() {
         int spriteCount = 0;
         for (Entry entry : entryList) {
-            if (!entry.isAnimation())
+            if (entry.getFrames().length == 1)
                 ++spriteCount;
         }
         return spriteCount;
@@ -54,7 +54,7 @@ public class Subspace {
     public int getAnimationCount() {
         int animationCount = 0;
         for (Entry entry : entryList) {
-            if (entry.isAnimation())
+            if (entry.getFrames().length > 1)
                 ++animationCount;
         }
         return animationCount;
@@ -70,58 +70,63 @@ public class Subspace {
         return null;
     }
 
-    public boolean createEntry(String name, Entry.TYPE type, PlayerRenderer.LAYER layer) {
-        File checkExists = new File(home.toString(), name);
-        if (checkExists.exists()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "That entry already exists.");
-            alert.showAndWait();
-            return false;
-        }
-
-        File copyPath = null;
-
-        switch (type) {
-            case PLAYER_PART:
-                copyPath = new File("resource/animations/head1");
-                break;
-            default:
-                break;
-        }
-
-        if (copyPath == null)
-            return false;
-
-        Entry newEntry = new Entry();
-
-        File[] files = copyPath.listFiles(File::isFile);
-
-        for (File file : files) {
-            if (file.getName().endsWith(".info"))
-                continue;
-
-            String[] filename = file.getName().split(Pattern.quote("."));
-            File infoFile = new File(file.getParent(), filename[0] + ".info");
-
-            Frame newSprite = new Frame(file, infoFile);
-            newSprite.getInfo().setID(name);
-            newEntry.addFrame(newSprite);
-        }
-
-        Collections.sort(newEntry.getFrames(), new Comparator<Frame>() {
-            @Override
-            public int compare(Frame o1, Frame o2) {
-                return o1.getInfo().getFrame() - o2.getInfo().getFrame();
-            }
-        });
-
-        newEntry.setID(name);
-        newEntry.setType(type);
-        newEntry.setLayer(layer);
-
-        entryList.add(newEntry);
-
-        WorkspaceWriter workspaceWriter = new WorkspaceWriter(home);
-        workspaceWriter.updateEntry(this, null, newEntry);
-        return true;
-    }
+//    public boolean createEntry(String name, Entry.TYPE type, PlayerRenderer.LAYER layer) {
+//        File checkExists = new File(home.toString(), name);
+//        if (checkExists.exists()) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, "That entry already exists.");
+//            alert.showAndWait();
+//            return false;
+//        }
+//
+//        File copyPath = null;
+//
+//        switch (type) {
+//            case PLAYER_PART:
+//                copyPath = new File("resource/animations/head1");
+//                break;
+//            default:
+//                break;
+//        }
+//
+//        if (copyPath == null)
+//            return false;
+//
+//        Entry newEntry = new Entry(
+//                name,
+//                type,
+//                layer,
+//
+//        );
+//
+//        File[] files = copyPath.listFiles(File::isFile);
+//
+//        for (File file : files) {
+//            if (file.getName().endsWith(".info"))
+//                continue;
+//
+//            String[] filename = file.getName().split(Pattern.quote("."));
+//            File infoFile = new File(file.getParent(), filename[0] + ".info");
+//
+//            Frame newSprite = new Frame(file, infoFile);
+//            newSprite.getInfo().setID(name);
+//            newEntry.addFrame(newSprite);
+//        }
+//
+//        Collections.sort(newEntry.getFrames(), new Comparator<Frame>() {
+//            @Override
+//            public int compare(Frame o1, Frame o2) {
+//                return o1.getInfo().getFrame() - o2.getInfo().getFrame();
+//            }
+//        });
+//
+//        newEntry.setID(name);
+//        newEntry.setType(type);
+//        newEntry.setLayer(layer);
+//
+//        entryList.add(newEntry);
+//
+//        WorkspaceWriter workspaceWriter = new WorkspaceWriter(home);
+//        workspaceWriter.updateEntry(this, null, newEntry);
+//        return true;
+//    }
 }

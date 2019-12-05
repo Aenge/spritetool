@@ -3,9 +3,9 @@ package com.OpenRSC.IO.Archive;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Entry.TYPE;
 import com.OpenRSC.Model.Format.Frame;
-import com.OpenRSC.Model.Format.ImageData;
-import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Render.PlayerRenderer;
+import com.OpenRSC.Render.PlayerRenderer.LAYER;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 import java.util.zip.GZIPInputStream;
@@ -20,21 +20,23 @@ public class Unpacker {
         if (!file.exists())
             return null;
 
-        byte[] bytesArray = new byte[(int) file.length()];
-        Entry newEntry = new Entry();
+        Entry retVal = null;
+
         try {
             FileInputStream fis = new FileInputStream(file);
             GZIPInputStream gIS = new GZIPInputStream(fis);
             DataInputStream input = new DataInputStream(gIS);
 
+            TYPE type;
 
-            newEntry.setID(file.getName());
+            Entry newEntry = new Entry(
+                    FilenameUtils.removeExtension(file.getName()),
+                    type = TYPE.get((int)input.readByte() & 0xFF),
+                    type.getLayers().length == 0 ? null : LAYER.get((int)input.readByte() & 0xFF),
+                    (int)input.readByte() & 0xFF
+            );
 
-            newEntry.setType(TYPE.get((int)input.readByte() & 0xFF));
-            if (newEntry.getType().getLayers().length != 0)
-                newEntry.setLayer(PlayerRenderer.LAYER.get((int)input.readByte() & 0xFF));
-
-            int frameCount = (int)input.readByte() & 0xFF;
+            //int frameCount = (int)input.readByte() & 0xFF;
             int tableSize = (int)input.readShort() & 0xFFFF;
             int[] colorTable = new int[tableSize];
 
@@ -45,37 +47,26 @@ public class Unpacker {
                 colorTable[i] = Red << 16 | Green << 8 | Blue;
             }
 
-            for (int i=0; i < frameCount; ++i) {
-                Frame newSprite = new Frame();
-                Info info = new Info();
-                ImageData imageData = new ImageData();
-                imageData.width = (int)input.readShort() & 0xFFFF;
-                imageData.height = (int)input.readShort() & 0xFFFF;
-                info.useShift = input.readByte() == 1;
-                info.offsetX = (int)input.readShort() & 0xFFFF;
-                info.offsetY = (int)input.readShort() & 0xFFFF;
-                info.boundwidth = (int)input.readShort() & 0xFFFF;
-                info.boundheight = (int)input.readShort() & 0xFFFF;
-                info.setFrameCount(frameCount);
-                info.setFrame(i+1);
-                info.setType(newEntry.getType());
-                info.setLayer(newEntry.getLayer());
-                info.setID(newEntry.getID());
-                imageData.pixels = new int[imageData.width * imageData.height];
-                for (int p=0; p < imageData.width * imageData.height; ++p)
-                    imageData.pixels[p] = colorTable[(int)input.readByte() & 0xFF];
+            for (int i=0; i < newEntry.getFrames().length; ++i) {
+                Frame frame = new Frame(
+                        (int)input.readShort() & 0xFFFF,
+                        (int)input.readShort() & 0xFFFF,
+                        input.readByte() == 1,
+                        (int)input.readShort() & 0xFFFF,
+                        (int)input.readShort() & 0xFFFF,
+                        (int)input.readShort() & 0xFFFF,
+                        (int)input.readShort() & 0xFFFF
+                        );
 
-                newSprite.info = info;
-                newSprite.imageData = imageData;
-                newEntry.addFrame(newSprite);
+                for (int p=0; p < frame.getPixels().length; ++p)
+                    frame.getPixels()[p] = colorTable[(int)input.readByte() & 0xFF];
+
+                newEntry.getFrames()[i] = frame;
             }
 
+            retVal = newEntry;
         } catch (IOException a) { a.printStackTrace(); return null; }
-          catch (Exception b) {
-            b.printStackTrace();
-            return null;
-        }
 
-        return newEntry;
+        return retVal;
     }
 }

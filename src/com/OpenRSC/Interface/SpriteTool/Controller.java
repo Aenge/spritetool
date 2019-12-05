@@ -582,7 +582,7 @@ public class Controller implements Initializable {
                 if (t1 == null)
                     return;
 
-                getWorkingSprite().getInfo().setUseShift(t1);
+                getWorkingSprite().changeUseShift(t1);
                 checkSave();
 
                 render();
@@ -598,11 +598,7 @@ public class Controller implements Initializable {
                 if (t1 == null || t1.isEmpty())
                     return;
 
-                for (Frame frame : spriteTool.getWorkingCopy().getFrames()) {
-                    frame.getInfo().setID(t1);
-                }
-
-                spriteTool.getWorkingCopy().setID(t1);
+                spriteTool.getWorkingCopy().changeID(t1);
                 checkSave();
             }
         });
@@ -626,7 +622,7 @@ public class Controller implements Initializable {
                         value <= 0)
                     return;
 
-                getWorkingSprite().getInfo().setBoundHeight(value);
+                getWorkingSprite().changeBoundHeight(value);
 
                 checkSave();
                 render();
@@ -652,7 +648,7 @@ public class Controller implements Initializable {
                     value <= 0)
                     return;
 
-                getWorkingSprite().getInfo().setBoundWidth(value);
+                getWorkingSprite().changeBoundWidth(value);
                 checkSave();
 
                 render();
@@ -673,7 +669,7 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                getWorkingSprite().getInfo().setOffsetX(Integer.parseInt(t1));
+                getWorkingSprite().changeOffsetX(Integer.parseInt(t1));
                 checkSave();
 
                 render();
@@ -694,7 +690,7 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                getWorkingSprite().getInfo().setOffsetY(Integer.parseInt(t1));
+                getWorkingSprite().changeOffsetY(Integer.parseInt(t1));
                 checkSave();
             }
         });
@@ -839,7 +835,7 @@ public class Controller implements Initializable {
             check_render.setDisable(false);
             scroll_canvas.setMax(1);
         } else {
-            scroll_canvas.setMax(entry.frameCount());
+            scroll_canvas.setMax(entry.getFrames().length);
             if (entry.getLayer() == null) {
                 check_render.setSelected(false);
                 check_render.setDisable(true);
@@ -849,26 +845,25 @@ public class Controller implements Initializable {
         showEntry(entry, 0);
     }
 
-    private void showEntry(Entry newEntry, int frame) {
+    private void showEntry(Entry newEntry, int frameIndex) {
         spriteTool.getSpriteRenderer().clear();
         spriteTool.getSpriteRenderer().wipeBuffer();
         triggerListeners = false;
         if (newEntry != null) {
-            Frame sprite = newEntry.getFrame(frame);
+            Frame frame = newEntry.getFrames()[frameIndex];
 
-            if (sprite == null)
+            if (frame == null)
                 return;
 
-            Info info = sprite.getInfo();
             text_name.setText(newEntry.getID());
-            check_shift.setSelected(info.getUseShift());
-            text_hshift.setText(String.valueOf(info.getOffsetX()));
-            text_vshift.setText(String.valueOf(info.getOffsetX()));
-            text_boundh.setText(String.valueOf(info.getBoundHeight()));
-            text_boundw.setText(String.valueOf(info.getBoundWidth()));
-            label_frame.setText(info.getFrame() + " / " + info.getFrameCount());
-            choice_type.setValue(info.getType());
-            choice_layer.setValue(info.getLayer());
+            check_shift.setSelected(frame.getUseShift());
+            text_hshift.setText(String.valueOf(frame.getOffsetX()));
+            text_vshift.setText(String.valueOf(frame.getOffsetX()));
+            text_boundh.setText(String.valueOf(frame.getBoundHeight()));
+            text_boundw.setText(String.valueOf(frame.getBoundWidth()));
+            label_frame.setText(frameIndex+1 + " / " + newEntry.getFrames().length);
+            choice_type.setValue(newEntry.getType());
+            choice_layer.setValue(newEntry.getLayer());
 
         } else {
             text_name.clear();
@@ -958,7 +953,7 @@ public class Controller implements Initializable {
         if (spriteTool.getWorkingCopy() == null)
             return null;
 
-        return spriteTool.getWorkingCopy().getFrame(index);
+        return spriteTool.getWorkingCopy().getFrames()[index];
     }
 
     private void render() {

@@ -1,15 +1,71 @@
 package com.OpenRSC.Model;
 import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Render.PlayerRenderer.LAYER;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Entry {
 
-    private List<Frame> frames = new ArrayList<>();
+    private Frame[] frames;
     private String id;
     private TYPE type;
     private LAYER layer;
+
+    public Entry(String id, TYPE type, LAYER layer, int framecount) {
+        this.id = id;
+        this.type = type;
+        this.layer = layer;
+        this.frames = new Frame[framecount];
+    }
+
+    public String getID() { return id; }
+    public TYPE getType() { return this.type; }
+    public LAYER getLayer() { return this.layer; }
+    public Frame[] getFrames() { return this.frames; }
+
+    public void changeID(String id) { this.id = id; }
+    public void changeLayer(LAYER layer) { this.layer = layer; }
+    @Override
+    public String toString() {
+        return getID();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+
+        if (!Entry.class.isAssignableFrom(o.getClass()))
+            return false;
+
+        Entry entry = (Entry)o;
+
+        if (this.frames.length != entry.frames.length ||
+                !this.id.equals(entry.id) ||
+                this.type != entry.type ||
+                this.layer != entry.layer)
+
+            return false;
+
+        for (int i=0; i < frames.length; ++i) {
+            if (!this.frames[i].equals(entry.frames[i]))
+                return false;
+        }
+
+        return true;
+    }
+
+    public Entry clone() {
+        Entry entry = new Entry(
+                this.id,
+                this.type,
+                this.layer,
+                this.frames.length
+        );
+
+        for (int i=0; i<this.frames.length; ++i)
+            entry.frames[i] = this.frames[i];
+
+        return entry;
+    }
 
     public enum TYPE {
         SPRITE(new LAYER[]{}),
@@ -27,71 +83,5 @@ public class Entry {
         public LAYER[] getLayers() { return this.layers; }
 
         public static TYPE get(int index) { return TYPE.values()[index]; }
-    }
-
-    @Override
-    public String toString() {
-        return getID();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null)
-            return false;
-
-        if (!Entry.class.isAssignableFrom(o.getClass()))
-            return false;
-
-        Entry entry = (Entry)o;
-
-        if (entry.isAnimation() != this.isAnimation())
-            return false;
-
-        try {
-            if (!entry.getID().equalsIgnoreCase(id) ||
-                entry.frameCount() != this.frameCount())
-                return false;
-            else {
-                for (int i = 0; i < this.frameCount(); ++i) {
-                    if (!entry.getFrame(i).equals(this.getFrame(i)))
-                        return false;
-                }
-            }
-        } catch (NullPointerException a) {
-            a.printStackTrace();
-            return false;
-        }
-
-        return true;
-    }
-
-    public Entry() {}
-
-    public void addFrame(Frame sprite) {
-        this.frames.add(sprite);
-        if (this.frames.size() == 1) {
-            this.type = sprite.getInfo().getType();
-            this.layer = sprite.getInfo().getLayer();
-        }
-    }
-
-    public String getID() { return id; }
-    public void setID(String id) { this.id = id; }
-    public List<Frame> getFrames() { return this.frames; }
-    public Frame getFrame(int index) { return this.frames.get(index); }
-    public int frameCount() { return this.frames.size(); }
-    public boolean isAnimation() { return frames.size() > 1; }
-    public TYPE getType() { return this.type; }
-    public void setType(TYPE type) { this.type = type; }
-    public LAYER getLayer() { return this.layer; }
-    public void setLayer(LAYER layer) { this.layer = layer; }
-    public Entry clone() {
-        Entry entry = new Entry();
-        entry.setID(this.id);
-        entry.setType(this.type);
-        entry.setLayer(this.layer);
-        for (Frame frame : frames)
-            entry.addFrame(frame.clone());
-        return entry;
     }
 }
