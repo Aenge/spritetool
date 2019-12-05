@@ -30,13 +30,13 @@ public class Unpacker {
 
             newEntry.setID(file.getName());
 
-            newEntry.setType(TYPE.get(input.readByte()));
+            newEntry.setType(TYPE.get((int)input.readByte() & 0xFF));
             if (newEntry.getType().getLayers().length != 0)
-                newEntry.setLayer(PlayerRenderer.LAYER.get(input.readByte()));
+                newEntry.setLayer(PlayerRenderer.LAYER.get((int)input.readByte() & 0xFF));
 
-            int frameCount = input.readByte();
-
-            int[] colorTable = new int[input.readByte()];
+            int frameCount = (int)input.readByte() & 0xFF;
+            int tableSize = (int)input.readShort() & 0xFFFF;
+            int[] colorTable = new int[tableSize];
 
             for (int i=0; i < colorTable.length; ++i) {
                 int Red = input.readByte() & 0xFF;
@@ -49,13 +49,13 @@ public class Unpacker {
                 Frame newSprite = new Frame();
                 Info info = new Info();
                 ImageData imageData = new ImageData();
-                imageData.width = input.readByte();
-                imageData.height = input.readByte();
+                imageData.width = (int)input.readShort() & 0xFFFF;
+                imageData.height = (int)input.readShort() & 0xFFFF;
                 info.useShift = input.readByte() == 1;
-                info.offsetX = input.readByte();
-                info.offsetY = input.readByte();
-                info.boundwidth = input.readByte();
-                info.boundheight = input.readByte();
+                info.offsetX = (int)input.readShort() & 0xFFFF;
+                info.offsetY = (int)input.readShort() & 0xFFFF;
+                info.boundwidth = (int)input.readShort() & 0xFFFF;
+                info.boundheight = (int)input.readShort() & 0xFFFF;
                 info.setFrameCount(frameCount);
                 info.setFrame(i+1);
                 info.setType(newEntry.getType());
@@ -63,7 +63,7 @@ public class Unpacker {
                 info.setID(newEntry.getID());
                 imageData.pixels = new int[imageData.width * imageData.height];
                 for (int p=0; p < imageData.width * imageData.height; ++p)
-                    imageData.pixels[p] = colorTable[input.readByte()];
+                    imageData.pixels[p] = colorTable[(int)input.readByte() & 0xFF];
 
                 newSprite.info = info;
                 newSprite.imageData = imageData;
@@ -71,6 +71,10 @@ public class Unpacker {
             }
 
         } catch (IOException a) { a.printStackTrace(); return null; }
+          catch (Exception b) {
+            b.printStackTrace();
+            return null;
+        }
 
         return newEntry;
     }

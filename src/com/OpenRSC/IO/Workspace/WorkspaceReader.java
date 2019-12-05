@@ -1,5 +1,6 @@
 package com.OpenRSC.IO.Workspace;
 
+import com.OpenRSC.IO.Archive.Unpacker;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Model.Subspace;
@@ -23,6 +24,19 @@ public class WorkspaceReader {
         this.progressCounter = ip;
     }
 
+    public Workspace loadWorkspace2(Path path) {
+        Workspace ws = new Workspace(path);
+
+        File[] directories = path.toFile().listFiles(File::isDirectory);
+
+        for (File dir : directories) {
+            Subspace ss = loadSubspace2(dir);
+            ws.getSubspaces().add(ss);
+        }
+
+        return ws;
+    }
+
     public Workspace loadWorkspace(Path path) {
         Workspace ws = new Workspace(path);
 
@@ -36,6 +50,28 @@ public class WorkspaceReader {
         return ws;
     }
 
+    public Subspace loadSubspace2(File home) {
+        String name = home.getName();
+        final Subspace ss = new Subspace(name, home.toPath());
+        File subspaceHome = home;
+        if (!subspaceHome.exists())
+            return null;
+        File[] entries = subspaceHome.listFiles(File::isFile);
+
+        if (entries.length == 0)
+            return ss;
+
+        Unpacker unpacker = new Unpacker();
+        try {
+            for (File entry : entries) {
+                Entry entry2 = unpacker.unpack(entry);
+                ss.getEntryList().add(entry2);
+                if (this.progressCounter != null)
+                    this.progressCounter.set(this.progressCounter.get() + 1);
+            }
+        } catch (Exception a) { a.printStackTrace(); return null; }
+        return ss;
+    }
     public Subspace loadSubspace(Path home) {
         String name = home.toFile().getName();
         final Subspace ss = new Subspace(name, home);

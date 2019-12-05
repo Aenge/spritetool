@@ -181,7 +181,7 @@ public class SpriteTool extends Application {
         }
         WorkspaceReader reader = new WorkspaceReader();
         reader.setProgressCounter(countProgress);
-        this.workspace = reader.loadWorkspace(path);
+        this.workspace = reader.loadWorkspace2(path);
         if (this.workspace == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open workspace.");
             alert.showAndWait();

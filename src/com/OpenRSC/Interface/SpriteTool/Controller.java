@@ -356,13 +356,18 @@ public class Controller implements Initializable {
             choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_male.setOnMouseClicked(e -> {
-            Entry hi = spriteTool.getWorkingCopy();
-            Packer test = new Packer(hi);
-            test.pack(new File("C:/temp/test/" + hi.getID()));
-            Unpacker test2 = new Unpacker();
-            Entry hey = test2.unpack(new File("C:/temp/test/" + hi.getID()));
-            if (hi.equals(hey))
-                System.out.println("butternut SQUASH!!!");
+
+            Workspace turd = spriteTool.getWorkspace();
+            for (Subspace ss : turd.getSubspaces()) {
+                File home = new File("C:/temp/butternut/" + ss.getName());
+                home.mkdirs();
+
+                for (Entry entry : ss.getEntryList()) {
+                    Packer test = new Packer(entry);
+                    test.pack(new File("C:/temp/butternut/" + ss.getName(), entry.getID() + ".ospr"));
+                }
+
+            }
             //choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
             //choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
             //choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
