@@ -15,6 +15,7 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -66,7 +67,7 @@ public class Controller implements Initializable {
         button_choose_directory.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_OPEN));
         button_choose_directory.setOnMouseClicked(e -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
-
+            directoryChooser.setInitialDirectory(Paths.get("").toAbsolutePath().toFile());
             File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
 
             if (selectedDirectory == null)

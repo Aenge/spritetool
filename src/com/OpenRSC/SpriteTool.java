@@ -2,7 +2,6 @@ package com.OpenRSC;
 import com.OpenRSC.IO.Workspace.WorkspaceReader;
 import com.OpenRSC.Interface.SpriteTool.Controller;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.SpriteRenderer;
 import javafx.application.Application;
@@ -26,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class SpriteTool extends Application {
 
@@ -131,7 +131,17 @@ public class SpriteTool extends Application {
 
     public void openWorkspace() {
 
+        if (workingCopy != null && getMainController().needSave()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You have unsaved changes. Discard them?");
+            alert.showAndWait();
+            if (alert.getResult() != ButtonType.OK)
+                return;
+
+            setWorkingCopy(-1, null);
+        }
+
         DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(Paths.get("").toAbsolutePath().toFile());
 
         File selectedDirectory = directoryChooser.showDialog(primaryStage);
 

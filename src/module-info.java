@@ -8,7 +8,6 @@ module spritetool {
     requires org.controlsfx.controls;
     opens com.OpenRSC.Render;
     opens com.OpenRSC.Model;
-    opens com.OpenRSC.Model.Format;
     opens com.OpenRSC.Interface.Splash;
     opens com.OpenRSC.Interface.SpriteTool;
     opens com.OpenRSC.Interface.CreateWorkspace;

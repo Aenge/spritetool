@@ -2,7 +2,6 @@ package com.OpenRSC.Interface.SpriteTool;
 
 import com.OpenRSC.IO.Archive.Packer;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Info;
 import com.OpenRSC.Model.Frame;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
@@ -29,11 +28,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
@@ -41,17 +37,11 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 public class Controller implements Initializable {
     //TODO: remove add picture to create entry, make it add a template depending on the type.
-    //TODO: fixup render player. need a layer handler / add null & null handlers to all
-    //TODO: unsaved changes -> search for another one -> select it -> press cancel -> error message. need select proper thing
     //TODO: switching use offset should adjust the bounding boxes (pfp example)
-    //TODO: loading a new workspace should clear the current entries
-    //TODO: audit create/update subspace/entry/sprite. make them consistent.
-    //TODO: put entries into their own folders
-    //TODO: remove filename in info
-    //TODO: needsave doesn't verify that selectedindex != -1 -> create new entry, open workspace, bug.
-    //TODO: fix the slot/layer connectors in create entry interface
-    //TODO: file chooser default path set it to something good
     //TODO: playing animation -> search for something that doesnt exist - animation stops but timer is still on & play button says stop.
+    //TODO: tidy up the speed bar
+    //TODO: set scroll_canvas in render() function
+    //TODO: empty workspace -> loading bar does nothing
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -59,22 +49,16 @@ public class Controller implements Initializable {
     private VBox root;
 
     @FXML
-    private HBox hbox_menu;
-
-    @FXML
-    private AnchorPane pane_animation;
-
-    @FXML
     private JFXListView list_subspaces, list_entries;
 
     @FXML
-    private Label label_status, label_frame, label_framecount;
+    private Label label_status, label_frame;
 
     @FXML
     private JFXCheckBox check_shift, check_render;
 
     @FXML
-    private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh, text_type;
+    private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh;
 
     @FXML
     private CustomTextField text_search;
@@ -86,7 +70,7 @@ public class Controller implements Initializable {
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_unpack, button_pack;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_export;
 
     @FXML
     private ToggleButton button_play;
@@ -295,35 +279,9 @@ public class Controller implements Initializable {
 
             checkSave();
         });
-        button_pack.setGraphic(new FontAwesome().create(FontAwesome.Glyph.ARCHIVE).color(SpriteTool.accentColor).size(20));
-        button_pack.setOnMouseClicked(e -> {
-            FileChooser fileChooser = new FileChooser();
-            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("ORSC Archive", ".orsc");
-            fileChooser.getExtensionFilters().add(filter);
-
-            File archiveFile = fileChooser.showSaveDialog(root.getScene().getWindow());
-
-            if (archiveFile == null)
-                return;
-
-            if (archiveFile.exists()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, archiveFile.toString() + " already exists. Overwrite?");
-                alert.showAndWait();
-                if (alert.getResult() != ButtonType.OK)
-                    return;
-
-                archiveFile.delete();
-            }
-
-            //Packer packer = new Packer();
-            //packer.pack(archiveFile, spriteTool.getWorkspace());
-        });
-        button_unpack.setGraphic(new FontAwesome().create(FontAwesome.Glyph.DROPBOX).color(SpriteTool.accentColor).size(20));
-        button_unpack.setOnMouseClicked(e -> {
-
-        });
+        button_export.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PHOTO).color(SpriteTool.accentColor).size(20));
         //--------- Other Buttons
-        button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT).color(SpriteTool.accentColor));
+        button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PENCIL).color(SpriteTool.accentColor));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_female.setOnMouseClicked(e -> {
             choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
@@ -343,10 +301,8 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if (t1) {
-                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.STOP).color(Color.RED));
                     playAnimation();
                 } else {
-                    button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY).color(Color.GREEN));
                     stopAnimation();
                 }
             }
@@ -377,6 +333,8 @@ public class Controller implements Initializable {
                 if (newSubspace == null ||
                         !triggerListeners)
                     return;
+
+                stopAnimation();
 
                 if (needSave(oldSubspace)) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
@@ -412,6 +370,8 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Entry> observableValue, Entry oldEntry, Entry newEntry) {
                 if (!triggerListeners)
                     return;
+
+                stopAnimation();
 
                 if (needSave()) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Discard unsaved changes?");
@@ -654,6 +614,7 @@ public class Controller implements Initializable {
                 }
 
                 getWorkingSprite().changeOffsetY(Integer.parseInt(t1));
+                getWorkingSprite().changeOffsetY(Integer.parseInt(t1));
                 checkSave();
 
                 render();
@@ -681,6 +642,7 @@ public class Controller implements Initializable {
     }
 
     public void populateSubspaceList(Workspace ws) {
+        list_entries.setItems(null);
         this.triggerListeners = false;
         this.list_subspaces.getItems().clear();
         this.list_subspaces.setItems(ws.getSubspaces());
@@ -863,11 +825,16 @@ public class Controller implements Initializable {
                     Platform.runLater(() -> scroll_canvas.setValue(curFrame + 1));
             }
         };
-        playTimer.schedule(playTask, 200, (int) slider_period.getValue());
+        playTimer.schedule(playTask, 100, (int) slider_period.getValue());
+
+        button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.STOP).color(Color.RED));
     }
 
     private void stopAnimation() {
-        playTask.cancel();
+        if (playTask != null) {
+            playTask.cancel();
+            button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY).color(Color.GREEN));
+        }
     }
 
     private void checkSave() {
