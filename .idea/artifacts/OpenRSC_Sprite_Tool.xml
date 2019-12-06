@@ -19,7 +19,6 @@
         </element>
       </element>
       <element id="library" level="project" name="controlsfx-11.0.0" />
-      <element id="library" level="project" name="jackson" />
       <element id="library" level="project" name="jfoenix-9.0.9" />
     </root>
   </artifact>

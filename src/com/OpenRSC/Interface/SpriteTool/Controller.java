@@ -1,11 +1,9 @@
 package com.OpenRSC.Interface.SpriteTool;
 
 import com.OpenRSC.IO.Archive.Packer;
-import com.OpenRSC.IO.Archive.Unpacker;
-import com.OpenRSC.IO.Workspace.WorkspaceWriter;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Format.Info;
-import com.OpenRSC.Model.Format.Frame;
+import com.OpenRSC.Model.Frame;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.PlayerRenderer;

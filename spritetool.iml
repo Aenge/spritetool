@@ -11,7 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jfoenix-9.0.9" level="project" />
     <orderEntry type="library" name="controlsfx-11.0.0" level="project" />
-    <orderEntry type="library" name="jackson" level="project" />
     <orderEntry type="library" name="jfoenix-9.0.9" level="project" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="commons-io-2.6" level="project" />

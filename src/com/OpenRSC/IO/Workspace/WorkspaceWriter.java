@@ -1,9 +1,6 @@
 package com.OpenRSC.IO.Workspace;
-
-import com.OpenRSC.IO.Image.ImageWriter;
-import com.OpenRSC.IO.Info.InfoWriter;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Frame;
+import com.OpenRSC.Model.Frame;
 import com.OpenRSC.Model.Subspace;
 import java.io.File;
 import java.nio.file.Path;

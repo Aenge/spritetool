@@ -2,8 +2,7 @@ package com.OpenRSC.IO.Archive;
 
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Entry.TYPE;
-import com.OpenRSC.Model.Format.Frame;
-import com.OpenRSC.Render.PlayerRenderer;
+import com.OpenRSC.Model.Frame;
 import com.OpenRSC.Render.PlayerRenderer.LAYER;
 import org.apache.commons.io.FilenameUtils;
 

@@ -2,9 +2,6 @@ module spritetool {
     requires javafx.fxml;
     requires javafx.controls;
     requires com.jfoenix;
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.databind;
-    requires com.fasterxml.jackson.annotation;
     requires apachecommons;
     requires java.desktop;
     requires javafx.swing;

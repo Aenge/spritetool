@@ -1,5 +1,4 @@
 package com.OpenRSC.Model;
-import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Render.PlayerRenderer.LAYER;
 
 public class Entry {

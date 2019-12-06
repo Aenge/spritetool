@@ -1,9 +1,4 @@
-package com.OpenRSC.Model.Format;
-
-import com.OpenRSC.IO.Image.ImageReader;
-import com.OpenRSC.IO.Info.InfoReader;
-
-import java.io.File;
+package com.OpenRSC.Model;
 
 public class Frame {
 

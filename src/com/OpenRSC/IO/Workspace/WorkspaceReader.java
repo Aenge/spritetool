@@ -2,7 +2,6 @@ package com.OpenRSC.IO.Workspace;
 
 import com.OpenRSC.IO.Archive.Unpacker;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,8 +9,6 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.regex.Pattern;
 
 public class WorkspaceReader {

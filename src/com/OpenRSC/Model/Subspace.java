@@ -1,21 +1,13 @@
 package com.OpenRSC.Model;
 
-import com.OpenRSC.IO.Workspace.WorkspaceWriter;
-import com.OpenRSC.Model.Format.Frame;
-import com.OpenRSC.Render.PlayerRenderer;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import javafx.util.Callback;
 
-import java.io.File;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.regex.Pattern;
 
 public class Subspace {
     private Path home;

@@ -1,7 +1,7 @@
 package com.OpenRSC.Render;
 
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Frame;
+import com.OpenRSC.Model.Frame;
 import com.OpenRSC.SpriteTool;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;

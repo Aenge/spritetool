@@ -2,7 +2,7 @@ package com.OpenRSC.Render;
 
 import com.OpenRSC.IO.Workspace.WorkspaceReader;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Frame;
+import com.OpenRSC.Model.Frame;
 import com.OpenRSC.Model.Subspace;
 import javafx.scene.paint.Color;
 

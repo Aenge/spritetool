@@ -1,11 +1,10 @@
 package com.OpenRSC.IO.Archive;
 import com.OpenRSC.Model.Entry;
-import com.OpenRSC.Model.Format.Frame;
+import com.OpenRSC.Model.Frame;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.zip.GZIPOutputStream;
 
