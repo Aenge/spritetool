@@ -6,6 +6,7 @@ import com.OpenRSC.Model.Format.Frame;
 import com.OpenRSC.Model.Subspace;
 import com.OpenRSC.Model.Workspace;
 import javafx.beans.property.SimpleIntegerProperty;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -65,8 +66,10 @@ public class WorkspaceReader {
 
         try {
             for (File entryFile : entryFiles) {
-                Entry entry = unpacker.unpack(entryFile);
-                ss.getEntryList().add(entry);
+                if (FilenameUtils.getExtension(entryFile.getName()).equalsIgnoreCase("ospr")) {
+                    Entry entry = unpacker.unpack(entryFile);
+                    ss.getEntryList().add(entry);
+                }
                 if (this.progressCounter != null)
                     this.progressCounter.set(this.progressCounter.get() + 1);
             }

@@ -36,7 +36,6 @@ public class Unpacker {
                     (int)input.readByte() & 0xFF
             );
 
-            //int frameCount = (int)input.readByte() & 0xFF;
             int tableSize = (int)input.readShort() & 0xFFFF;
             int[] colorTable = new int[tableSize];
 

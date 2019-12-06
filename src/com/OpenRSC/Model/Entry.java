@@ -22,7 +22,7 @@ public class Entry {
     public Frame[] getFrames() { return this.frames; }
 
     public void changeID(String id) { this.id = id; }
-    public void changeLayer(LAYER layer) { this.layer = layer; }
+
     @Override
     public String toString() {
         return getID();
@@ -62,7 +62,7 @@ public class Entry {
         );
 
         for (int i=0; i<this.frames.length; ++i)
-            entry.frames[i] = this.frames[i];
+            entry.frames[i] = this.frames[i].clone();
 
         return entry;
     }

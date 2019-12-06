@@ -1,4 +1,5 @@
 package com.OpenRSC.Interface.SpriteTool;
+
 import com.OpenRSC.IO.Archive.Packer;
 import com.OpenRSC.IO.Archive.Unpacker;
 import com.OpenRSC.IO.Workspace.WorkspaceWriter;
@@ -10,6 +11,7 @@ import com.OpenRSC.Model.Workspace;
 import com.OpenRSC.Render.PlayerRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -51,6 +53,7 @@ public class Controller implements Initializable {
     //TODO: needsave doesn't verify that selectedindex != -1 -> create new entry, open workspace, bug.
     //TODO: fix the slot/layer connectors in create entry interface
     //TODO: file chooser default path set it to something good
+    //TODO: playing animation -> search for something that doesnt exist - animation stops but timer is still on & play button says stop.
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -75,8 +78,8 @@ public class Controller implements Initializable {
     @FXML
     private TextField text_name, text_vshift, text_hshift, text_boundw, text_boundh, text_type;
 
-   @FXML
-   private CustomTextField text_search;
+    @FXML
+    private CustomTextField text_search;
 
     @FXML
     private ImageView canvas;
@@ -121,74 +124,53 @@ public class Controller implements Initializable {
                 choice_layer.getItems().clear();
 
                 if (t1 != null)
-                    choice_layer.getItems().addAll(((Entry.TYPE)t1).getLayers());
+                    choice_layer.getItems().addAll(((Entry.TYPE) t1).getLayers());
             }
         });
 
         choice_basic_head.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_basic_body.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_basic_legs.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_head.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 if (o != null)
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry) o).getLayer().getIndex()] = null;
 
                 if (t1 != null) {
-                    Entry entry = (Entry)t1;
+                    Entry entry = (Entry) t1;
                     spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
                     if (entry.getLayer() == PlayerRenderer.LAYER.HEAD_NO_SKIN)
                         spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.HEAD_WITH_SKIN.getIndex()] = null;
                     else
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.HEAD_NO_SKIN.getIndex()] = (Entry)choice_basic_head.getValue();
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.HEAD_NO_SKIN.getIndex()] = (Entry) choice_basic_head.getValue();
                     render();
                 } else
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry) o).getLayer().getIndex()] = null;
             }
         });
         choice_body.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (o != null)
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
-
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    if (entry.getLayer() == PlayerRenderer.LAYER.BODY_NO_SKIN)
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.BODY_WITH_SKIN.getIndex()] = null;
-                    else
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.BODY_NO_SKIN.getIndex()] = (Entry)choice_basic_body.getValue();
-                } else
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
-
+                updatePlayerLook();
                 render();
             }
         });
@@ -196,75 +178,57 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 if (t1 != null) {
-                    Entry entry = (Entry)t1;
+                    Entry entry = (Entry) t1;
                     spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
                     if (entry.getLayer() == PlayerRenderer.LAYER.LEGS_NO_SKIN)
                         spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.LEGS_WITH_SKIN.getIndex()] = null;
                     else
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.LEGS_NO_SKIN.getIndex()] = (Entry)choice_basic_legs.getValue();
+                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.LEGS_NO_SKIN.getIndex()] = (Entry) choice_basic_legs.getValue();
                     render();
                 } else
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry)o).getLayer().getIndex()] = null;
+                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry) o).getLayer().getIndex()] = null;
             }
         });
         choice_main.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_sub.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_glove.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_boot.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_neck.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         choice_cape.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry)t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    render();
-                }
+                updatePlayerLook();
+                render();
             }
         });
         text_search.setLeft(new FontAwesome().create(FontAwesome.Glyph.SEARCH).color(SpriteTool.accentColor).size(15));
@@ -291,7 +255,7 @@ public class Controller implements Initializable {
         });
 
         //--------- Menu buttons
-       // root.getStylesheets().clear();
+        // root.getStylesheets().clear();
         button_new_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor).size(20));
         button_new_workspace.setOnMouseClicked(e -> {
             spriteTool.createWorkspace();
@@ -302,19 +266,32 @@ public class Controller implements Initializable {
         });
         button_save_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE).color(SpriteTool.accentColor).size(20));
         button_save_workspace.setOnMouseClicked(e -> {
-            Subspace ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem();
-            Entry entry = (Entry)list_entries.getItems().get(spriteTool.getWorkingCopyIndex());
-
-            if (ss == null || entry == null)
+            if (spriteTool.getWorkspace() == null ||
+                    list_subspaces.getSelectionModel().getSelectedItem() == null)
                 return;
 
-            WorkspaceWriter wsWriter = new WorkspaceWriter(spriteTool.getWorkspace().getHome());
+            Subspace ss = (Subspace) list_subspaces.getSelectionModel().getSelectedItem();
+            Entry entry = spriteTool.getWorkingCopy();
 
-            if (wsWriter.updateEntry(ss, entry, spriteTool.getWorkingCopy())) {
-                int index = ss.getEntryList().indexOf(entry);
-                if (index > -1) {
-                    ss.getEntryList().set(index, spriteTool.getWorkingCopy());
-                }
+            if (ss == null)
+                return;
+
+            File osprNew = new File(ss.getHome().toString(), entry.getID() + ".ospr");
+            File osprOld = new File(ss.getHome().toString(), ss.getEntryList().get(spriteTool.getWorkingCopyIndex()) + ".ospr");
+
+            if (osprNew.exists()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "That name already exists in this subspace.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (osprOld.exists())
+                osprOld.delete();
+
+            Packer packer = new Packer(entry);
+
+            if (packer.pack(osprNew)) {
+                ss.getEntryList().set(spriteTool.getWorkingCopyIndex(), spriteTool.getWorkingCopy());
             } else
                 showError("There was a problem saving your changes.");
 
@@ -356,21 +333,9 @@ public class Controller implements Initializable {
             choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_male.setOnMouseClicked(e -> {
-
-            Workspace turd = spriteTool.getWorkspace();
-            for (Subspace ss : turd.getSubspaces()) {
-                File home = new File("C:/temp/butternut/" + ss.getName());
-                home.mkdirs();
-
-                for (Entry entry : ss.getEntryList()) {
-                    Packer test = new Packer(entry);
-                    test.pack(new File("C:/temp/butternut/" + ss.getName(), entry.getID() + ".ospr"));
-                }
-
-            }
-            //choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
-            //choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
-            //choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
+            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
+            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
+            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_addframe.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor));
         button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -405,7 +370,7 @@ public class Controller implements Initializable {
         list_subspaces.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildSubspaceMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getSceneX(), event.getSceneY(),JFXPopup.PopupVPosition.BOTTOM, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(), event.getSceneX(), event.getSceneY(), JFXPopup.PopupVPosition.BOTTOM, JFXPopup.PopupHPosition.RIGHT, 0, 0);
         });
 
         list_subspaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subspace>() {
@@ -441,7 +406,7 @@ public class Controller implements Initializable {
         list_entries.setOnContextMenuRequested(event -> {
             JFXPopup popup = buildEntryMenu();
             if (popup != null)
-                popup.show(spriteTool.getPrimaryStage(),event.getSceneX(), event.getSceneY(),JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,0,0);
+                popup.show(spriteTool.getPrimaryStage(), event.getSceneX(), event.getSceneY(), JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 0);
         });
 
         list_entries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Entry>() {
@@ -464,7 +429,7 @@ public class Controller implements Initializable {
                 if (newEntry == null) {
                     spriteTool.clearWorkingCopy();
                 } else
-                    spriteTool.setWorkingCopy((Subspace)list_subspaces.getSelectionModel().getSelectedItem(),newEntry.clone());
+                    spriteTool.setWorkingCopy(((Subspace) list_subspaces.getSelectionModel().getSelectedItem()).getEntryList().indexOf(newEntry), newEntry.clone());
                 checkSave();
                 showEntry(spriteTool.getWorkingCopy());
             }
@@ -497,7 +462,7 @@ public class Controller implements Initializable {
             } else {
                 if (scroll_zoom.isDisable())
                     return;
-                double newValue = scroll_zoom.getValue() - 4*Math.signum(e.getDeltaY());
+                double newValue = scroll_zoom.getValue() - 4 * Math.signum(e.getDeltaY());
                 if (newValue > scroll_zoom.getMax())
                     newValue = scroll_zoom.getMax();
                 else if (newValue < scroll_zoom.getMin())
@@ -530,8 +495,8 @@ public class Controller implements Initializable {
             if (spriteTool.getWorkingCopy() == null)
                 return;
             Rectangle2D viewPort = canvas.getViewport();
-            double deltaX = (e.getSceneX()-point.getX()) * viewPort.getWidth() / canvas.getFitWidth();
-            double deltaY = (e.getSceneY()-point.getY()) * viewPort.getHeight() / canvas.getFitHeight();
+            double deltaX = (e.getSceneX() - point.getX()) * viewPort.getWidth() / canvas.getFitWidth();
+            double deltaY = (e.getSceneY() - point.getY()) * viewPort.getHeight() / canvas.getFitHeight();
             Rectangle2D newPort = new Rectangle2D(viewPort.getMinX() - deltaX, viewPort.getMinY() - deltaY, viewPort.getWidth(), viewPort.getHeight());
             canvas.setViewport(newPort);
             point.setX(e.getSceneX());
@@ -544,7 +509,7 @@ public class Controller implements Initializable {
                 if (t1.intValue() == number.intValue())
                     return;
 
-                Rectangle2D viewportRect = new Rectangle2D(-t1.intValue(), -t1.intValue(), 300+2*t1.intValue(), 300+2*t1.intValue());
+                Rectangle2D viewportRect = new Rectangle2D(-t1.intValue(), -t1.intValue(), 300 + 2 * t1.intValue(), 300 + 2 * t1.intValue());
                 canvas.setViewport(viewportRect);
             }
         });
@@ -559,7 +524,7 @@ public class Controller implements Initializable {
                 if (spriteTool.getWorkingCopy() == null)
                     return;
 
-                showEntry(spriteTool.getWorkingCopy(), t1.intValue()-1);
+                showEntry(spriteTool.getWorkingCopy(), t1.intValue() - 1);
             }
         });
         //------- Checkbox
@@ -618,7 +583,7 @@ public class Controller implements Initializable {
                 }
 
                 int value = Integer.parseInt(t1);
-                if (value > canvas.getFitWidth()-2 ||
+                if (value > canvas.getFitWidth() - 2 ||
                         value <= 0)
                     return;
 
@@ -644,8 +609,8 @@ public class Controller implements Initializable {
                 }
 
                 int value = Integer.parseInt(t1);
-                if (value > canvas.getFitWidth()-2 ||
-                    value <= 0)
+                if (value > canvas.getFitWidth() - 2 ||
+                        value <= 0)
                     return;
 
                 getWorkingSprite().changeBoundWidth(value);
@@ -685,13 +650,15 @@ public class Controller implements Initializable {
                 if (t1 == null || t1.isEmpty())
                     return;
 
-                if (!t1.matches("\\d*")) {
+                if (!t1.matches("-?\\d+")) {
                     text_boundh.setText(s);
                     return;
                 }
 
                 getWorkingSprite().changeOffsetY(Integer.parseInt(t1));
                 checkSave();
+
+                render();
             }
         });
         text_name.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -700,7 +667,7 @@ public class Controller implements Initializable {
     //------------------ private methods
     private void populateEntryList(Subspace ss) {
         FilteredList<Entry> filteredEntryList = new FilteredList<>(ss.getEntryList(), s -> true);
-        text_search.textProperty().addListener(obs-> {
+        text_search.textProperty().addListener(obs -> {
             String filter = text_search.getText();
             if (filter == null || filter.isEmpty()) {
                 filteredEntryList.setPredicate(s -> true);
@@ -716,13 +683,15 @@ public class Controller implements Initializable {
     }
 
     public void populateSubspaceList(Workspace ws) {
+        this.triggerListeners = false;
         this.list_subspaces.getItems().clear();
         this.list_subspaces.setItems(ws.getSubspaces());
+        this.triggerListeners = true;
     }
 
     private JFXPopup buildEntryMenu() {
         if (spriteTool.getWorkspace() == null
-        || list_subspaces.getSelectionModel().getSelectedItem() == null)
+                || list_subspaces.getSelectionModel().getSelectedItem() == null)
             return null;
 
         JFXPopup popup = new JFXPopup();
@@ -730,7 +699,12 @@ public class Controller implements Initializable {
         JFXButton btn_newCategory = new JFXButton("New Entry");
         btn_newCategory.setOnMouseClicked(e -> {
             popup.hide();
-            try { spriteTool.spinCreateEntry(); } catch (IOException a) { a.printStackTrace(); return; }
+            try {
+                spriteTool.spinCreateEntry();
+            } catch (IOException a) {
+                a.printStackTrace();
+                return;
+            }
 
             Stage stage = new Stage();
             Scene scene = new Scene(spriteTool.getCreateEntryRoot());
@@ -771,7 +745,7 @@ public class Controller implements Initializable {
         });
         buttons.add(btn_newCategory);
         Subspace ss;
-        if ((ss = (Subspace)list_subspaces.getSelectionModel().getSelectedItem()) != null) {
+        if ((ss = (Subspace) list_subspaces.getSelectionModel().getSelectedItem()) != null) {
             JFXButton btn_delCategory = new JFXButton("Delete " + ss.getName());
             JFXButton btn_renameCategory = new JFXButton("Rename " + ss.getName());
 
@@ -858,10 +832,10 @@ public class Controller implements Initializable {
             text_name.setText(newEntry.getID());
             check_shift.setSelected(frame.getUseShift());
             text_hshift.setText(String.valueOf(frame.getOffsetX()));
-            text_vshift.setText(String.valueOf(frame.getOffsetX()));
+            text_vshift.setText(String.valueOf(frame.getOffsetY()));
             text_boundh.setText(String.valueOf(frame.getBoundHeight()));
             text_boundw.setText(String.valueOf(frame.getBoundWidth()));
-            label_frame.setText(frameIndex+1 + " / " + newEntry.getFrames().length);
+            label_frame.setText(frameIndex + 1 + " / " + newEntry.getFrames().length);
             choice_type.setValue(newEntry.getType());
             choice_layer.setValue(newEntry.getLayer());
 
@@ -884,14 +858,14 @@ public class Controller implements Initializable {
     private void playAnimation() {
         playTask = new TimerTask() {
             public void run() {
-                int curFrame = (int)scroll_canvas.getValue();
-                if (curFrame == (int)scroll_canvas.getMax())
-                    Platform.runLater(()->scroll_canvas.setValue(1));
+                int curFrame = (int) scroll_canvas.getValue();
+                if (curFrame == (int) scroll_canvas.getMax())
+                    Platform.runLater(() -> scroll_canvas.setValue(1));
                 else
-                    Platform.runLater(()->scroll_canvas.setValue(curFrame + 1));
+                    Platform.runLater(() -> scroll_canvas.setValue(curFrame + 1));
             }
         };
-        playTimer.schedule(playTask, 200, (int)slider_period.getValue());
+        playTimer.schedule(playTask, 200, (int) slider_period.getValue());
     }
 
     private void stopAnimation() {
@@ -905,14 +879,40 @@ public class Controller implements Initializable {
             button_save_workspace.getStyleClass().removeAll("button-red", "edit-icon");
     }
 
+    private void updatePlayerLook() {
+        Entry basichead = (Entry)choice_basic_head.getValue();
+        Entry basicbody = (Entry)choice_basic_body.getValue();
+        Entry basiclegs = (Entry)choice_basic_legs.getValue();
+        Entry helm = (Entry)choice_head.getValue();
+        Entry body = (Entry)choice_body.getValue();
+        Entry legs = (Entry)choice_legs.getValue();
+        spriteTool.getSpriteRenderer().getPlayerRenderer().updateLook(
+                (helm != null && helm.getLayer() == PlayerRenderer.LAYER.HEAD_NO_SKIN) ? helm : basichead,
+                (body != null && body.getLayer() == PlayerRenderer.LAYER.BODY_NO_SKIN) ? body : basicbody,
+                (legs != null && legs.getLayer() == PlayerRenderer.LAYER.LEGS_NO_SKIN) ? legs : basiclegs,
+                (Entry)choice_main.getValue(),
+                (Entry)choice_sub.getValue(),
+                (helm != null && helm.getLayer() == PlayerRenderer.LAYER.HEAD_WITH_SKIN) ? helm : null,
+                (body != null && body.getLayer() == PlayerRenderer.LAYER.BODY_WITH_SKIN) ? body : null,
+                (legs != null && legs.getLayer() == PlayerRenderer.LAYER.LEGS_WITH_SKIN) ? legs : null,
+                (Entry)choice_neck.getValue(),
+                (Entry)choice_boot.getValue(),
+                (Entry)choice_glove.getValue(),
+                (Entry)choice_cape.getValue()
+        );
+    }
     //------------------- public methods
     public void setSpriteTool(SpriteTool spriteTool) {
         this.spriteTool = spriteTool;
     }
 
-    public void setStatus(String status) { label_status.setText(status); }
+    public void setStatus(String status) {
+        label_status.setText(status);
+    }
 
-    public ImageView getCanvas() { return this.canvas; }
+    public ImageView getCanvas() {
+        return this.canvas;
+    }
 
     public void showError(String text) {
         Alert error = new Alert(Alert.AlertType.ERROR);
@@ -920,9 +920,14 @@ public class Controller implements Initializable {
         error.showAndWait();
     }
 
-    public VBox getRoot() { return root; }
+    public VBox getRoot() {
+        return root;
+    }
 
-    public boolean needSave() { return needSave((Subspace)list_subspaces.getSelectionModel().getSelectedItem()); }
+    public boolean needSave() {
+        return needSave((Subspace) list_subspaces.getSelectionModel().getSelectedItem());
+    }
+
     public boolean needSave(Subspace ss) {
         if (spriteTool.getWorkingCopy() == null)
             return false;
@@ -949,7 +954,7 @@ public class Controller implements Initializable {
     }
 
     private Frame getWorkingSprite() {
-        int index = (int)scroll_canvas.getValue()-1;
+        int index = (int) scroll_canvas.getValue() - 1;
         if (spriteTool.getWorkingCopy() == null)
             return null;
 
@@ -957,7 +962,7 @@ public class Controller implements Initializable {
     }
 
     private void render() {
-        int frame = (int)scroll_canvas.getValue()-1;
+        int frame = (int) scroll_canvas.getValue() - 1;
         spriteTool.getSpriteRenderer().wipeBuffer();
         spriteTool.getSpriteRenderer().clear();
         if (check_render.selectedProperty().getValue()) {
@@ -969,18 +974,22 @@ public class Controller implements Initializable {
             }
 
             spriteTool.getSpriteRenderer().renderPlayer(frame, override, color_grayscale.getValue(), color_bluescale.getValue());
-        }
-        else
+        } else
             spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), color_bluescale.getValue());
     }
 
-    public Subspace getCurrentSubspace() { return (Subspace)list_subspaces.getSelectionModel().getSelectedItem(); }
+    public Subspace getCurrentSubspace() {
+        return (Subspace) list_subspaces.getSelectionModel().getSelectedItem();
+    }
+
     public void loadChoiceBoxes() {
         Platform.runLater(() -> {
             choice_basic_head.getItems().clear();
             choice_basic_head.getItems().add(null);
             choice_basic_body.getItems().clear();
+            choice_basic_body.getItems().add(null);
             choice_basic_legs.getItems().clear();
+            choice_basic_legs.getItems().add(null);
             choice_head.getItems().clear();
             choice_head.getItems().add(null);
             choice_body.getItems().clear();
@@ -994,8 +1003,11 @@ public class Controller implements Initializable {
             choice_glove.getItems().clear();
             choice_glove.getItems().add(null);
             choice_boot.getItems().clear();
+            choice_boot.getItems().add(null);
             choice_neck.getItems().clear();
+            choice_neck.getItems().add(null);
             choice_cape.getItems().clear();
+            choice_cape.getItems().add(null);
             //Load from the baked-in animations
             Subspace shippedAnimations = spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations();
             for (Entry entry : shippedAnimations.getEntryList()) {

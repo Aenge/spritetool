@@ -74,8 +74,8 @@
                               <Label fx:id="label_frame" layoutX="220.0" layoutY="60.0" prefHeight="18.0" prefWidth="49.0" />
                               <Label layoutX="8.0" layoutY="7.0" text="Animation Type" />
                               <Label layoutX="7.0" layoutY="60.0" text="Slot" AnchorPane.leftAnchor="7.0" />
-                              <ChoiceBox fx:id="choice_type" layoutX="5.0" layoutY="29.0" prefHeight="26.0" prefWidth="130.0" />
-                              <ChoiceBox fx:id="choice_layer" layoutX="5.0" layoutY="77.0" prefHeight="26.0" prefWidth="130.0" />
+                              <ChoiceBox fx:id="choice_type" disable="true" layoutX="5.0" layoutY="29.0" prefHeight="26.0" prefWidth="130.0" />
+                              <ChoiceBox fx:id="choice_layer" disable="true" layoutX="5.0" layoutY="77.0" prefHeight="26.0" prefWidth="130.0" />
                               <Line endX="-11.60003662109375" endY="47.599998474121094" layoutX="156.0" layoutY="55.0" startX="-11.60003662109375" startY="-61.0" AnchorPane.bottomAnchor="0.0" />
                               <Line endX="5.0" endY="45.0" layoutX="283.0" layoutY="63.0" startX="5.0" startY="-63.0" AnchorPane.bottomAnchor="0.0" />
                               <ToggleButton fx:id="button_play" layoutX="203.0" layoutY="12.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="30.0" />

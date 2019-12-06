@@ -11,7 +11,7 @@ import java.io.File;
 public class PlayerRenderer {
 
     private Subspace shippedAnimations;
-    private Entry[] layers = new Entry[12];
+    private Entry[] layers = new Entry[LAYER.values().length];
     private SpriteRenderer spriteRenderer;
 
     private final int[][] animDirLayer_To_CharLayer = new int[][]{{11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 3, 4},
@@ -36,6 +36,21 @@ public class PlayerRenderer {
         return this.shippedAnimations;
     }
 
+    public void updateLook(Entry headns, Entry bodyns, Entry legsns, Entry mh, Entry oh, Entry headws, Entry bodyws, Entry legsws, Entry neck, Entry boots, Entry gloves, Entry cape) {
+        layers[0] = headns;
+        layers[1] = bodyns;
+        layers[2] = legsns;
+        layers[3] = mh;
+        layers[4] = oh;
+        layers[5] = headws;
+        layers[6] = bodyws;
+        layers[7] = legsws;
+        layers[8] = neck;
+        layers[9] = boots;
+        layers[10] = gloves;
+        layers[11] = cape;
+    }
+
     public final void bufferPlayer(int frameIndex, Entry override, Color grayscale, Color bluescale) {
         try {
 
@@ -45,9 +60,6 @@ public class PlayerRenderer {
                 int mappedLayer = this.animDirLayer_To_CharLayer[wantedAnimDir][lay];
                 int grayscaleint = 0;
                 int bluescaleint = 0;
-                byte spriteOffsetX = 0;
-                byte spriteOffsetY = 0;
-
                 Entry entry;
 
                 if (override != null &&

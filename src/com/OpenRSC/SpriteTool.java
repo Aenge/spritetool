@@ -218,9 +218,9 @@ public class SpriteTool extends Application {
         this.workingCopy = null;
         this.workingCopyIndex = -1;
     }
-    public void setWorkingCopy(Subspace ss, Entry entry) {
+    public void setWorkingCopy(int index, Entry entry) {
         this.workingCopy = entry;
-        this.workingCopyIndex = ss.getEntryList().indexOf(entry);
+        this.workingCopyIndex = index;
     }
 
     public static int getFilesCount(File file) {

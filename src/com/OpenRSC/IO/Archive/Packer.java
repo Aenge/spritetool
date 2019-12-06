@@ -17,7 +17,7 @@ public class Packer {
         this.entry = entry;
     }
 
-    public void pack(File file) {
+    public boolean pack(File file) {
 
         try {
             // create file output stream
@@ -80,6 +80,11 @@ public class Packer {
             dOS.close();
             fOS.close();
 
-        } catch (IOException a) { a.printStackTrace(); return; }
+        } catch (Exception a) {
+            a.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }
