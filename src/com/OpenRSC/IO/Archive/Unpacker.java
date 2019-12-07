@@ -50,8 +50,8 @@ public class Unpacker {
                         (int)input.readShort() & 0xFFFF,
                         (int)input.readShort() & 0xFFFF,
                         input.readByte() == 1,
-                        (int)input.readShort() & 0xFFFF,
-                        (int)input.readShort() & 0xFFFF,
+                        (int)input.readShort(),
+                        (int)input.readShort(),
                         (int)input.readShort() & 0xFFFF,
                         (int)input.readShort() & 0xFFFF
                         );

@@ -68,7 +68,8 @@ public class Workspace {
 
         Subspace ss;
         try {
-            ss = new Subspace(name, home);
+            File subspaceHome = new File(home.toString(), name);
+            ss = new Subspace(name, subspaceHome.toPath());
         } catch (InvalidPathException a) {
             Alert invalid = new Alert(Alert.AlertType.ERROR);
             invalid.setHeaderText("Invalid category name.");

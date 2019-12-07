@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Timer;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
@@ -49,7 +48,7 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 public class Controller implements Initializable {
     //TODO: remove add picture to create entry, make it add a template depending on the type.
-    //TODO: why blue faces?
+    //TODO: why blue faces? - LEAVE unpacker the same. load cabbage workspace.. save/repack every entry.
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -255,29 +254,26 @@ public class Controller implements Initializable {
             spriteTool.openWorkspace();
         });
         button_save_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE).color(SpriteTool.accentColor).size(20));
-        button_save_workspace.disableProperty().bind(Bindings.createBooleanBinding(() -> spriteTool.getWorkingCopy() == null));
+        button_save_workspace.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_save_workspace.setOnMouseClicked(e -> {
             if (spriteTool.getWorkspace() == null ||
-                    list_subspaces.getSelectionModel().getSelectedItem() == null)
+                    getCurrentSubspace() == null)
                 return;
 
-            Subspace ss = (Subspace) list_subspaces.getSelectionModel().getSelectedItem();
+            Subspace ss = getCurrentSubspace();
             Entry entry = spriteTool.getWorkingCopy();
 
-            if (ss == null)
-                return;
-
             File osprNew = new File(ss.getHome().toString(), entry.getID() + ".ospr");
-            File osprOld = new File(ss.getHome().toString(), ss.getEntryList().get(spriteTool.getWorkingCopyIndex()) + ".ospr");
+            File osprOld = new File(ss.getHome().toString(), ss.getEntryList().get(spriteTool.getWorkingCopyIndex()).getID() + ".ospr");
 
-            if (osprOld.exists())
-                osprOld.delete();
-
-            if (osprNew.exists()) {
+            if (!entry.getID().equals(spriteTool.getWorkingCopy().getID()) && osprNew.exists()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "That name already exists in this subspace.");
                 alert.showAndWait();
                 return;
             }
+
+            if (osprOld.exists())
+                osprOld.delete();
 
             Packer packer = new Packer(entry);
 
@@ -319,8 +315,9 @@ public class Controller implements Initializable {
         button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PENCIL).color(SpriteTool.accentColor));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_changepng.setOnMouseClicked(e -> {
+
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialDirectory(((Subspace)list_subspaces.getSelectionModel().getSelectedItem()).getHome().toFile());
+            fileChooser.setInitialDirectory(getCurrentSubspace().getHome().toFile());
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG images (.png)", "*.png"));
             File imageFile = fileChooser.showOpenDialog(root.getScene().getWindow());
 
@@ -438,7 +435,7 @@ public class Controller implements Initializable {
                 if (newEntry == null) {
                     spriteTool.clearWorkingCopy();
                 } else
-                    spriteTool.setWorkingCopy(((Subspace) list_subspaces.getSelectionModel().getSelectedItem()).getEntryList().indexOf(newEntry), newEntry.clone());
+                    spriteTool.setWorkingCopy(getCurrentSubspace().getEntryList().indexOf(newEntry), newEntry.clone());
                 checkSave();
                 showEntry(spriteTool.getWorkingCopy());
                 render();
@@ -753,8 +750,8 @@ public class Controller implements Initializable {
             spriteTool.getWorkspace().createSubspace(td.getEditor().getText());
         });
         buttons.add(btn_newCategory);
-        Subspace ss;
-        if ((ss = (Subspace) list_subspaces.getSelectionModel().getSelectedItem()) != null) {
+        Subspace ss = getCurrentSubspace();
+        if (ss != null) {
             JFXButton btn_delCategory = new JFXButton("Delete " + ss.getName());
             JFXButton btn_renameCategory = new JFXButton("Rename " + ss.getName());
 
@@ -948,7 +945,7 @@ public class Controller implements Initializable {
     }
 
     public boolean needSave() {
-        return needSave((Subspace) list_subspaces.getSelectionModel().getSelectedItem());
+        return needSave(getCurrentSubspace());
     }
 
     public boolean needSave(Subspace ss) {
