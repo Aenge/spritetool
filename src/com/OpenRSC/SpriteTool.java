@@ -16,11 +16,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -108,6 +110,7 @@ public class SpriteTool extends Application {
             getMainController().stopTimer();
         });
         newStage.setResizable(false);
+        newStage.getIcons().add(new Image("file:resource/icon.png"));
         newStage.show();
 
         setPrimaryStage(newStage);
@@ -173,6 +176,7 @@ public class SpriteTool extends Application {
                 clearWorkingCopy();
                 getMainController().loadChoiceBoxes();
                 countProgress.set(maxProgress);
+                mainController.progress_bar.progressProperty().unbind();
                 return null;
             }
         };

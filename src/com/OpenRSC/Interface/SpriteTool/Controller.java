@@ -2,6 +2,7 @@ package com.OpenRSC.Interface.SpriteTool;
 
 import com.OpenRSC.IO.Archive.Packer;
 import com.OpenRSC.IO.Image.ImageReader;
+import com.OpenRSC.IO.Image.ImageWriter;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Frame;
 import com.OpenRSC.Model.Subspace;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Timer;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
@@ -38,6 +40,7 @@ import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -46,7 +49,7 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 public class Controller implements Initializable {
     //TODO: remove add picture to create entry, make it add a template depending on the type.
-    //TODO: switching use offset should adjust the bounding boxes (pfp example)
+    //TODO: why blue faces?
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -252,6 +255,7 @@ public class Controller implements Initializable {
             spriteTool.openWorkspace();
         });
         button_save_workspace.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE).color(SpriteTool.accentColor).size(20));
+        button_save_workspace.disableProperty().bind(Bindings.createBooleanBinding(() -> spriteTool.getWorkingCopy() == null));
         button_save_workspace.setOnMouseClicked(e -> {
             if (spriteTool.getWorkspace() == null ||
                     list_subspaces.getSelectionModel().getSelectedItem() == null)
@@ -284,8 +288,28 @@ public class Controller implements Initializable {
 
             checkSave();
         });
-        button_export.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PHOTO).color(SpriteTool.accentColor).size(20));
+
+
         //--------- Other Buttons
+        button_export.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PHOTO).color(SpriteTool.accentColor).size(20));
+        button_export.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
+        button_export.setOnMouseClicked(e -> {
+            if (spriteTool.getWorkingCopy() == null)
+                return;
+
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setInitialDirectory(Paths.get("").toAbsolutePath().toFile());
+
+            File saveDir = directoryChooser.showDialog(root.getScene().getWindow());
+
+            File home = new File(saveDir.toString(), spriteTool.getWorkingCopy().getID());
+
+            for (int i=0; i<spriteTool.getWorkingCopy().getFrames().length; ++i) {
+                ImageWriter imageWriter = new ImageWriter();
+                imageWriter.write(new File(home.toString(), i + ".png"), spriteTool.getWorkingCopy().getFrames()[i]);
+                progress_bar.setProgress(i+1/spriteTool.getWorkingCopy().getFrames().length);
+            }
+        });
         button_copy_colors.setGraphic(new FontAwesome().create(FontAwesome.Glyph.COPY).color(SpriteTool.accentColor));
         button_copy_colors.setOnMouseClicked(e -> {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();

@@ -27,9 +27,10 @@
             <JFXButton fx:id="button_open_workspace" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Open Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_save_workspace" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Save Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_export" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Export PNG" />
-            <ImageView fitHeight="53.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="17.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="53.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../../../../../../Pictures/f.png" />
+                  <Image url="@../../../../../../../Pictures/spritetool.png" />
                </image>
             </ImageView>
          </children>

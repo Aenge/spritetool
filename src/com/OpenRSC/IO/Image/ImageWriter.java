@@ -1,5 +1,6 @@
 package com.OpenRSC.IO.Image;
 
+import com.OpenRSC.Model.Frame;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
@@ -10,30 +11,35 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageWriter {
+    public ImageWriter() { }
 
-    private File file;
+    public boolean write(File file, Frame frame) {
 
+        if (file == null ||
+                frame == null)
+            return true;
 
-    public ImageWriter() {
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists())
+            parentDir.mkdir();
 
-    }
+        if (file.exists())
+            file.delete();
 
-    public boolean write() {
-//        if (this.file == null ||
-//                this.imageData == null)
-//            return true;
-//
-//        WritableImage writableImage = new WritableImage(this.imageData.getWidth(), this.imageData.getHeight());
-//        PixelWriter pw = writableImage.getPixelWriter();
-//        pw.setPixels(0, 0, this.imageData.getWidth(), this.imageData.getHeight(), PixelFormat.getIntArgbInstance(), this.imageData.getPixels(), 0, this.imageData.getWidth());
-//
-//        try {
-//            ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
-//        } catch (IOException a) {
-//            a.printStackTrace();
-//            return false;
-//        }
-//
+        int[] giveAlpha = new int[frame.getPixels().length];
+        for (int i=0; i<frame.getPixels().length; ++i)
+            giveAlpha[i] = 0xFF000000 | frame.getPixels()[i];
+        WritableImage writableImage = new WritableImage(frame.getWidth(), frame.getHeight());
+        PixelWriter pw = writableImage.getPixelWriter();
+        pw.setPixels(0, 0, frame.getWidth(), frame.getHeight(), PixelFormat.getIntArgbInstance(), giveAlpha, 0, frame.getWidth());
+
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
+        } catch (IOException a) {
+            a.printStackTrace();
+            return false;
+        }
+
        return true;
     }
 }

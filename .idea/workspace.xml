@@ -333,20 +333,26 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="311" column="24" selection-start-line="311" selection-start-column="24" selection-end-line="311" selection-end-column="24" />
+            <state relative-caret-position="357">
+              <caret line="51" column="27" lean-forward="true" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#17596#17597#0" expanded="true" />
-                <element signature="e#17636#17637#0" expanded="true" />
-                <element signature="e#17973#17974#0" expanded="true" />
-                <element signature="e#18013#18014#0" expanded="true" />
-                <element signature="e#38230#38231#0" expanded="true" />
-                <element signature="e#38318#38319#0" expanded="true" />
-                <element signature="e#38388#38389#0" expanded="true" />
-                <element signature="e#38612#38613#0" expanded="true" />
-                <element signature="e#38741#38742#0" expanded="true" />
-                <element signature="e#40458#40459#0" expanded="true" />
+                <element signature="e#20468#20469#0" expanded="true" />
+                <element signature="e#20845#20846#0" expanded="true" />
+                <element signature="e#36113#36487#0" expanded="true" />
+                <element signature="e#36486#36487#0" expanded="true" />
+                <element signature="e#39031#39032#0" expanded="true" />
+                <element signature="e#39075#39076#0" expanded="true" />
+                <element signature="e#39119#39120#0" expanded="true" />
+                <element signature="e#39163#39164#0" expanded="true" />
+                <element signature="e#39199#39200#0" expanded="true" />
+                <element signature="e#39233#39234#0" expanded="true" />
+                <element signature="e#39430#39431#0" expanded="true" />
+                <element signature="e#39457#39458#0" expanded="true" />
+                <element signature="e#39490#39491#0" expanded="true" />
+                <element signature="e#39586#39587#0" expanded="true" />
+                <element signature="e#41217#41218#0" expanded="true" />
+                <element signature="e#41303#41304#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -383,6 +389,18 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2908">
+              <caret line="178" column="30" selection-start-line="178" selection-start-column="30" selection-end-line="178" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="152">
@@ -391,6 +409,18 @@
                 <element signature="imports" expanded="true" />
                 <element signature="e#1261#1262#0" expanded="true" />
                 <element signature="e#1309#1310#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -408,51 +438,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="174" column="47" selection-start-line="174" selection-start-column="47" selection-end-line="174" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="36" selection-start-line="36" selection-end-line="36" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Archive/Unpacker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="57" selection-start-line="57" selection-end-line="57" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Frame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="45" column="34" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -466,15 +451,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>createEntry(</find>
-      <find>ospr</find>
-      <find>check_render.setDisable</find>
-      <find>loadwork</find>
-      <find>list_entries.getSe</find>
-      <find>subspacelist</find>
-      <find>list_subspaces.getItems().</find>
-      <find>DirectoryChooser</find>
-      <find>Chooser</find>
       <find>list_entries</find>
       <find>list_sub</find>
       <find>stopAni</find>
@@ -496,6 +472,15 @@
       <find>Extension</find>
       <find>needsave</find>
       <find>imagereader</find>
+      <find>spin</find>
+      <find>closespl</find>
+      <find>closepl</find>
+      <find>resource</find>
+      <find>button_export</find>
+      <find>imagewri</find>
+      <find>button_save_work</find>
+      <find>unbind</find>
+      <find>progress</find>
     </findStrings>
     <replaceStrings>
       <replace>Frame</replace>
@@ -556,23 +541,23 @@
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Render/PlayerRenderer.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Format/Frame.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Workspace/WorkspaceWriter.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Subspace.java" />
         <option value="$PROJECT_DIR$/src/module-info.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateWorkspace/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/CreateEntry/Controller.java" />
-        <option value="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageReader.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Archive/Unpacker.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Model/Frame.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java" />
         <option value="$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java" />
+        <option value="$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="15" />
-    <option name="y" value="60" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
     <option name="width" value="1750" />
     <option name="height" value="1090" />
   </component>
@@ -597,13 +582,12 @@
             <path>
               <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
               <item name="spritetool" type="462c0819:PsiDirectoryNode" />
-              <item name="resource" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
               <item name="spritetool" type="462c0819:PsiDirectoryNode" />
               <item name="resource" type="462c0819:PsiDirectoryNode" />
-              <item name="animations" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
@@ -638,6 +622,21 @@
               <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
               <item name="Interface" type="462c0819:PsiDirectoryNode" />
               <item name="SpriteTool" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
+              <item name="IO" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spritetool" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenRSC" type="462c0819:PsiDirectoryNode" />
+              <item name="IO" type="462c0819:PsiDirectoryNode" />
+              <item name="Image" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="spritetool" type="b2602c69:ProjectViewProjectNode" />
@@ -793,9 +792,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.19261745" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.19261745" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -804,7 +802,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.12466488" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30294907" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.21581769" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.33378017" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1077,16 +1075,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Archive/Unpacker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -1097,37 +1085,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="174" column="47" selection-start-line="174" selection-start-column="47" selection-end-line="174" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="47" column="36" selection-start-line="47" selection-start-column="36" selection-end-line="47" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Frame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="395">
           <caret line="45" column="34" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1261#1262#0" expanded="true" />
+            <element signature="e#1309#1310#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1148,34 +1121,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Render/SpriteRenderer.java">
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Model/Entry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
+        <state relative-caret-position="352">
+          <caret line="47" column="36" selection-start-line="47" selection-start-column="36" selection-end-line="47" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1261#1262#0" expanded="true" />
-            <element signature="e#1309#1310#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/IO/Image/ImageWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/SpriteTool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2908">
+          <caret line="178" column="30" selection-start-line="178" selection-start-column="30" selection-end-line="178" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/OpenRSC/Interface/SpriteTool/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="311" column="24" selection-start-line="311" selection-start-column="24" selection-end-line="311" selection-end-column="24" />
+        <state relative-caret-position="357">
+          <caret line="51" column="27" lean-forward="true" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#17596#17597#0" expanded="true" />
-            <element signature="e#17636#17637#0" expanded="true" />
-            <element signature="e#17973#17974#0" expanded="true" />
-            <element signature="e#18013#18014#0" expanded="true" />
-            <element signature="e#38230#38231#0" expanded="true" />
-            <element signature="e#38318#38319#0" expanded="true" />
-            <element signature="e#38388#38389#0" expanded="true" />
-            <element signature="e#38612#38613#0" expanded="true" />
-            <element signature="e#38741#38742#0" expanded="true" />
-            <element signature="e#40458#40459#0" expanded="true" />
+            <element signature="e#20468#20469#0" expanded="true" />
+            <element signature="e#20845#20846#0" expanded="true" />
+            <element signature="e#36113#36487#0" expanded="true" />
+            <element signature="e#36486#36487#0" expanded="true" />
+            <element signature="e#39031#39032#0" expanded="true" />
+            <element signature="e#39075#39076#0" expanded="true" />
+            <element signature="e#39119#39120#0" expanded="true" />
+            <element signature="e#39163#39164#0" expanded="true" />
+            <element signature="e#39199#39200#0" expanded="true" />
+            <element signature="e#39233#39234#0" expanded="true" />
+            <element signature="e#39430#39431#0" expanded="true" />
+            <element signature="e#39457#39458#0" expanded="true" />
+            <element signature="e#39490#39491#0" expanded="true" />
+            <element signature="e#39586#39587#0" expanded="true" />
+            <element signature="e#41217#41218#0" expanded="true" />
+            <element signature="e#41303#41304#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1239,6 +1243,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -1246,7 +1251,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>commons-io-2.6</last-edited>
+          <last-edited>lib</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
