@@ -172,6 +172,7 @@ public class SpriteTool extends Application {
                 openWorkspace(selectedDirectory.toPath(), countProgress);
                 clearWorkingCopy();
                 getMainController().loadChoiceBoxes();
+                countProgress.set(maxProgress);
                 return null;
             }
         };

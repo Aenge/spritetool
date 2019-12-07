@@ -11,6 +11,7 @@
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -18,19 +19,24 @@
 <?import javafx.scene.shape.Line?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
 
-<VBox fx:id="root" prefHeight="550.0" prefWidth="752.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
+<VBox fx:id="root" maxHeight="-Infinity" prefHeight="550.0" prefWidth="752.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
-      <HBox fx:id="hbox_menu" prefHeight="52.0" prefWidth="558.0" style="-fx-border-color: #000000;">
+      <HBox fx:id="hbox_menu" maxHeight="-Infinity" prefHeight="52.0" prefWidth="558.0" style="-fx-border-color: #000000;">
          <children>
             <JFXButton fx:id="button_new_workspace" buttonType="RAISED" contentDisplay="TOP" prefHeight="26.0" prefWidth="120.0" text="New Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_open_workspace" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Open Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_save_workspace" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Save Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_export" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Export PNG" />
+            <ImageView fitHeight="53.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Pictures/f.png" />
+               </image>
+            </ImageView>
          </children>
       </HBox>
-      <VBox prefHeight="497.0" prefWidth="752.0">
+      <VBox maxHeight="-Infinity" prefHeight="497.0" prefWidth="752.0">
          <children>
-            <HBox prefHeight="407.0" prefWidth="752.0">
+            <HBox maxHeight="-Infinity" prefHeight="407.0" prefWidth="752.0">
                <children>
                   <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="562.0">
                      <children>
@@ -40,13 +46,13 @@
                               <Label layoutX="2.0" layoutY="-2.0" prefHeight="26.0" prefWidth="122.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0" />
                               <Label layoutX="5.0" layoutY="19.0" prefHeight="18.0" prefWidth="58.0" text="Name" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="0.0" />
                               <TextField fx:id="text_name" layoutX="3.0" layoutY="37.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0" />
-                              <JFXCheckBox fx:id="check_shift" alignment="CENTER" checkedColor="#007b58" contentDisplay="RIGHT" layoutX="8.0" layoutY="78.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="88.0" text="Use Shift" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="78.0" />
-                              <Label layoutX="6.0" layoutY="106.0" text="Vertical Shift" AnchorPane.leftAnchor="6.0" />
+                              <JFXCheckBox fx:id="check_shift" alignment="CENTER" checkedColor="#007b58" contentDisplay="RIGHT" layoutX="3.0" layoutY="76.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="88.0" text="Use Shift" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="76.0" />
+                              <Label layoutX="6.0" layoutY="106.0" text="Vertical Shift" AnchorPane.leftAnchor="2.0" />
                               <TextField fx:id="text_vshift" layoutX="2.0" layoutY="124.0" prefHeight="26.0" prefWidth="72.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="3.0" />
-                              <TextField fx:id="text_hshift" layoutX="3.0" layoutY="168.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="2.0" />
-                              <Label layoutX="8.0" layoutY="151.0" prefHeight="18.0" prefWidth="88.0" text="Horizontal Shift" AnchorPane.leftAnchor="8.0" />
-                              <Label layoutX="1.0" layoutY="247.0" prefHeight="18.0" prefWidth="78.0" text="Bound Width" AnchorPane.leftAnchor="1.0" />
-                              <Label layoutX="4.0" layoutY="202.0" text="Bound Height" AnchorPane.leftAnchor="4.0" />
+                              <TextField fx:id="text_hshift" layoutX="3.0" layoutY="168.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" />
+                              <Label layoutX="8.0" layoutY="151.0" prefHeight="18.0" prefWidth="88.0" text="Horizontal Shift" AnchorPane.leftAnchor="2.0" />
+                              <Label layoutX="1.0" layoutY="247.0" prefHeight="18.0" prefWidth="78.0" text="Bound Width" AnchorPane.leftAnchor="2.0" />
+                              <Label layoutX="4.0" layoutY="202.0" text="Bound Height" AnchorPane.leftAnchor="2.0" />
                               <TextField fx:id="text_boundw" layoutX="2.0" layoutY="266.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="3.0" />
                               <TextField fx:id="text_boundh" layoutX="2.0" layoutY="220.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="3.0" />
                               <Line endX="-7.30712890625" endY="-99.61210632324219" layoutX="114.0" layoutY="19.0" startX="93.18577575683594" startY="-99.61212921142578" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0" />
@@ -55,20 +61,20 @@
                            </children>
                         </AnchorPane>
                         <ImageView fx:id="canvas" fitHeight="300.0" fitWidth="300.0" layoutX="243.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" />
-                        <Line endX="198.0" endY="-1.0" layoutX="346.0" layoutY="301.0" startX="-102.5" startY="-0.5" AnchorPane.topAnchor="299.2928931713104" />
+                        <Line endX="198.0" endY="-1.0" layoutX="346.0" layoutY="301.0" startX="-101.0" startY="-0.5" AnchorPane.topAnchor="299.2928931713104" />
                         <Line endX="0.70709228515625" endY="248.29290771484375" layoutX="544.0" layoutY="104.0" startY="-51.00000762939453" AnchorPane.topAnchor="0.0" />
-                        <ScrollBar fx:id="scroll_canvas" disable="true" layoutX="244.0" layoutY="301.0" max="1.0" min="1.0" prefHeight="14.0" prefWidth="300.0" value="1.0" />
-                        <ScrollBar fx:id="scroll_zoom" layoutX="545.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="0.0" />
-                        <AnchorPane fx:id="pane_animation" layoutX="242.0" layoutY="315.0" maxHeight="112.0" prefHeight="112.0" prefWidth="418.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0">
+                        <ScrollBar fx:id="scroll_canvas" layoutX="246.0" layoutY="301.0" max="1.0" min="1.0" prefHeight="14.0" prefWidth="300.0" value="1.0" />
+                        <ScrollBar fx:id="scroll_zoom" disable="true" layoutX="545.0" max="149.0" min="-149.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="14.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane fx:id="pane_animation" layoutX="242.0" layoutY="315.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="112.0" prefWidth="418.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="5.0">
                            <children>
-                              <Label layoutX="301.0" layoutY="7.0" text="Grayscale" AnchorPane.topAnchor="7.0" />
-                              <Label layoutX="302.0" layoutY="60.0" text="Bluescale" AnchorPane.leftAnchor="302.0" AnchorPane.topAnchor="60.0" />
-                              <ColorPicker fx:id="color_bluescale" layoutX="300.0" layoutY="78.0" prefHeight="26.0" prefWidth="112.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="78.0" />
-                              <ColorPicker fx:id="color_grayscale" layoutX="300.0" layoutY="30.0" prefHeight="26.0" prefWidth="112.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="30.0" />
-                              <JFXButton fx:id="button_changepng" buttonType="RAISED" graphicTextGap="0.0" layoutX="181.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
-                              <Label layoutX="176.0" layoutY="59.0" prefHeight="18.0" prefWidth="39.0" text="Frame" AnchorPane.leftAnchor="176.0" />
-                              <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="225.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
-                              <Label fx:id="label_frame" layoutX="215.0" layoutY="59.0" prefHeight="18.0" prefWidth="49.0" />
+                              <Label layoutX="296.0" layoutY="5.0" text="Grayscale" />
+                              <Label layoutX="296.0" layoutY="59.0" text="Bluescale" />
+                              <ColorPicker fx:id="color_bluescale" layoutX="295.0" layoutY="79.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="118.0" />
+                              <ColorPicker fx:id="color_grayscale" layoutX="295.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="118.0" />
+                              <JFXButton fx:id="button_changepng" buttonType="RAISED" graphicTextGap="0.0" layoutX="179.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
+                              <Label layoutX="182.0" layoutY="59.0" prefHeight="18.0" prefWidth="39.0" text="Frame" AnchorPane.leftAnchor="182.0" />
+                              <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="223.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
+                              <Label fx:id="label_frame" layoutX="219.0" layoutY="59.0" prefHeight="18.0" prefWidth="49.0" />
                               <Label layoutX="8.0" layoutY="7.0" text="Animation Type" />
                               <Label layoutX="7.0" layoutY="60.0" text="Slot" AnchorPane.leftAnchor="7.0" />
                               <ChoiceBox fx:id="choice_type" disable="true" layoutX="5.0" layoutY="29.0" prefHeight="26.0" prefWidth="130.0" />
@@ -78,12 +84,13 @@
                               <ToggleButton fx:id="button_play" layoutX="200.0" layoutY="3.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="30.0" />
                               <JFXSlider fx:id="slider_period" layoutX="145.0" layoutY="35.0" max="1000.0" min="100.0" value="550.0" />
                               <Line endX="72.5" endY="-0.09998321533203125" layoutX="216.0" layoutY="56.0" startX="-72.10003662109375" startY="0.20000457763671875" />
+                              <JFXButton fx:id="button_copy_colors" layoutX="383.0" prefHeight="20.0" prefWidth="35.0" />
                            </children>
                         </AnchorPane>
                         <CustomTextField fx:id="text_search" layoutX="6.0" layoutY="2.0" prefHeight="14.0" prefWidth="130.0" AnchorPane.leftAnchor="5.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="425.0" prefWidth="190.0">
+                  <AnchorPane maxHeight="-Infinity" prefHeight="425.0" prefWidth="190.0">
                      <children>
                         <Label layoutX="81.0" layoutY="67.0" text="Basic" />
                         <Label layoutX="2.0" layoutY="115.0" text="Body" />
@@ -101,7 +108,7 @@
                         <Label layoutX="2.0" layoutY="409.0" text="Cape" />
                         <JFXCheckBox fx:id="check_render" layoutX="40.0" layoutY="5.0" text="Render Player" />
                         <Line endX="106.00003051757812" layoutX="83.0" layoutY="60.0" startX="-84.9999771118164" />
-                        <Line endX="84.60000610351562" layoutX="102.0" layoutY="172.0" startX="-100.0" />
+                        <Line endX="91.0" layoutX="98.0" layoutY="172.0" startX="-100.0" />
                         <ChoiceBox fx:id="choice_basic_head" layoutX="35.0" layoutY="85.0" prefWidth="150.0" />
                         <ChoiceBox fx:id="choice_basic_body" layoutX="35.0" layoutY="111.0" prefWidth="150.0" />
                         <ChoiceBox fx:id="choice_basic_legs" layoutX="35.0" layoutY="137.0" prefWidth="150.0" />
@@ -114,8 +121,8 @@
                         <ChoiceBox fx:id="choice_boot" layoutX="35.0" layoutY="353.0" prefWidth="150.0" />
                         <ChoiceBox fx:id="choice_neck" layoutX="35.0" layoutY="379.0" prefWidth="150.0" />
                         <ChoiceBox fx:id="choice_cape" layoutX="35.0" layoutY="405.0" prefWidth="150.0" />
-                        <JFXButton fx:id="button_male" layoutX="67.0" layoutY="23.0" prefHeight="28.0" prefWidth="28.0" />
-                        <JFXButton fx:id="button_female" layoutX="96.0" layoutY="23.0" prefHeight="28.0" prefWidth="28.0" />
+                        <JFXButton fx:id="button_male" layoutX="65.0" layoutY="25.0" prefHeight="28.0" prefWidth="28.0" />
+                        <JFXButton fx:id="button_female" layoutX="98.0" layoutY="25.0" prefHeight="28.0" prefWidth="28.0" />
                      </children>
                   </AnchorPane>
                </children>

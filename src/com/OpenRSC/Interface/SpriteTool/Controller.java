@@ -1,6 +1,7 @@
 package com.OpenRSC.Interface.SpriteTool;
 
 import com.OpenRSC.IO.Archive.Packer;
+import com.OpenRSC.IO.Image.ImageReader;
 import com.OpenRSC.Model.Entry;
 import com.OpenRSC.Model.Frame;
 import com.OpenRSC.Model.Subspace;
@@ -9,10 +10,15 @@ import com.OpenRSC.Render.PlayerRenderer;
 import com.OpenRSC.SpriteTool;
 import com.jfoenix.controls.*;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 import java.util.Timer;
 
 import javafx.application.Platform;
@@ -26,10 +32,13 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
@@ -38,10 +47,6 @@ import org.controlsfx.glyphfont.FontAwesome;
 public class Controller implements Initializable {
     //TODO: remove add picture to create entry, make it add a template depending on the type.
     //TODO: switching use offset should adjust the bounding boxes (pfp example)
-    //TODO: playing animation -> search for something that doesnt exist - animation stops but timer is still on & play button says stop.
-    //TODO: tidy up the speed bar
-    //TODO: set scroll_canvas in render() function
-    //TODO: empty workspace -> loading bar does nothing
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -70,7 +75,7 @@ public class Controller implements Initializable {
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_export;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_export, button_copy_colors;
 
     @FXML
     private ToggleButton button_play;
@@ -261,14 +266,14 @@ public class Controller implements Initializable {
             File osprNew = new File(ss.getHome().toString(), entry.getID() + ".ospr");
             File osprOld = new File(ss.getHome().toString(), ss.getEntryList().get(spriteTool.getWorkingCopyIndex()) + ".ospr");
 
+            if (osprOld.exists())
+                osprOld.delete();
+
             if (osprNew.exists()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "That name already exists in this subspace.");
                 alert.showAndWait();
                 return;
             }
-
-            if (osprOld.exists())
-                osprOld.delete();
 
             Packer packer = new Packer(entry);
 
@@ -281,8 +286,31 @@ public class Controller implements Initializable {
         });
         button_export.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PHOTO).color(SpriteTool.accentColor).size(20));
         //--------- Other Buttons
+        button_copy_colors.setGraphic(new FontAwesome().create(FontAwesome.Glyph.COPY).color(SpriteTool.accentColor));
+        button_copy_colors.setOnMouseClicked(e -> {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            StringSelection text = new StringSelection("Grayscale: 0x" + color_grayscale.getValue().toString().substring(4).toUpperCase() + "\nBluescale: 0x" + color_bluescale.getValue().toString().substring(4).toUpperCase());
+            clipboard.setContents(text,null);
+        });
         button_changepng.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PENCIL).color(SpriteTool.accentColor));
         button_changepng.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
+        button_changepng.setOnMouseClicked(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(((Subspace)list_subspaces.getSelectionModel().getSelectedItem()).getHome().toFile());
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG images (.png)", "*.png"));
+            File imageFile = fileChooser.showOpenDialog(root.getScene().getWindow());
+
+            if (imageFile == null || !imageFile.exists())
+                return;
+
+            ImageReader imageReader = new ImageReader();
+            imageReader.read(imageFile);
+
+            Frame frame = spriteTool.getWorkingCopy().getFrames()[(int)scroll_canvas.getValue()-1];
+            frame.changePixels(imageReader.getPixels(), imageReader.getWidth(), imageReader.getHeight());
+            render();
+            checkSave();
+        });
         button_female.setOnMouseClicked(e -> {
             choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
             choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fbody1"));
@@ -348,7 +376,6 @@ public class Controller implements Initializable {
                 }
 
                 spriteTool.clearWorkingCopy();
-                scroll_canvas.setDisable(true);
                 scroll_canvas.setMax(1);
                 scroll_canvas.setValue(1);
                 scroll_zoom.setValue(0);
@@ -390,6 +417,7 @@ public class Controller implements Initializable {
                     spriteTool.setWorkingCopy(((Subspace) list_subspaces.getSelectionModel().getSelectedItem()).getEntryList().indexOf(newEntry), newEntry.clone());
                 checkSave();
                 showEntry(spriteTool.getWorkingCopy());
+                render();
             }
         });
         color_bluescale.valueProperty().addListener(new ChangeListener<Color>() {
@@ -408,7 +436,7 @@ public class Controller implements Initializable {
         color_grayscale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         canvas.setOnScroll(e -> {
             if (e.isControlDown()) {
-                if (scroll_canvas.isDisable())
+                if (scroll_canvas.getMax() == 1)
                     return;
                 double newValue = scroll_canvas.getValue() + Math.signum(e.getDeltaY());
                 if (newValue > scroll_canvas.getMax())
@@ -477,12 +505,9 @@ public class Controller implements Initializable {
                 scroll_canvas.setValue(t1.intValue());
                 if (scroll_canvas.getValue() == number.intValue())
                     return;
-                //spriteTool.getSpriteRenderer().renderPlayer(t1.intValue()-1);
-
-                if (spriteTool.getWorkingCopy() == null)
-                    return;
 
                 showEntry(spriteTool.getWorkingCopy(), t1.intValue() - 1);
+                render();
             }
         });
         //------- Checkbox
@@ -532,10 +557,10 @@ public class Controller implements Initializable {
                 if (!triggerListeners)
                     return;
 
-                if (t1 == null || t1.isEmpty())
+                if (t1 == null || t1.isEmpty() || t1.equalsIgnoreCase("-"))
                     return;
 
-                if (!t1.matches("\\d*")) {
+                if (!t1.matches("^[-+]?\\d+$")) {
                     text_boundh.setText(s);
                     return;
                 }
@@ -558,11 +583,11 @@ public class Controller implements Initializable {
                 if (!triggerListeners)
                     return;
 
-                if (t1 == null || t1.isEmpty())
+                if (t1 == null || t1.isEmpty() || t1.equalsIgnoreCase("-"))
                     return;
 
-                if (!t1.matches("\\d*")) {
-                    text_boundh.setText(s);
+                if (!t1.matches("^[-+]?\\d+$")) {
+                    text_boundw.setText(s);
                     return;
                 }
 
@@ -584,11 +609,11 @@ public class Controller implements Initializable {
                 if (!triggerListeners)
                     return;
 
-                if (t1 == null || t1.isEmpty())
+                if (t1 == null || t1.isEmpty() || t1.equalsIgnoreCase("-"))
                     return;
 
-                if (!t1.matches("\\d*")) {
-                    text_boundh.setText(s);
+                if (!t1.matches("^[-+]?\\d+$")) {
+                    text_hshift.setText(s);
                     return;
                 }
 
@@ -605,11 +630,11 @@ public class Controller implements Initializable {
                 if (!triggerListeners)
                     return;
 
-                if (t1 == null || t1.isEmpty())
+                if (t1 == null || t1.isEmpty() || t1.equalsIgnoreCase("-"))
                     return;
 
-                if (!t1.matches("-?\\d+")) {
-                    text_boundh.setText(s);
+                if (!t1.matches("^[-+]?\\d+$")) {
+                    text_vshift.setText(s);
                     return;
                 }
 
@@ -812,7 +837,6 @@ public class Controller implements Initializable {
         }
 
         triggerListeners = true;
-        render();
     }
 
     private void playAnimation() {
@@ -865,6 +889,16 @@ public class Controller implements Initializable {
                 (Entry)choice_glove.getValue(),
                 (Entry)choice_cape.getValue()
         );
+
+        if (check_render.selectedProperty().getValue()) {
+            int maxFrames = 1;
+            for (Entry entry : spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()) {
+                if (entry != null &&
+                        entry.getFrames().length > maxFrames)
+                    maxFrames = entry.getFrames().length;
+            }
+            scroll_canvas.setMax(maxFrames);
+        }
     }
     //------------------- public methods
     public void setSpriteTool(SpriteTool spriteTool) {

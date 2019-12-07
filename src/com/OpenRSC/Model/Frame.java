@@ -53,6 +53,11 @@ public class Frame {
     public int getWidth() { return this.width; }
     public int getHeight() { return this.height; }
     public int[] getPixels() { return this.pixels; }
+    public void changePixels(int[] pixels, int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.pixels = pixels;
+    }
     public boolean getUseShift() { return this.useShift; }
     public int getOffsetX() { return this.offsetX; }
     public int getOffsetY() { return this.offsetY; }
