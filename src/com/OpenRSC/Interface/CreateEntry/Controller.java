@@ -14,7 +14,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 

@@ -301,6 +301,7 @@ public class Controller implements Initializable {
                 alert.showAndWait();
                 if (alert.getResult() != ButtonType.OK)
                     return;
+            }
                 SimpleDoubleProperty ratio = new SimpleDoubleProperty();
                 progress_bar.progressProperty().bind(ratio);
                 final Task<Void> task = new Task<Void>() {
@@ -327,10 +328,9 @@ public class Controller implements Initializable {
                     }
                 };
 
-
                 Thread thread = new Thread(task, "task-thread");
                 thread.start();
-            }
+
         });
         button_export.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PHOTO).color(SpriteTool.accentColor).size(20));
         button_export.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());

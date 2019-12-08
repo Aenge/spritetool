@@ -75,14 +75,81 @@ public class Subspace {
             return false;
         }
 
-        String entryToCopy;
+        String entryToCopy = "head1";
 
         switch (type) {
-            case PLAYER_PART:
-                entryToCopy = "head1";
+            case SPRITE:
+                entryToCopy = "0";
                 break;
+            case PLAYER_PART:
+                switch (layer) {
+                    case HEAD_NO_SKIN:
+                        entryToCopy = "head1";
+                        break;
+                    case BODY_NO_SKIN:
+                        entryToCopy = "body1";
+                        break;
+                    case LEGS_NO_SKIN:
+                        entryToCopy = "legs1";
+                    default:
+                        break;
+                }
+                break;
+            case NPC:
+                entryToCopy = "goblin";
+                break;
+            case PLAYER_EQUIPPABLE_HASCOMBAT:
+                switch (layer) {
+                    case HEAD_NO_SKIN:
+                        entryToCopy = "fullhelm";
+                        break;
+                    case BODY_NO_SKIN:
+                        entryToCopy = "platemailtop";
+                        break;
+                    case LEGS_NO_SKIN:
+                        entryToCopy = "platemaillegs";
+                        break;
+                    case MAIN_HAND:
+                        entryToCopy = "2hander";
+                        break;
+                    case OFF_HAND:
+                        entryToCopy = "squareshield";
+                        break;
+                    case HEAD_WITH_SKIN:
+                        entryToCopy = "mediumhelm";
+                        break;
+                    case BODY_WITH_SKIN:
+                        entryToCopy = "chainmail";
+                        break;
+                    case LEGS_WITH_SKIN:
+                        entryToCopy = "skirt";
+                        break;
+                    case GLOVES:
+                        entryToCopy = "leathergloves";
+                        break;
+                    case BOOTS:
+                        entryToCopy = "boots";
+                        break;
+                    case NECK:
+                        entryToCopy = "necklace";
+                        break;
+                    case CAPE:
+                    default:
+                        entryToCopy = "cape";
+                        break;
+                }
+                break;
+            case PLAYER_EQUIPPABLE_NOCOMBAT:
             default:
-                entryToCopy = "head1";
+                switch(layer) {
+                    case MAIN_HAND:
+                        entryToCopy = "crossbow";
+                        break;
+                    case OFF_HAND:
+                    default:
+                        entryToCopy = "longbow";
+                        break;
+                }
                 break;
         }
 
