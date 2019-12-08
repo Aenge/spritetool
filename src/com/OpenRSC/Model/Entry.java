@@ -1,6 +1,8 @@
 package com.OpenRSC.Model;
 import com.OpenRSC.Render.PlayerRenderer.LAYER;
 
+import java.util.ArrayList;
+
 public class Entry {
 
     private Frame[] frames;
@@ -20,6 +22,16 @@ public class Entry {
     public LAYER getLayer() { return this.layer; }
     public Frame[] getFrames() { return this.frames; }
 
+    public ArrayList<Integer> getUniqueColors() {
+        ArrayList<Integer> colorList = new ArrayList<>();
+        for (Frame frame : this.frames){
+            for (int pixel : frame.getPixels()) {
+                if (!colorList.contains(pixel))
+                    colorList.add(pixel);
+            }
+        }
+        return colorList;
+    }
     public void changeID(String id) { this.id = id; }
 
     @Override

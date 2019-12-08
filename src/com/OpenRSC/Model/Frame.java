@@ -53,9 +53,7 @@ public class Frame {
     public int getWidth() { return this.width; }
     public int getHeight() { return this.height; }
     public int[] getPixels() { return this.pixels; }
-    public void changePixels(int[] pixels, int width, int height) {
-        this.width = width;
-        this.height = height;
+    public void changePixels(int[] pixels) {
         this.pixels = pixels;
     }
     public boolean getUseShift() { return this.useShift; }
@@ -64,6 +62,10 @@ public class Frame {
     public int getBoundWidth() { return this.boundWidth; }
     public int getBoundHeight() { return this.boundHeight; }
 
+    public void changeDimensions(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
     public void changeUseShift(Boolean use) { this.useShift = use; }
     public void changeOffsetX(int value) { this.offsetX = value; }
     public void changeOffsetY(int value) { this.offsetY = value; }

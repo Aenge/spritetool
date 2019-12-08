@@ -1,6 +1,7 @@
 package com.OpenRSC.Interface.SpriteTool;
 
 import com.OpenRSC.IO.Archive.Packer;
+import com.OpenRSC.IO.Image.ColorDecimator;
 import com.OpenRSC.IO.Image.ImageReader;
 import com.OpenRSC.IO.Image.ImageWriter;
 import com.OpenRSC.Model.Entry;
@@ -21,11 +22,15 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
+import java.util.regex.Pattern;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -37,6 +42,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Light;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
@@ -48,7 +54,7 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 public class Controller implements Initializable {
     //TODO: remove add picture to create entry, make it add a template depending on the type.
-    //TODO: why blue faces? - LEAVE unpacker the same. load cabbage workspace.. save/repack every entry.
+    //TODO: repack using 1 byte for color table size
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -59,7 +65,7 @@ public class Controller implements Initializable {
     private JFXListView list_subspaces, list_entries;
 
     @FXML
-    private Label label_status, label_frame;
+    private Label label_status, label_frame, label_color_count;
 
     @FXML
     private JFXCheckBox check_shift, check_render;
@@ -77,7 +83,7 @@ public class Controller implements Initializable {
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_export, button_copy_colors;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_export, button_copy_colors, button_decimate;
 
     @FXML
     private ToggleButton button_play;
@@ -287,6 +293,45 @@ public class Controller implements Initializable {
 
 
         //--------- Other Buttons
+        button_decimate.setDisable(true);
+        button_decimate.setOnMouseClicked(e -> {
+            if (spriteTool.getWorkingCopy().getType() != Entry.TYPE.SPRITE) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Please make sure ALL frames have their FINAL images " + "set before attempting to fix colors.");
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.showAndWait();
+                if (alert.getResult() != ButtonType.OK)
+                    return;
+                SimpleDoubleProperty ratio = new SimpleDoubleProperty();
+                progress_bar.progressProperty().bind(ratio);
+                final Task<Void> task = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        ColorDecimator colorDecimator = new ColorDecimator();
+                        colorDecimator.reduceColorPalette(spriteTool.getWorkingCopy().getUniqueColors(), 255, ratio);
+
+                        ratio.set(0);
+                        for (int i=0; i<spriteTool.getWorkingCopy().getFrames().length; ++i) {
+                            Frame frame = spriteTool.getWorkingCopy().getFrames()[i];
+                            frame.changePixels(colorDecimator.decimatePixelColors(frame.getPixels()));
+                            ratio.set((double)i/spriteTool.getWorkingCopy().getFrames().length);
+                        }
+
+                        Platform.runLater(() -> {
+                            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 255");
+                            checkSave();
+                            render();
+                            ratio.set(1);
+                            progress_bar.progressProperty().unbind();
+                        });
+                        return null;
+                    }
+                };
+
+
+                Thread thread = new Thread(task, "task-thread");
+                thread.start();
+            }
+        });
         button_export.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PHOTO).color(SpriteTool.accentColor).size(20));
         button_export.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_export.setOnMouseClicked(e -> {
@@ -328,7 +373,9 @@ public class Controller implements Initializable {
             imageReader.read(imageFile);
 
             Frame frame = spriteTool.getWorkingCopy().getFrames()[(int)scroll_canvas.getValue()-1];
-            frame.changePixels(imageReader.getPixels(), imageReader.getWidth(), imageReader.getHeight());
+            frame.changeDimensions(imageReader.getWidth(), imageReader.getHeight());
+            frame.changePixels(imageReader.getPixels());
+            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 255");
             render();
             checkSave();
         });
@@ -356,7 +403,19 @@ public class Controller implements Initializable {
                 }
             }
         });
-
+        label_color_count.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                String[] values = t1.split(Pattern.quote(" / "));
+                if (Integer.valueOf(values[0]) > Integer.valueOf(values[1])) {
+                    label_color_count.setTextFill(Color.RED);
+                    button_decimate.setDisable(false);
+                } else {
+                    label_color_count.setTextFill(Color.WHITE);
+                    button_decimate.setDisable(true);
+                }
+            }
+        });
         slider_period.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -822,6 +881,7 @@ public class Controller implements Initializable {
             }
         }
 
+        label_color_count.setText(entry.getUniqueColors().size() + " / 255");
         showEntry(entry, 0);
     }
 

@@ -17,9 +17,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
 
-<VBox fx:id="root" maxHeight="-Infinity" prefHeight="550.0" prefWidth="752.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
+<VBox fx:id="root" maxHeight="-Infinity" prefHeight="550.0" prefWidth="497.0" stylesheets="file:resource/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.OpenRSC.Interface.SpriteTool.Controller">
    <children>
       <HBox fx:id="hbox_menu" maxHeight="-Infinity" prefHeight="52.0" prefWidth="558.0" style="-fx-border-color: #000000;">
          <children>
@@ -42,23 +43,31 @@
                   <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="562.0">
                      <children>
                         <JFXListView fx:id="list_entries" layoutX="29.0" layoutY="31.0" prefHeight="399.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="31.0" />
-                        <AnchorPane layoutX="139.0" layoutY="52.0" prefHeight="318.0" prefWidth="104.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="-1.0">
+                        <AnchorPane layoutX="139.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="105.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="111.0" AnchorPane.topAnchor="-1.0">
                            <children>
-                              <Label layoutX="2.0" layoutY="-2.0" prefHeight="26.0" prefWidth="122.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0" />
+                              <Label layoutX="15.0" prefHeight="15.0" prefWidth="67.0" style="-fx-alignment: center;" text="Entry Info" textAlignment="CENTER" />
                               <Label layoutX="5.0" layoutY="19.0" prefHeight="18.0" prefWidth="58.0" text="Name" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="0.0" />
-                              <TextField fx:id="text_name" layoutX="3.0" layoutY="37.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0" />
-                              <JFXCheckBox fx:id="check_shift" alignment="CENTER" checkedColor="#007b58" contentDisplay="RIGHT" layoutX="3.0" layoutY="76.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="88.0" text="Use Shift" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="76.0" />
-                              <Label layoutX="6.0" layoutY="106.0" text="Vertical Shift" AnchorPane.leftAnchor="2.0" />
-                              <TextField fx:id="text_vshift" layoutX="2.0" layoutY="124.0" prefHeight="26.0" prefWidth="72.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="3.0" />
-                              <TextField fx:id="text_hshift" layoutX="3.0" layoutY="168.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" />
-                              <Label layoutX="8.0" layoutY="151.0" prefHeight="18.0" prefWidth="88.0" text="Horizontal Shift" AnchorPane.leftAnchor="2.0" />
-                              <Label layoutX="1.0" layoutY="247.0" prefHeight="18.0" prefWidth="78.0" text="Bound Width" AnchorPane.leftAnchor="2.0" />
-                              <Label layoutX="4.0" layoutY="202.0" text="Bound Height" AnchorPane.leftAnchor="2.0" />
-                              <TextField fx:id="text_boundw" layoutX="2.0" layoutY="266.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="3.0" />
-                              <TextField fx:id="text_boundh" layoutX="2.0" layoutY="220.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="3.0" />
-                              <Line endX="-7.30712890625" endY="-99.61210632324219" layoutX="114.0" layoutY="19.0" startX="93.18577575683594" startY="-99.61212921142578" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0" />
-                              <Line endX="58.0" layoutX="44.0" layoutY="202.0" startX="-42.80000305175781" AnchorPane.leftAnchor="0.6999969482421875" AnchorPane.rightAnchor="1.5" />
-                              <Line endX="58.0" endY="-3.0" layoutX="14.0" layoutY="72.0" startX="-42.80000305175781" startY="-3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <TextField fx:id="text_name" layoutX="3.0" layoutY="37.0" prefHeight="26.0" prefWidth="99.0" />
+                              <JFXCheckBox fx:id="check_shift" alignment="CENTER" checkedColor="#007b58" contentDisplay="RIGHT" layoutX="-3.0" layoutY="119.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="88.0" text="Use Shift" AnchorPane.topAnchor="119.0" />
+                              <Label layoutX="5.0" layoutY="138.0" text="Vertical Shift" />
+                              <TextField fx:id="text_vshift" layoutX="3.0" layoutY="156.0" prefHeight="26.0" prefWidth="99.0" />
+                              <TextField fx:id="text_hshift" layoutX="3.0" layoutY="202.0" prefHeight="26.0" prefWidth="99.0" />
+                              <Label layoutX="5.0" layoutY="183.0" prefHeight="18.0" prefWidth="88.0" text="Horizontal Shift" />
+                              <Label layoutX="5.0" layoutY="274.0" prefHeight="18.0" prefWidth="78.0" text="Bound Width" />
+                              <Label layoutX="5.0" layoutY="229.0" text="Bound Height" />
+                              <TextField fx:id="text_boundw" layoutX="3.0" layoutY="293.0" prefHeight="26.0" prefWidth="99.0" />
+                              <TextField fx:id="text_boundh" layoutX="3.0" layoutY="247.0" prefHeight="26.0" prefWidth="99.0" />
+                              <Line endX="-9.0" endY="-99.61210632324219" layoutX="10.0" layoutY="19.0" startX="94.0" startY="-99.61212921142578" AnchorPane.topAnchor="18.0" />
+                              <Line endX="62.0" endY="-3.0000152587890625" layoutX="42.0" layoutY="122.0" startX="-41.0" startY="-3.0" />
+                              <Line endX="-8.0" endY="-1.52587890625E-5" layoutX="112.0" layoutY="100.0" startX="-110.99996948242188" startY="-1.52587890625E-5" />
+                              <Label layoutX="23.0" layoutY="100.0" text="Frame Info" />
+                              <Label layoutX="5.0" layoutY="63.0" text="Unique Colors" />
+                              <Label fx:id="label_color_count" layoutX="5.0" layoutY="79.0" />
+                              <JFXButton fx:id="button_decimate" buttonType="RAISED" graphicTextGap="0.0" layoutX="70.0" layoutY="75.0" maxHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" text="FIX">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
                            </children>
                         </AnchorPane>
                         <ImageView fx:id="canvas" fitHeight="300.0" fitWidth="300.0" layoutX="243.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" />
