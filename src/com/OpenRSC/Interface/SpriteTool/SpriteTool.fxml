@@ -11,7 +11,6 @@
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -29,11 +28,7 @@
             <JFXButton fx:id="button_save_workspace" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Save Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_export" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Export PNG" />
             <ImageView fitHeight="17.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="53.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../../../../../../../Pictures/spritetool.png" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="image_logo" fitHeight="53.0" pickOnBounds="true" />
          </children>
       </HBox>
       <VBox maxHeight="-Infinity" prefHeight="497.0" prefWidth="752.0">
@@ -63,9 +58,14 @@
                               <Label layoutX="23.0" layoutY="100.0" text="Frame Info" />
                               <Label layoutX="5.0" layoutY="63.0" text="Unique Colors" />
                               <Label fx:id="label_color_count" layoutX="5.0" layoutY="79.0" />
-                              <JFXButton fx:id="button_decimate" buttonType="RAISED" graphicTextGap="0.0" layoutX="70.0" layoutY="75.0" maxHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" text="FIX">
+                              <JFXButton fx:id="button_decimate" buttonType="RAISED" graphicTextGap="0.0" layoutX="75.0" layoutY="79.0" maxHeight="-Infinity" prefHeight="20.0" prefWidth="30.0" text="FIX">
                                  <font>
-                                    <Font size="10.0" />
+                                    <Font size="9.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="button_reset" buttonType="RAISED" graphicTextGap="0.0" layoutX="80.0" layoutY="228.0" prefHeight="19.0" prefWidth="25.0">
+                                 <font>
+                                    <Font size="9.0" />
                                  </font>
                               </JFXButton>
                            </children>
@@ -81,9 +81,9 @@
                               <Label layoutX="296.0" layoutY="59.0" text="Bluescale" />
                               <ColorPicker fx:id="color_bluescale" layoutX="295.0" layoutY="79.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="118.0" />
                               <ColorPicker fx:id="color_grayscale" layoutX="295.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="118.0" />
-                              <JFXButton fx:id="button_changepng" buttonType="RAISED" graphicTextGap="0.0" layoutX="179.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
+                              <JFXButton fx:id="button_changepng" buttonType="RAISED" graphicTextGap="0.0" layoutX="227.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
                               <Label layoutX="182.0" layoutY="59.0" prefHeight="18.0" prefWidth="39.0" text="Frame" AnchorPane.leftAnchor="182.0" />
-                              <JFXButton fx:id="button_addframe" buttonType="RAISED" layoutX="223.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
+                              <JFXButton fx:id="button_changeallframes" buttonType="RAISED" layoutX="181.0" layoutY="79.0" prefHeight="30.0" prefWidth="30.0" styleClass="glass-grey" />
                               <Label fx:id="label_frame" layoutX="219.0" layoutY="59.0" prefHeight="18.0" prefWidth="49.0" />
                               <Label layoutX="8.0" layoutY="7.0" text="Animation Type" />
                               <Label layoutX="7.0" layoutY="60.0" text="Slot" AnchorPane.leftAnchor="7.0" />
@@ -93,7 +93,7 @@
                               <Line endX="5.0" endY="45.0" layoutX="283.0" layoutY="63.0" startX="5.0" startY="-63.0" AnchorPane.bottomAnchor="0.0" />
                               <ToggleButton fx:id="button_play" layoutX="200.0" layoutY="3.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="30.0" />
                               <JFXSlider fx:id="slider_period" layoutX="145.0" layoutY="35.0" max="1000.0" min="100.0" value="550.0" />
-                              <Line endX="72.5" endY="-0.09998321533203125" layoutX="216.0" layoutY="56.0" startX="-72.10003662109375" startY="0.20000457763671875" />
+                              <Line endX="71.5" endY="-0.09998321533203125" layoutX="216.0" layoutY="56.0" startX="-72.10003662109375" startY="0.20000457763671875" />
                               <JFXButton fx:id="button_copy_colors" layoutX="383.0" prefHeight="20.0" prefWidth="35.0" />
                            </children>
                         </AnchorPane>

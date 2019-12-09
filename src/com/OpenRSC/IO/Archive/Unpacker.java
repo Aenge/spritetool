@@ -35,7 +35,7 @@ public class Unpacker {
                     (int)input.readByte() & 0xFF
             );
 
-            int tableSize = (int)input.readShort() & 0xFFFF;
+            int tableSize = input.readByte() & 0xFF;
             int[] colorTable = new int[tableSize];
 
             for (int i=0; i < colorTable.length; ++i) {
@@ -56,8 +56,8 @@ public class Unpacker {
                         (int)input.readShort() & 0xFFFF
                         );
 
-                for (int p=0; p < frame.getPixels().length; ++p)
-                    frame.getPixels()[p] = colorTable[(int)input.readByte() & 0xFF];
+                    for (int p = 0; p < frame.getPixels().length; ++p)
+                        frame.getPixels()[p] = colorTable[(int) input.readByte() & 0xFF];
 
                 newEntry.getFrames()[i] = frame;
             }

@@ -22,11 +22,11 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
@@ -41,6 +41,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Light;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -49,12 +50,13 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.glyphfont.FontAwesome;
-
+//TODO: add a button to change all pngs in the animation
+//TODO: can't save if colors are overloaded
+//TODO: progress bar for exporting pngs - make all progress bar situations modal
 public class Controller implements Initializable {
-    //TODO: remove add picture to create entry, make it add a template depending on the type.
-    //TODO: repack using 1 byte for color table size
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
 
@@ -77,13 +79,13 @@ public class Controller implements Initializable {
     private CustomTextField text_search;
 
     @FXML
-    private ImageView canvas;
+    private ImageView canvas, image_logo;
 
     @FXML
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_addframe, button_changepng, button_male, button_female, button_export, button_copy_colors, button_decimate;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_changeallframes, button_changepng, button_male, button_female, button_export, button_copy_colors, button_decimate, button_reset;
 
     @FXML
     private ToggleButton button_play;
@@ -105,6 +107,16 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        button_reset.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EXCHANGE).color(SpriteTool.accentColor).size(10));
+        button_reset.setOnMouseClicked(e -> {
+            if (spriteTool.getWorkingCopy() != null) {
+                getWorkingFrame().changeBoundWidth(getWorkingFrame().getWidth());
+                getWorkingFrame().changeBoundHeight(getWorkingFrame().getHeight());
+                showEntry(spriteTool.getWorkingCopy(), (int)scroll_canvas.getValue()-1);
+                render();
+                checkSave();
+            }
+        });
         check_render.setCheckedColor(spriteTool.accentColor);
         check_shift.setCheckedColor(spriteTool.accentColor);
 
@@ -347,7 +359,7 @@ public class Controller implements Initializable {
 
             for (int i=0; i<spriteTool.getWorkingCopy().getFrames().length; ++i) {
                 ImageWriter imageWriter = new ImageWriter();
-                imageWriter.write(new File(home.toString(), i + ".png"), spriteTool.getWorkingCopy().getFrames()[i]);
+                imageWriter.write(new File(home.toString(), (i+1) + ".png"), spriteTool.getWorkingCopy().getFrames()[i]);
                 progress_bar.setProgress(i+1/spriteTool.getWorkingCopy().getFrames().length);
             }
         });
@@ -385,12 +397,58 @@ public class Controller implements Initializable {
             choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_male.setOnMouseClicked(e -> {
-            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
-            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
-            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
+            File subspaceHome = new File(spriteTool.getWorkspace().getHome().getParent().toString(), "goku");
+            for (Subspace subspace : spriteTool.getWorkspace().getSubspaces()) {
+                File writeTo = new File(subspaceHome.toString(), subspace.getName());
+                writeTo.mkdirs();
+                for (Entry entry : subspace.getEntryList()) {
+                    Packer turd = new Packer(entry);
+                    File file = new File(writeTo.toString(), entry.getID() + ".ospr");
+                    turd.pack(file);
+                }
+
+            }
+//            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
+//            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
+//            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
-        button_addframe.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor));
-        button_addframe.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
+        button_changeallframes.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_ALT).color(SpriteTool.accentColor));
+        button_changeallframes.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
+        button_changeallframes.setOnMouseClicked(e -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setInitialDirectory(Paths.get("").toAbsolutePath().toFile());
+
+            File frameFolder = directoryChooser.showDialog(root.getScene().getWindow());
+            File[] frameFiles = frameFolder.listFiles(File::isFile);
+
+            Pattern p = Pattern.compile("\\d+");
+            Matcher m;
+            for (File frameFile : frameFiles) {
+                if (!FilenameUtils.getExtension(frameFile.getName()).equalsIgnoreCase("png"))
+                    continue;
+
+                String name = FilenameUtils.removeExtension(frameFile.getName());
+                m = p.matcher(name);
+                int frameIndex = -1;
+                if (m.find()) {
+                    frameIndex = Integer.parseInt(m.group());
+                    if (frameIndex > spriteTool.getWorkingCopy().getFrames().length ||
+                        frameIndex < 1)
+                        continue;
+                    ImageReader imageReader = new ImageReader();
+                    imageReader.read(frameFile);
+
+                    Frame frame = spriteTool.getWorkingCopy().getFrames()[frameIndex-1];
+                    frame.changeDimensions(imageReader.getWidth(), imageReader.getHeight());
+                    frame.changePixels(imageReader.getPixels());
+                }
+
+                label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 255");
+                render();
+                checkSave();
+            }
+
+        });
         button_play.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLAY).color(Color.GREEN));
         button_play.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
         button_play.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -514,6 +572,8 @@ public class Controller implements Initializable {
             }
         });
         color_grayscale.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
+
+        image_logo.setImage(new Image("file:resource/logo.png"));
         canvas.setOnScroll(e -> {
             if (e.isControlDown()) {
                 if (scroll_canvas.getMax() == 1)
@@ -610,7 +670,7 @@ public class Controller implements Initializable {
                 if (t1 == null)
                     return;
 
-                getWorkingSprite().changeUseShift(t1);
+                getWorkingFrame().changeUseShift(t1);
                 checkSave();
 
                 render();
@@ -650,7 +710,7 @@ public class Controller implements Initializable {
                         value <= 0)
                     return;
 
-                getWorkingSprite().changeBoundHeight(value);
+                getWorkingFrame().changeBoundHeight(value);
 
                 checkSave();
                 render();
@@ -676,7 +736,7 @@ public class Controller implements Initializable {
                         value <= 0)
                     return;
 
-                getWorkingSprite().changeBoundWidth(value);
+                getWorkingFrame().changeBoundWidth(value);
                 checkSave();
 
                 render();
@@ -697,7 +757,7 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                getWorkingSprite().changeOffsetX(Integer.parseInt(t1));
+                getWorkingFrame().changeOffsetX(Integer.parseInt(t1));
                 checkSave();
 
                 render();
@@ -718,8 +778,8 @@ public class Controller implements Initializable {
                     return;
                 }
 
-                getWorkingSprite().changeOffsetY(Integer.parseInt(t1));
-                getWorkingSprite().changeOffsetY(Integer.parseInt(t1));
+                getWorkingFrame().changeOffsetY(Integer.parseInt(t1));
+                getWorkingFrame().changeOffsetY(Integer.parseInt(t1));
                 checkSave();
 
                 render();
@@ -875,13 +935,13 @@ public class Controller implements Initializable {
             scroll_canvas.setMax(1);
         } else {
             scroll_canvas.setMax(entry.getFrames().length);
+            label_color_count.setText(entry.getUniqueColors().size() + " / 255");
             if (entry.getLayer() == null) {
                 check_render.setSelected(false);
                 check_render.setDisable(true);
             }
         }
 
-        label_color_count.setText(entry.getUniqueColors().size() + " / 255");
         showEntry(entry, 0);
     }
 
@@ -1033,7 +1093,7 @@ public class Controller implements Initializable {
         playTimer.cancel();
     }
 
-    private Frame getWorkingSprite() {
+    private Frame getWorkingFrame() {
         int index = (int) scroll_canvas.getValue() - 1;
         if (spriteTool.getWorkingCopy() == null)
             return null;
@@ -1055,7 +1115,7 @@ public class Controller implements Initializable {
 
             spriteTool.getSpriteRenderer().renderPlayer(frame, override, color_grayscale.getValue(), color_bluescale.getValue());
         } else
-            spriteTool.getSpriteRenderer().renderSprite(getWorkingSprite(), color_grayscale.getValue(), color_bluescale.getValue());
+            spriteTool.getSpriteRenderer().renderSprite(getWorkingFrame(), color_grayscale.getValue(), color_bluescale.getValue());
     }
 
     public Subspace getCurrentSubspace() {
@@ -1108,8 +1168,41 @@ public class Controller implements Initializable {
                         }
                         break;
                     case PLAYER_EQUIPPABLE_HASCOMBAT:
-                        break;
                     case PLAYER_EQUIPPABLE_NOCOMBAT:
+                        switch (entry.getLayer()) {
+                            case HEAD_NO_SKIN:
+                            case HEAD_WITH_SKIN:
+                                choice_head.getItems().add(entry);
+                                break;
+                            case BODY_NO_SKIN:
+                            case BODY_WITH_SKIN:
+                                choice_body.getItems().add(entry);
+                                break;
+                            case LEGS_NO_SKIN:
+                            case LEGS_WITH_SKIN:
+                                choice_legs.getItems().add(entry);
+                                break;
+                            case MAIN_HAND:
+                                choice_main.getItems().add(entry);
+                                break;
+                            case OFF_HAND:
+                                choice_sub.getItems().add(entry);
+                                break;
+                            case GLOVES:
+                                choice_glove.getItems().add(entry);
+                                break;
+                            case BOOTS:
+                                choice_boot.getItems().add(entry);
+                                break;
+                            case NECK:
+                                choice_neck.getItems().add(entry);
+                                break;
+                            case CAPE:
+                                choice_cape.getItems().add(entry);
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     default:
                         break;

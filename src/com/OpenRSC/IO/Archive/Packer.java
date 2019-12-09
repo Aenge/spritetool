@@ -37,17 +37,10 @@ public class Packer {
             dOS.writeByte((byte)(entry.getFrames().length & 0xFF));
 
             //Generate color table
-            ArrayList<Integer> colors = new ArrayList<>();
-
-            for (int i=0; i < this.entry.getFrames().length; ++i) {
-                for (int color : this.entry.getFrames()[i].getPixels()) {
-                    if (!colors.contains(color))
-                        colors.add(color);
-                }
-            }
+            ArrayList<Integer> colors = this.entry.getUniqueColors();
 
             //Write the amount of colors in the color table
-            dOS.writeShort((short)(colors.size() & 0xFFFF));
+            dOS.writeByte(colors.size() & 0xFF);
 
             //Write the color table
             for (int color : colors) {
