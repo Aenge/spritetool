@@ -53,6 +53,7 @@ public class SpriteTool extends Application {
     private Parent createEntryRoot;
     private com.OpenRSC.Interface.CreateEntry.Controller createEntryController;
     private SpriteRenderer spriteRenderer;
+    private com.OpenRSC.Interface.PleaseWait.Controller pleaseWaitController;
 
     private Entry workingCopy;
     private int workingCopyIndex = -1;
@@ -98,13 +99,42 @@ public class SpriteTool extends Application {
         this.createEntryController.setSpriteTool(this);
     }
 
+    public void showPleaseWait() {
+        try {
+            URL createEntryURL = new File("src/com/OpenRSC/Interface/PleaseWait/PleaseWait.fxml").toURI().toURL();
+            FXMLLoader createEntryLoader = new FXMLLoader(createEntryURL);
+            Scene scene = new Scene(createEntryLoader.load(), 562, 102);
+            this.pleaseWaitController = createEntryLoader.getController();
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setOnCloseRequest(event -> {
+                event.consume();
+            });
+
+            double widthDiff = (this.primaryStage.getWidth() - scene.getWidth()) / 2;
+            double heightDiff = (this.primaryStage.getHeight() - scene.getHeight()) / 2;
+
+            stage.setX(primaryStage.getX() + widthDiff);
+            stage.setY(primaryStage.getY() + heightDiff);
+
+            stage.show();
+        } catch (IOException a) { a.printStackTrace(); }
+    }
+
+    public void clearPleaseWait() {
+        pleaseWaitController.close();
+    }
+
     public void closeSplash() {
         try { spinMain(); } catch (IOException a) { a.printStackTrace(); return; }
         primaryStage.close();
 
         Stage newStage = new Stage();
         newStage.setTitle("OpenRSC Sprite Tool");
-        Scene scene = new Scene(this.mainRoot, 752, 550);
+        Scene scene = new Scene(this.mainRoot, 752, 555);
         newStage.setScene(scene);
         newStage.setOnCloseRequest(e -> {
             getMainController().stopTimer();
@@ -169,14 +199,18 @@ public class SpriteTool extends Application {
             }
         });
         mainController.progress_bar.progressProperty().bind(ratio);
+        showPleaseWait();
         final Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 openWorkspace(selectedDirectory.toPath(), countProgress);
-                clearWorkingCopy();
-                getMainController().loadChoiceBoxes();
-                countProgress.set(maxProgress);
-                mainController.progress_bar.progressProperty().unbind();
+                Platform.runLater(() -> {
+                    clearWorkingCopy();
+                    getMainController().loadChoiceBoxes();
+                    countProgress.set(maxProgress);
+                    mainController.progress_bar.progressProperty().unbind();
+                    clearPleaseWait();
+                });
                 return null;
             }
         };

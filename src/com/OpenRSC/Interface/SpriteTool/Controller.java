@@ -53,10 +53,7 @@ import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.glyphfont.FontAwesome;
-//TODO: can't save if colors are overloaded
-//TODO: progress bar for exporting pngs - make all progress bar situations modal
-//TODO: pressing save workspace clears the working entry sometimes?
-//TODO: render fullhelm, then select entry halloween mask
+//TODO: search for entry, select entry, save, entry gets deselected
 public class Controller implements Initializable {
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
@@ -160,19 +157,8 @@ public class Controller implements Initializable {
         choice_head.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (o != null)
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry) o).getLayer().getIndex()] = null;
-
-                if (t1 != null) {
-                    Entry entry = (Entry) t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    if (entry.getLayer() == PlayerRenderer.LAYER.HEAD_NO_SKIN)
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.HEAD_WITH_SKIN.getIndex()] = null;
-                    else
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.HEAD_NO_SKIN.getIndex()] = (Entry) choice_basic_head.getValue();
-                    render();
-                } else
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry) o).getLayer().getIndex()] = null;
+                updatePlayerLook();
+                render();
             }
         });
         choice_body.valueProperty().addListener(new ChangeListener() {
@@ -185,16 +171,8 @@ public class Controller implements Initializable {
         choice_legs.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if (t1 != null) {
-                    Entry entry = (Entry) t1;
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[entry.getLayer().getIndex()] = entry;
-                    if (entry.getLayer() == PlayerRenderer.LAYER.LEGS_NO_SKIN)
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.LEGS_WITH_SKIN.getIndex()] = null;
-                    else
-                        spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[PlayerRenderer.LAYER.LEGS_NO_SKIN.getIndex()] = (Entry) choice_basic_legs.getValue();
-                    render();
-                } else
-                    spriteTool.getSpriteRenderer().getPlayerRenderer().getLayers()[((Entry) o).getLayer().getIndex()] = null;
+                updatePlayerLook();
+                render();
             }
         });
         choice_main.valueProperty().addListener(new ChangeListener() {
@@ -279,6 +257,10 @@ public class Controller implements Initializable {
                     getCurrentSubspace() == null)
                 return;
 
+            if (!button_decimate.isDisable()) {
+                showError("Before saving, please reduce the unique color count.");
+                return;
+            }
             Subspace ss = getCurrentSubspace();
             Entry entry = spriteTool.getWorkingCopy();
 
@@ -317,6 +299,7 @@ public class Controller implements Initializable {
             }
                 SimpleDoubleProperty ratio = new SimpleDoubleProperty();
                 progress_bar.progressProperty().bind(ratio);
+                spriteTool.showPleaseWait();
                 final Task<Void> task = new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
@@ -336,6 +319,7 @@ public class Controller implements Initializable {
                             render();
                             ratio.set(1);
                             progress_bar.progressProperty().unbind();
+                            spriteTool.clearPleaseWait();
                         });
                         return null;
                     }
@@ -355,14 +339,32 @@ public class Controller implements Initializable {
             directoryChooser.setInitialDirectory(Paths.get("").toAbsolutePath().toFile());
 
             File saveDir = directoryChooser.showDialog(root.getScene().getWindow());
-
+            if (saveDir == null ||
+                !saveDir.exists())
+                return;
             File home = new File(saveDir.toString(), spriteTool.getWorkingCopy().getID());
+            SimpleDoubleProperty ratio = new SimpleDoubleProperty();
+            progress_bar.progressProperty().bind(ratio);
+            spriteTool.showPleaseWait();
+            final Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    for (int i=0; i<spriteTool.getWorkingCopy().getFrames().length; ++i) {
+                        ImageWriter imageWriter = new ImageWriter();
+                        imageWriter.write(new File(home.toString(), (i+1) + ".png"), spriteTool.getWorkingCopy().getFrames()[i]);
+                        ratio.set((double)(i+1)/spriteTool.getWorkingCopy().getFrames().length);
+                    }
+                    Platform.runLater(() -> {
+                        ratio.set(1);
+                        progress_bar.progressProperty().unbind();
+                        spriteTool.clearPleaseWait();
+                    });
+                    return null;
+                }
+            };
 
-            for (int i=0; i<spriteTool.getWorkingCopy().getFrames().length; ++i) {
-                ImageWriter imageWriter = new ImageWriter();
-                imageWriter.write(new File(home.toString(), (i+1) + ".png"), spriteTool.getWorkingCopy().getFrames()[i]);
-                progress_bar.setProgress(i+1/spriteTool.getWorkingCopy().getFrames().length);
-            }
+            Thread thread = new Thread(task, "task-thread");
+            thread.start();
         });
         button_copy_colors.setGraphic(new FontAwesome().create(FontAwesome.Glyph.COPY).color(SpriteTool.accentColor));
         button_copy_colors.setOnMouseClicked(e -> {
@@ -420,6 +422,11 @@ public class Controller implements Initializable {
             directoryChooser.setInitialDirectory(Paths.get("").toAbsolutePath().toFile());
 
             File frameFolder = directoryChooser.showDialog(root.getScene().getWindow());
+
+            if (frameFolder == null ||
+                !frameFolder.exists())
+                return;
+
             File[] frameFiles = frameFolder.listFiles(File::isFile);
 
             Pattern p = Pattern.compile("\\d+");
@@ -465,6 +472,10 @@ public class Controller implements Initializable {
         label_color_count.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1 == null ||
+                    t1.isEmpty())
+                    return;
+
                 String[] values = t1.split(Pattern.quote(" / "));
                 if (Integer.valueOf(values[0]) > Integer.valueOf(values[1])) {
                     label_color_count.setTextFill(Color.RED);
@@ -974,6 +985,7 @@ public class Controller implements Initializable {
             text_boundh.clear();
             text_boundw.clear();
             label_frame.setText("");
+            label_color_count.setText("");
             choice_type.setValue(null);
             choice_layer.getItems().clear();
         }
@@ -1017,6 +1029,7 @@ public class Controller implements Initializable {
         Entry helm = (Entry)choice_head.getValue();
         Entry body = (Entry)choice_body.getValue();
         Entry legs = (Entry)choice_legs.getValue();
+
         spriteTool.getSpriteRenderer().getPlayerRenderer().updateLook(
                 (helm != null && helm.getLayer() == PlayerRenderer.LAYER.HEAD_NO_SKIN) ? helm : basichead,
                 (body != null && body.getLayer() == PlayerRenderer.LAYER.BODY_NO_SKIN) ? body : basicbody,

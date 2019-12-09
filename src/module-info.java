@@ -11,5 +11,6 @@ module spritetool {
     opens com.OpenRSC.Interface.Splash;
     opens com.OpenRSC.Interface.SpriteTool;
     opens com.OpenRSC.Interface.CreateWorkspace;
+    opens com.OpenRSC.Interface.PleaseWait;
     opens com.OpenRSC;
 }
