@@ -28,7 +28,7 @@ public class ColorDecimator {
 
     public void reduceColorPalette(ArrayList<Integer> originalColors, int maxColors, SimpleDoubleProperty progress) {
         Map<Integer, Integer> decimatedColors = new HashMap<>();
-        double colorOverhead = originalColors.size() - 255;
+        double colorOverhead = originalColors.size() - 256;
         while(originalColors.size() > maxColors) {
             Match match = findMatch(originalColors);
 

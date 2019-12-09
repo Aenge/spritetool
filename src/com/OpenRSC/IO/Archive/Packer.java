@@ -40,7 +40,7 @@ public class Packer {
             ArrayList<Integer> colors = this.entry.getUniqueColors();
 
             //Write the amount of colors in the color table
-            dOS.writeByte(colors.size() & 0xFF);
+            dOS.writeByte((colors.size()-1) & 0xFF);
 
             //Write the color table
             for (int color : colors) {

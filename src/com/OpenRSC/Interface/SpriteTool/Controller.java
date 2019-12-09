@@ -53,9 +53,10 @@ import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.glyphfont.FontAwesome;
-//TODO: add a button to change all pngs in the animation
 //TODO: can't save if colors are overloaded
 //TODO: progress bar for exporting pngs - make all progress bar situations modal
+//TODO: pressing save workspace clears the working entry sometimes?
+//TODO: render fullhelm, then select entry halloween mask
 public class Controller implements Initializable {
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
@@ -320,7 +321,7 @@ public class Controller implements Initializable {
                     @Override
                     protected Void call() throws Exception {
                         ColorDecimator colorDecimator = new ColorDecimator();
-                        colorDecimator.reduceColorPalette(spriteTool.getWorkingCopy().getUniqueColors(), 255, ratio);
+                        colorDecimator.reduceColorPalette(spriteTool.getWorkingCopy().getUniqueColors(), 256, ratio);
 
                         ratio.set(0);
                         for (int i=0; i<spriteTool.getWorkingCopy().getFrames().length; ++i) {
@@ -330,7 +331,7 @@ public class Controller implements Initializable {
                         }
 
                         Platform.runLater(() -> {
-                            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 255");
+                            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 256");
                             checkSave();
                             render();
                             ratio.set(1);
@@ -387,7 +388,7 @@ public class Controller implements Initializable {
             Frame frame = spriteTool.getWorkingCopy().getFrames()[(int)scroll_canvas.getValue()-1];
             frame.changeDimensions(imageReader.getWidth(), imageReader.getHeight());
             frame.changePixels(imageReader.getPixels());
-            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 255");
+            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 256");
             render();
             checkSave();
         });
@@ -397,20 +398,20 @@ public class Controller implements Initializable {
             choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_male.setOnMouseClicked(e -> {
-            File subspaceHome = new File(spriteTool.getWorkspace().getHome().getParent().toString(), "goku");
-            for (Subspace subspace : spriteTool.getWorkspace().getSubspaces()) {
-                File writeTo = new File(subspaceHome.toString(), subspace.getName());
-                writeTo.mkdirs();
-                for (Entry entry : subspace.getEntryList()) {
-                    Packer turd = new Packer(entry);
-                    File file = new File(writeTo.toString(), entry.getID() + ".ospr");
-                    turd.pack(file);
-                }
-
-            }
-//            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
-//            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
-//            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
+//            File subspaceHome = new File(spriteTool.getWorkspace().getHome().getParent().toString(), "goku");
+//            for (Subspace subspace : spriteTool.getWorkspace().getSubspaces()) {
+//                File writeTo = new File(subspaceHome.toString(), subspace.getName());
+//                writeTo.mkdirs();
+//                for (Entry entry : subspace.getEntryList()) {
+//                    Packer packer = new Packer(entry);
+//                    File file = new File(writeTo.toString(), entry.getID() + ".ospr");
+//                    packer.pack(file);
+//                }
+//
+//            }
+            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("head1"));
+            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("body1"));
+            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_changeallframes.setGraphic(new FontAwesome().create(FontAwesome.Glyph.FOLDER_ALT).color(SpriteTool.accentColor));
         button_changeallframes.disableProperty().bind(list_entries.getSelectionModel().selectedItemProperty().isNull());
@@ -443,7 +444,7 @@ public class Controller implements Initializable {
                     frame.changePixels(imageReader.getPixels());
                 }
 
-                label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 255");
+                label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 256");
                 render();
                 checkSave();
             }
@@ -935,7 +936,7 @@ public class Controller implements Initializable {
             scroll_canvas.setMax(1);
         } else {
             scroll_canvas.setMax(entry.getFrames().length);
-            label_color_count.setText(entry.getUniqueColors().size() + " / 255");
+            label_color_count.setText(entry.getUniqueColors().size() + " / 256");
             if (entry.getLayer() == null) {
                 check_render.setSelected(false);
                 check_render.setDisable(true);

@@ -36,7 +36,7 @@ public class Unpacker {
             );
 
             int tableSize = input.readByte() & 0xFF;
-            int[] colorTable = new int[tableSize];
+            int[] colorTable = new int[++tableSize];
 
             for (int i=0; i < colorTable.length; ++i) {
                 int Red = input.readByte() & 0xFF;
