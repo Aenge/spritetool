@@ -1,6 +1,7 @@
 package com.OpenRSC.Interface.SpriteTool;
 
 import com.OpenRSC.IO.Archive.Packer;
+import com.OpenRSC.IO.Archive.Unpacker;
 import com.OpenRSC.IO.Image.ColorDecimator;
 import com.OpenRSC.IO.Image.ImageReader;
 import com.OpenRSC.IO.Image.ImageWriter;
@@ -54,6 +55,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.glyphfont.FontAwesome;
 //TODO: search for entry, select entry, save, entry gets deselected
+//TODO: add +/- buttons for adjusting offsets
+//TODO: add ability to clone entry
+//TODO: add lucki's new stuff
 public class Controller implements Initializable {
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
@@ -83,7 +87,7 @@ public class Controller implements Initializable {
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_changeallframes, button_changepng, button_male, button_female, button_export, button_copy_colors, button_decimate, button_reset;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_changeallframes, button_changepng, button_male, button_female, button_export, button_copy_colors, button_decimate, button_reset, button_pack_archive;
 
     @FXML
     private ToggleButton button_play;
@@ -276,9 +280,9 @@ public class Controller implements Initializable {
             if (osprOld.exists())
                 osprOld.delete();
 
-            Packer packer = new Packer(entry);
+            Packer packer = new Packer();
 
-            if (packer.pack(osprNew)) {
+            if (packer.packEntry(entry, osprNew)) {
                 ss.getEntryList().set(spriteTool.getWorkingCopyIndex(), spriteTool.getWorkingCopy());
             } else
                 showError("There was a problem saving your changes.");
@@ -286,7 +290,11 @@ public class Controller implements Initializable {
             checkSave();
         });
 
-
+        button_pack_archive.setGraphic(new FontAwesome().create(FontAwesome.Glyph.ARCHIVE).color(SpriteTool.accentColor).size(20));
+        button_pack_archive.setOnMouseClicked(e -> {
+            Packer packer = new Packer();
+            packer.packArchive(spriteTool.getWorkspace(), new File("C:/temp/baller.osar"));
+        });
         //--------- Other Buttons
         button_decimate.setDisable(true);
         button_decimate.setOnMouseClicked(e -> {
@@ -395,9 +403,11 @@ public class Controller implements Initializable {
             checkSave();
         });
         button_female.setOnMouseClicked(e -> {
-            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
-            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fbody1"));
-            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
+            Unpacker unpacker = new Unpacker();
+            unpacker.unpackArchive(new File("C:/temp/baller.osar"));
+//            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
+//            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fbody1"));
+//            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_male.setOnMouseClicked(e -> {
 //            File subspaceHome = new File(spriteTool.getWorkspace().getHome().getParent().toString(), "goku");

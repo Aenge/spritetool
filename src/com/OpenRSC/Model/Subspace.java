@@ -156,13 +156,13 @@ public class Subspace {
         File oldOSPR = new File("resource/animations", entryToCopy + ".ospr");
 
         Unpacker unpacker = new Unpacker();
-        Entry newEntry = unpacker.unpack(oldOSPR);
+        Entry newEntry = unpacker.unpackEntry(oldOSPR);
         newEntry.changeID(name);
 
         entryList.add(newEntry);
 
-        Packer packer = new Packer(newEntry);
-        packer.pack(newOSPR);
+        Packer packer = new Packer();
+        packer.packEntry(newEntry, newOSPR);
         return true;
     }
 //    public boolean createEntry(String name, Entry.TYPE type, PlayerRenderer.LAYER layer) {

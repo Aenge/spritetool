@@ -64,7 +64,7 @@ public class WorkspaceReader {
         try {
             for (File entryFile : entryFiles) {
                 if (FilenameUtils.getExtension(entryFile.getName()).equalsIgnoreCase("ospr")) {
-                    Entry entry = unpacker.unpack(entryFile);
+                    Entry entry = unpacker.unpackEntry(entryFile);
                     ss.getEntryList().add(entry);
                 }
                 if (this.progressCounter != null)

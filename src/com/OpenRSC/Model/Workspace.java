@@ -23,6 +23,7 @@ public class Workspace {
     }
 
     public String getName() { return this.name; }
+    public void changeName(String name) { this.name = name; }
     public Path getHome() { return this.home; }
     public ObservableList<Subspace> getSubspaces() {
         return this.subspaces;
