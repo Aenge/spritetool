@@ -9,6 +9,8 @@ import com.OpenRSC.Render.PlayerRenderer.LAYER;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileLockInterruptionException;
 import java.util.zip.GZIPInputStream;
 
 public class Unpacker {
@@ -22,14 +24,25 @@ public class Unpacker {
             return null;
 
         try {
+            int index = file.getName().lastIndexOf('.');
+            String name = file.getName().substring(0, index );
             Workspace newWorkspace = new Workspace(new File("C:/temp/brobeans").toPath());
-            newWorkspace.changeName(FilenameUtils.removeExtension(file.getName()));
+            newWorkspace.changeName(name);
 
-            FileInputStream fIS = new FileInputStream(file);
-            GZIPInputStream gIS = new GZIPInputStream(fIS);
-            DataInputStream input = new DataInputStream(gIS);
-
-            int subspaceCount = ((int) input.readByte()) & 0xFF;
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            try {
+                InputStream in = new GZIPInputStream(new FileInputStream(file));
+                byte[] buffer = new byte[65536];
+                int noRead;
+                while ((noRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, noRead);
+                }
+            } finally {
+                try { out.close(); } catch (Exception e) {}
+            }
+            ByteBuffer input = ByteBuffer.wrap(out.toByteArray());
+            
+            int subspaceCount = ((int) input.get()) & 0xFF;
 
             for (int i = 0; i < subspaceCount; ++i) {
                 String subspaceName = readString(input);
@@ -40,9 +53,9 @@ public class Unpacker {
                 newWorkspace.getSubspaces().add(newSubspace);
             }
 
-            input.close();
-            gIS.close();
-            fIS.close();
+            //input.close();
+            //gIS.close();
+            //fIS.close();
 
             return newWorkspace;
         } catch (Exception a) {
@@ -57,16 +70,28 @@ public class Unpacker {
 
         try {
             FileInputStream fis = new FileInputStream(file);
-            GZIPInputStream gIS = new GZIPInputStream(fis);
-            DataInputStream input = new DataInputStream(gIS);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            try {
+                GZIPInputStream in = new GZIPInputStream(fis);
+                byte[] buffer = new byte[65536];
+                int noRead;
+                while ((noRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, noRead);
+                }
 
+                in.close();
+            } finally {
+                try { out.close(); fis.close();} catch (Exception e) {}
+            }
+
+            ByteBuffer input = ByteBuffer.wrap(out.toByteArray());
             TYPE type;
 
             Entry newEntry = new Entry(
                     FilenameUtils.removeExtension(file.getName()),
-                    type = TYPE.get((int) input.readByte() & 0xFF),
-                    type.getLayers().length == 0 ? null : LAYER.get((int) input.readByte() & 0xFF),
-                    (int) input.readByte() & 0xFF
+                    type = TYPE.get((int) input.get() & 0xFF),
+                    type.getLayers().length == 0 ? null : LAYER.get((int) input.get() & 0xFF),
+                    (int) input.get() & 0xFF
             );
 
             readEntry(input, newEntry);
@@ -79,18 +104,18 @@ public class Unpacker {
         }
     }
 
-    private void readSubspace(DataInputStream stream, Subspace subspace) {
+    private void readSubspace(ByteBuffer stream, Subspace subspace) {
         try {
-            int numEntries = ((int)stream.readShort()) & 0xFFFF;
+            int numEntries = ((int)stream.getShort()) & 0xFFFF;
 
             for (int i=0; i<numEntries; ++i) {
                 String entryName = readString(stream);
                 TYPE type;
                 Entry newEntry = new Entry(
                         entryName,
-                        type = TYPE.get(((int) stream.readByte()) & 0xFF),
-                        type.getLayers().length == 0 ? null : LAYER.get(((int) stream.readByte()) & 0xFF),
-                        ((int) stream.readByte()) & 0xFF
+                        type = TYPE.get(((int) stream.get()) & 0xFF),
+                        type.getLayers().length == 0 ? null : LAYER.get(((int) stream.get()) & 0xFF),
+                        ((int) stream.get()) & 0xFF
                 );
 
                 readEntry(stream, newEntry);
@@ -100,42 +125,42 @@ public class Unpacker {
         } catch (Exception a) { a.printStackTrace(); }
     }
 
-    private void readEntry(DataInputStream stream, Entry entry) {
+    private void readEntry(ByteBuffer stream, Entry entry) {
         try {
-            int tableSize = stream.readByte() & 0xFF;
+            int tableSize = stream.get() & 0xFF;
             int[] colorTable = new int[++tableSize];
 
             for (int i = 0; i < colorTable.length; ++i) {
-                int Red = stream.readByte() & 0xFF;
-                int Green = stream.readByte() & 0xFF;
-                int Blue = stream.readByte() & 0xFF;
+                int Red = stream.get() & 0xFF;
+                int Green = stream.get() & 0xFF;
+                int Blue = stream.get() & 0xFF;
                 colorTable[i] = Red << 16 | Green << 8 | Blue;
             }
 
             for (int i = 0; i < entry.getFrames().length; ++i) {
                 Frame frame = new Frame(
-                        (int) stream.readShort() & 0xFFFF,
-                        (int) stream.readShort() & 0xFFFF,
-                        stream.readByte() == 1,
-                        (int) stream.readShort(),
-                        (int) stream.readShort(),
-                        (int) stream.readShort() & 0xFFFF,
-                        (int) stream.readShort() & 0xFFFF
+                        (int) stream.getShort() & 0xFFFF,
+                        (int) stream.getShort() & 0xFFFF,
+                        stream.get() == 1,
+                        (int) stream.getShort(),
+                        (int) stream.getShort(),
+                        (int) stream.getShort() & 0xFFFF,
+                        (int) stream.getShort() & 0xFFFF
                 );
 
                 for (int p = 0; p < frame.getPixels().length; ++p)
-                    frame.getPixels()[p] = colorTable[(int) stream.readByte() & 0xFF];
+                    frame.getPixels()[p] = colorTable[(int) stream.get() & 0xFF];
 
                 entry.getFrames()[i] = frame;
             }
         } catch (Exception a) { a.printStackTrace(); }
     }
 
-    private String readString(DataInputStream stream) {
+    private String readString(ByteBuffer stream) {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             int character;
-            while ((character = stream.readByte()) != 0)
+            while ((character = stream.get()) != 0)
                 stringBuilder.append((char)(character & 0xFF));
         } catch (Exception a) {
             a.printStackTrace();
