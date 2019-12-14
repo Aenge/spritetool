@@ -165,7 +165,6 @@ public class Unpacker {
         } catch (Exception a) {
             a.printStackTrace();
         }
-
         return stringBuilder.toString();
     }
 }
