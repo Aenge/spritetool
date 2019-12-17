@@ -53,10 +53,6 @@ public class Unpacker {
                 newWorkspace.getSubspaces().add(newSubspace);
             }
 
-            //input.close();
-            //gIS.close();
-            //fIS.close();
-
             return newWorkspace;
         } catch (Exception a) {
             a.printStackTrace();

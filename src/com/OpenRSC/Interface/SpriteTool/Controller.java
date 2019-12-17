@@ -87,7 +87,8 @@ public class Controller implements Initializable {
     private ScrollBar scroll_canvas, scroll_zoom;
 
     @FXML
-    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_changeallframes, button_changepng, button_male, button_female, button_export, button_copy_colors, button_decimate, button_reset, button_pack_archive;
+    private JFXButton button_new_workspace, button_open_workspace, button_save_workspace, button_changeallframes, button_changepng, button_male, button_female, button_export,
+            button_copy_colors, button_decimate, button_fit, button_pack_archive, button_vshift_inc, button_vshift_dec, button_hshift_inc, button_hshift_dec;
 
     @FXML
     private ToggleButton button_play;
@@ -109,16 +110,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        button_reset.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EXCHANGE).color(SpriteTool.accentColor).size(10));
-        button_reset.setOnMouseClicked(e -> {
-            if (spriteTool.getWorkingCopy() != null) {
-                getWorkingFrame().changeBoundWidth(getWorkingFrame().getWidth());
-                getWorkingFrame().changeBoundHeight(getWorkingFrame().getHeight());
-                showEntry(spriteTool.getWorkingCopy(), (int)scroll_canvas.getValue()-1);
-                render();
-                checkSave();
-            }
-        });
         check_render.setCheckedColor(spriteTool.accentColor);
         check_shift.setCheckedColor(spriteTool.accentColor);
 
@@ -296,6 +287,39 @@ public class Controller implements Initializable {
             packer.packArchive(spriteTool.getWorkspace(), new File("C:/temp/baller.osar"));
         });
         //--------- Other Buttons
+        button_vshift_inc.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor).size(8));
+        button_vshift_inc.disableProperty().bind(text_vshift.textProperty().isEmpty());
+        button_vshift_inc.setOnMouseClicked(e -> {
+            int value = Integer.parseInt(text_vshift.getText());
+            text_vshift.setText(String.valueOf(++value));
+        });
+        button_vshift_dec.setGraphic(new FontAwesome().create(FontAwesome.Glyph.MINUS).color(SpriteTool.accentColor).size(8));
+        button_vshift_dec.disableProperty().bind(text_vshift.textProperty().isEmpty());
+        button_vshift_dec.setOnMouseClicked(e -> {
+            int value = Integer.parseInt(text_vshift.getText());
+            text_vshift.setText(String.valueOf(--value));
+        });
+        button_hshift_inc.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor).size(8));
+        button_hshift_inc.disableProperty().bind(text_hshift.textProperty().isEmpty());
+        button_hshift_inc.setOnMouseClicked(e -> {
+            int value = Integer.parseInt(text_hshift.getText());
+            text_hshift.setText(String.valueOf(++value));
+        });
+        button_hshift_dec.setGraphic(new FontAwesome().create(FontAwesome.Glyph.MINUS).color(SpriteTool.accentColor).size(8));
+        button_hshift_dec.disableProperty().bind(text_hshift.textProperty().isEmpty());
+        button_hshift_dec.setOnMouseClicked(e -> {
+            int value = Integer.parseInt(text_hshift.getText());
+            text_hshift.setText(String.valueOf(--value));
+        });
+        button_fit.setOnMouseClicked(e -> {
+            if (spriteTool.getWorkingCopy() != null) {
+                getWorkingFrame().changeBoundWidth(getWorkingFrame().getWidth());
+                getWorkingFrame().changeBoundHeight(getWorkingFrame().getHeight());
+                showEntry(spriteTool.getWorkingCopy(), (int)scroll_canvas.getValue()-1);
+                render();
+                checkSave();
+            }
+        });
         button_decimate.setDisable(true);
         button_decimate.setOnMouseClicked(e -> {
             if (spriteTool.getWorkingCopy().getType() != Entry.TYPE.SPRITE) {
@@ -843,8 +867,8 @@ public class Controller implements Initializable {
 
         JFXPopup popup = new JFXPopup();
         List<JFXButton> buttons = new ArrayList<>();
-        JFXButton btn_newCategory = new JFXButton("New Entry");
-        btn_newCategory.setOnMouseClicked(e -> {
+        JFXButton btn_newEntry = new JFXButton("New Entry");
+        btn_newEntry.setOnMouseClicked(e -> {
             popup.hide();
             try {
                 spriteTool.spinCreateEntry();
@@ -859,7 +883,28 @@ public class Controller implements Initializable {
             stage.setScene(scene);
             stage.show();
         });
-        buttons.add(btn_newCategory);
+        buttons.add(btn_newEntry);
+
+        if (list_entries.getSelectionModel().getSelectedItem() != null) {
+            Entry selectedEntry = (Entry)list_entries.getSelectionModel().getSelectedItem();
+            JFXButton btn_cloneEntry = new JFXButton("Clone " + selectedEntry.getID());
+            btn_cloneEntry.setOnMouseClicked(e -> {
+                popup.hide();
+                Entry toClone = (Entry)list_entries.getSelectionModel().getSelectedItem();
+                Subspace subspace = (Subspace)list_subspaces.getSelectionModel().getSelectedItem();
+                if (toClone == null ||
+                    subspace == null)
+                    return;
+
+                Entry clone = toClone.clone();
+                clone.changeID(clone.getID() + "_clone");
+                subspace.getEntryList().add(clone);
+                File location = new File(subspace.getHome().toString(), clone.getID() + ".ospr");
+                Packer packer = new Packer();
+                packer.packEntry(clone, location);
+            });
+            buttons.add(btn_cloneEntry);
+        }
 
         for (JFXButton button : buttons) {
             button.setMaxWidth(Double.MAX_VALUE);
@@ -953,15 +998,10 @@ public class Controller implements Initializable {
         scroll_canvas.setDisable(false);
         scroll_zoom.setValue(0);
         if (entry == null) {
-            check_render.setDisable(false);
-            scroll_canvas.setMax(1);
+
         } else {
-            scroll_canvas.setMax(entry.getFrames().length);
-            label_color_count.setText(entry.getUniqueColors().size() + " / 256");
-            if (entry.getLayer() == null) {
-                check_render.setSelected(false);
-                check_render.setDisable(true);
-            }
+
+
         }
 
         showEntry(entry, 0);
@@ -984,8 +1024,16 @@ public class Controller implements Initializable {
             text_boundh.setText(String.valueOf(frame.getBoundHeight()));
             text_boundw.setText(String.valueOf(frame.getBoundWidth()));
             label_frame.setText(frameIndex + 1 + " / " + newEntry.getFrames().length);
+            label_color_count.setText(newEntry.getUniqueColors().size() + " / 256");
             choice_type.setValue(newEntry.getType());
             choice_layer.setValue(newEntry.getLayer());
+            scroll_canvas.setMax(newEntry.getFrames().length);
+            if (newEntry.getLayer() == null) {
+                check_render.setSelected(false);
+                check_render.setDisable(true);
+            } else {
+                check_render.setDisable(false);
+            }
 
         } else {
             text_name.clear();
@@ -998,6 +1046,8 @@ public class Controller implements Initializable {
             label_color_count.setText("");
             choice_type.setValue(null);
             choice_layer.getItems().clear();
+            scroll_canvas.setMax(1);
+            check_render.setDisable(false);
         }
 
         triggerListeners = true;
