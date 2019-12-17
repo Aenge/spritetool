@@ -27,7 +27,7 @@
             <JFXButton fx:id="button_open_workspace" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Open Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_save_workspace" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Save Workspace" textAlignment="CENTER" />
             <JFXButton fx:id="button_export" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Export PNG" />
-            <JFXButton fx:id="button_pack_archive" buttonType="RAISED" graphicTextGap="0.0" prefWidth="120.0" text="Pack Archive" />
+            <JFXButton fx:id="button_pack_archive" buttonType="RAISED" contentDisplay="TOP" prefWidth="120.0" text="Pack Archive" />
             <ImageView fitHeight="17.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="image_logo" fitHeight="53.0" pickOnBounds="true" />
          </children>

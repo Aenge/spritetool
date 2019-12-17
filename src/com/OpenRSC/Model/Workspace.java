@@ -102,5 +102,24 @@ public class Workspace {
 
         return true;
     }
+
+    public long getSizeInBytes() {
+        long size = 1;
+        for (Subspace subspace : subspaces) {
+            size += subspace.getName().length() + 1; //subspace name
+            size += 2; //number of entries
+            for (Entry entry : subspace.getEntryList()) {
+                size += entry.getID().length() + 1; //entry name
+                size += entry.getLayer() == null? 1 : 2; //type / layer
+                size += 2; //framecount & number of colors
+                size += entry.getUniqueColors().size() * 3; //colors
+                for (Frame frame : entry.getFrames()) {
+                    size += 13; //various values
+                    size += frame.getWidth() * frame.getHeight();
+                }
+            }
+        }
+        return size;
+    }
 }
 

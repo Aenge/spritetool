@@ -283,8 +283,16 @@ public class Controller implements Initializable {
 
         button_pack_archive.setGraphic(new FontAwesome().create(FontAwesome.Glyph.ARCHIVE).color(SpriteTool.accentColor).size(20));
         button_pack_archive.setOnMouseClicked(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(spriteTool.getWorkspace().getHome().getParent().toFile());
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("OSAR file", ".osar"));
+            File archive = fileChooser.showSaveDialog(root.getScene().getWindow());
+
+            if (archive == null)
+                return;
+
             Packer packer = new Packer();
-            packer.packArchive(spriteTool.getWorkspace(), new File("C:/temp/baller.osar"));
+            packer.packArchive(spriteTool.getWorkspace(), archive);
         });
         //--------- Other Buttons
         button_vshift_inc.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS).color(SpriteTool.accentColor).size(8));
