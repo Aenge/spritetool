@@ -54,10 +54,6 @@ import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.glyphfont.FontAwesome;
-//TODO: search for entry, select entry, save, entry gets deselected
-//TODO: add +/- buttons for adjusting offsets
-//TODO: add ability to clone entry
-//TODO: add lucki's new stuff
 public class Controller implements Initializable {
     private SpriteTool spriteTool;
     private boolean triggerListeners = true;
@@ -435,11 +431,9 @@ public class Controller implements Initializable {
             checkSave();
         });
         button_female.setOnMouseClicked(e -> {
-            Unpacker unpacker = new Unpacker();
-            unpacker.unpackArchive(new File("C:/temp/baller.osar"));
-//            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
-//            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fbody1"));
-//            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
+            choice_basic_head.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fhead1"));
+            choice_basic_body.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("fbody1"));
+            choice_basic_legs.getSelectionModel().select(spriteTool.getSpriteRenderer().getPlayerRenderer().getShippedAnimations().getEntryByName("legs1"));
         });
         button_male.setOnMouseClicked(e -> {
 //            File subspaceHome = new File(spriteTool.getWorkspace().getHome().getParent().toString(), "goku");
@@ -700,7 +694,8 @@ public class Controller implements Initializable {
                 if (scroll_canvas.getValue() == number.intValue())
                     return;
 
-                showEntry(spriteTool.getWorkingCopy(), t1.intValue() - 1);
+                if (spriteTool.getWorkingCopy() != null)
+                    showEntry(spriteTool.getWorkingCopy(), t1.intValue() - 1);
                 render();
             }
         });
