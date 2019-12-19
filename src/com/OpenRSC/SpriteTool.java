@@ -59,7 +59,7 @@ public class SpriteTool extends Application {
     private int workingCopyIndex = -1;
 
     public static final Color accentColor = Color.rgb(2,98,201);
-
+    public static final int maxColors = 256;
     private void start(){
         try { spinSplash(); } catch (IOException a) { a.printStackTrace(); return; }
         primaryStage.initStyle(StageStyle.UNDECORATED);

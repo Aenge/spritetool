@@ -344,7 +344,7 @@ public class Controller implements Initializable {
                     @Override
                     protected Void call() throws Exception {
                         ColorDecimator colorDecimator = new ColorDecimator();
-                        colorDecimator.reduceColorPalette(spriteTool.getWorkingCopy().getUniqueColors(), 256, ratio);
+                        colorDecimator.reduceColorPalette(spriteTool.getWorkingCopy().getUniqueColors(), spriteTool.maxColors, ratio);
 
                         ratio.set(0);
                         for (int i=0; i<spriteTool.getWorkingCopy().getFrames().length; ++i) {
@@ -354,7 +354,7 @@ public class Controller implements Initializable {
                         }
 
                         Platform.runLater(() -> {
-                            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 256");
+                            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / " + spriteTool.maxColors);
                             checkSave();
                             render();
                             ratio.set(1);
@@ -430,7 +430,7 @@ public class Controller implements Initializable {
             Frame frame = spriteTool.getWorkingCopy().getFrames()[(int)scroll_canvas.getValue()-1];
             frame.changeDimensions(imageReader.getWidth(), imageReader.getHeight());
             frame.changePixels(imageReader.getPixels());
-            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 256");
+            label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / " + spriteTool.maxColors);
             render();
             checkSave();
         });
@@ -493,7 +493,7 @@ public class Controller implements Initializable {
                     frame.changePixels(imageReader.getPixels());
                 }
 
-                label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / 256");
+                label_color_count.setText(spriteTool.getWorkingCopy().getUniqueColors().size() + " / " + spriteTool.maxColors);
                 render();
                 checkSave();
             }
@@ -1032,7 +1032,7 @@ public class Controller implements Initializable {
             text_boundh.setText(String.valueOf(frame.getBoundHeight()));
             text_boundw.setText(String.valueOf(frame.getBoundWidth()));
             label_frame.setText(frameIndex + 1 + " / " + newEntry.getFrames().length);
-            label_color_count.setText(newEntry.getUniqueColors().size() + " / 256");
+            label_color_count.setText(newEntry.getUniqueColors().size() + " / " + spriteTool.maxColors);
             choice_type.setValue(newEntry.getType());
             choice_layer.setValue(newEntry.getLayer());
             scroll_canvas.setMax(newEntry.getFrames().length);
